@@ -5,7 +5,7 @@ try {
 		run();
 	});
 } catch (e) {
-	console.log("产生了一个错误<(￣3￣)> !，错误详情为：" + e.toString());
+	console.log("Error:" + e.toString());
 }
 
 function run() {
@@ -14,7 +14,7 @@ function run() {
 		exit(1);
 	} else {
 		echo("======================Auto Backup Begin===========================");
-		cd('D:/hexo');    //此处修改为Hexo根目录路径
+		cd('/Users/666/Desktop/code/project/Blog');    //此处修改为Hexo根目录路径
 		if (exec('git add --all').code !== 0) {
 			echo('Error: Git add failed');
 			exit(1);
