@@ -102,4 +102,4 @@ douban:
     quote: 'This is my game quote'
   timeout: 10000
 
-all_minifier: true
+all_minifier: false
