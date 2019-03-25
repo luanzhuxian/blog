@@ -3,7 +3,7 @@ title: Hexo添加文章时自动打开编辑器
 comments: true
 categories: Hexo
 tags: Hexo
-abbrlink: 73f1724d
+abbrlink: e7fa2d4f
 date: 2018-12-09 17:46:34
 ---
 

@@ -3,7 +3,7 @@ title: 自动备份Hexo博客文件
 comments: true
 categories: Hexo
 tags: Hexo
-abbrlink: 73f1724d
+abbrlink: a433710c
 date: 2018-12-09 17:46:34
 ---
 

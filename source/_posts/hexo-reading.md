@@ -3,7 +3,7 @@ title: Next主题添加文章阅读量统计功能
 comments: true
 categories: Hexo
 tags: Hexo
-abbrlink: 73f1724d
+abbrlink: ec069b41
 date: 2018-12-09 17:46:34
 ---
 
