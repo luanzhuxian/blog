@@ -8,36 +8,38 @@ date: 2018-12-09 17:46:34
 ---
 
 
-<blockquote bgcolor=#FF4500>[Hexo](https://hexo.io/) 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页</blockquote>
+<blockquote bgcolor=#FF4500>
+[Hexo](https://hexo.io/) 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页
+</blockquote>
 
 ## 配置环境
-#### 安装Node.js
+### 申请GitHub
+作用：用来做博客的远程创库、域名、服务器  
+[Github](https://github.com/)注册账号。
+
+### 安装Node.js
 作用：用来生成静态页面的  
 [官网下载](https://nodejs.org/)并安装。安装成功后可用 `node -v` 查看版本号。
 
-#### 安装Git
-作用：把本地的hexo内容提交到github上去  
-mac安装Xcode自带有Git，windows可去[官网下载](https://git-scm.com/)。  
-安装完成后，还需要最后一步设置，在命令行输入  
+### 安装Git
+作用：把本地的 Hexo 内容提交到 Github 上去  
+Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.com/)。  
+安装完成后，还需要设置你 Github 的用户名密码，在命令行输入  
 ``` bash
   $ git config --global user.name "Your Name"
   $ git config --global user.email "email@example.com"
 ```
 
-因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。安装成功后可用 `git --version` 查看版本号。
-
-#### 申请GitHub
-作用：用来做博客的远程创库、域名、服务器  
-[github](https://github.com/)注册账号。
+因为 Git 是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和 Email 地址。安装成功后可用 `git --version` 查看版本号。
 
 ## 安装并本地部署Hexo
 
-执行如下命令安装Hexo
+执行如下命令安装 Hexo
 ``` bash
   $ npm install -g hexo-cli
 ```
 
-创建一个文件夹，用来存放hexo的配置文件，进入该文件夹
+创建一个文件夹，用来存放 Hexo 的配置文件，进入该文件夹
 ``` bash
   hexo init <folder>
   cd <folder>
@@ -47,13 +49,15 @@ mac安装Xcode自带有Git，windows可去[官网下载](https://git-scm.com/)�
 现在项目根目录结构如下
 ``` bash
   .
-  ├── _config.yml // 博客的配置信息，你可以在此配置大部分的参数。
-  ├── package.json
-  ├── scaffolds // 模板文件夹。当你新建文章时，Hexo会根据scaffold来建立文件。
+  ├── public // 执行 hexo generate 命令，输出的静态网页内容目录
+  ├── scaffolds // 模板文件夹。当你新建文章时，Hexo会根据scaffold来建立文件
+  ├── scripts // 存放自定义 javascript 脚本
   ├── source // 存放用户资源的地方
-  |   ├── _drafts
-  |   └── _posts
-  └── themes // 存放博客的主题。Hexo会根据主题来生成静态页面。
+  |   ├── _drafts // 草稿文章
+  |   └── _posts // 发布文章
+  ├── themes // 存放博客的主题，Hexo会根据主题来生成静态页面
+  ├── _config.yml // 博客的配置信息，你可以在此配置大部分的参数
+  └── package.json
 ```
 
 生成静态页面
@@ -68,7 +72,7 @@ mac安装Xcode自带有Git，windows可去[官网下载](https://git-scm.com/)�
 
 ## 将博客托管到Github
 
-#### 配置 SSH Key
+### 配置 SSH Key
 
 配置SSH Key是让本地 git 项目与远程仓库建立联系。SSH Keys不配置的话每次项目有改动提交的时候就要手动输入账号密码，配置了就不需要了。   
 
@@ -93,9 +97,9 @@ mac安装Xcode自带有Git，windows可去[官网下载](https://git-scm.com/)�
   cat id_rsa.pub
 ```
 
-复制SSH Key后，去 github 的 https://github.com/settings/keys 页面配置。  
+复制SSH Key后，去 github 的 https://github.com/settings/keys 页面配置，将其添加到Add SSH Key里。  
 
-#### 测试 SSH Key 是否配置成功    
+### 测试 SSH Key 是否配置成功    
 
 执行：
 ``` bash
@@ -108,13 +112,13 @@ mac安装Xcode自带有Git，windows可去[官网下载](https://git-scm.com/)�
   provide shell access.
 ```
 
-#### 创建仓库 Github Pages
+### 创建仓库 Github Pages
 
 <blockquote bgcolor=#FF4500>GitHub Pages 分两种，一种是你的 GitHub 用户名建立的 username.github.io 这样的用户/组织页，另一种是依附项目的pages。想建立个人博客是用的第一种，每个用户名下面只能建立一个。</blockquote>
 
 登陆Github官网成功后，新建 New repository，建立与你github用户名对应的仓库，仓库名必须为 your_user_name.github.io  
 
-#### 将博客项目上传到仓库
+### 将博客项目上传到仓库
 
 现在我们需要修改_config.yml文件，来建立关联，执行命令：
 ``` bash
@@ -172,18 +176,26 @@ mac安装Xcode自带有Git，windows可去[官网下载](https://git-scm.com/)�
   hexo help #查看帮助
 
   hexo version #查看Hexo的版本
+
+  hexo n == hexo new
+
+  hexo g == hexo generate
+
+  hexo s == hexo server
+
+  hexo d == hexo deploy
 ```
 
 ## 添加标签和分类
 
-#### 添加分类
+### 添加分类
 新建一个页面，命名为 categories
 ``` bash
 
  hexo new page categories
 ```
 
-修改 source/categories 目录的 index.md :
+在 source 目录下会生成 categories 目录，修改 source/categories 目录的 index.md :
 ``` bash
   ---
   title: categories
@@ -214,13 +226,13 @@ mac安装Xcode自带有Git，windows可去[官网下载](https://git-scm.com/)�
   ---
 ```
 
-#### 添加标签
+### 添加标签
 新建一个页面，命名为 tags
 ``` bash
  hexo new page tags
 ```
 
-修改 source/tags 目录的 index.md :
+在 source 目录下会生成 tags 目录，修改 source/tags 目录的 index.md :
 ``` bash
   ---
   title: tags
