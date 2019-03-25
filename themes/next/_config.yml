@@ -100,8 +100,8 @@ menu:
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
-  Books: /books/ || book
-  Movies: /movies/ || file-movie-o
+  # Books: /books/ || book
+  # Movies: /movies/ || file-movie-o
 
 # Enable/Disable menu icons.
 menu_icons:
