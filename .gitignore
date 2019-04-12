@@ -4,6 +4,4 @@ db.json
 *.log
 node_modules/
 public/
-scripts/auto-open.js
-scripts/auto-push.js
 .deploy*/
