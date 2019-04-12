@@ -173,6 +173,8 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
 
   hexo deploy #将.deploy目录部署到GitHub
 
+  hexo clean #清楚public文件夹，清除缓存数据
+
   hexo help #查看帮助
 
   hexo version #查看Hexo的版本
