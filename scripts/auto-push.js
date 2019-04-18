@@ -13,10 +13,10 @@ function run() {
 		echo('Sorry, this script requires git');
 		exit(1);
 	} else {
-		echo("======================Auto Backup Begin===========================");
-		// cd('/Users/666/Desktop/code/project/Blog');    //此处修改为Hexo根目录路径
-    exec('D:');
-    cd('D:\\project\\Blog');
+		// echo("======================Auto Backup Begin===========================");
+		cd('/Users/666/Desktop/code/project/Blog');    //此处修改为Hexo根目录路径
+    // exec('D:');
+    // cd('D:\\project\\Blog');
 		if (exec('git add --all').code !== 0) {
 			echo('Error: Git add failed');
 			exit(1);
