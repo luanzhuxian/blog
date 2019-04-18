@@ -87,6 +87,13 @@ deploy:
   repo: git@github.com:luanzhuxian/luanzhuxian.github.io.git,master
   branch: master
 
+# 本地搜索功能 hexo-generator-searchdb
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
 # Douban
 douban:
   user: 42532330
