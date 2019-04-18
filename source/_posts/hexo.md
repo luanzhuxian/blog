@@ -72,7 +72,7 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
 
 ## 将博客托管到Github
 
-### 配置 SSH Key
+### 配置 SSH Key，将本地目录与 Github 关联
 
 配置SSH Key是让本地 git 项目与远程仓库建立联系。SSH Keys不配置的话每次项目有改动提交的时候就要手动输入账号密码，配置了就不需要了。   
 
@@ -118,9 +118,11 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
 
 登陆Github官网成功后，新建 New repository，建立与你github用户名对应的仓库，仓库名必须为 your_user_name.github.io  
 
-### 将博客项目上传到仓库
+### 修改Hexo的`_config.yml`文件
 
-现在我们需要修改_config.yml文件，来建立关联，执行命令：
+根目录`_config.yml`是博客的配置文件，以后修改博客会用到。  
+
+现在我们需要修改`_config.yml`文件，来建立关联，执行命令：
 ``` bash
   vim _config.yml
 ```
@@ -133,8 +135,10 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
     branch: master
 ```
 
-- 其中 yourname 替换成你的 Github 账户名;
-- 注意在 yml 文件中，冒号后面都是要带空格的；
+- 其中`yourname`替换成你的`Github`账户名;
+- 注意在`yml`文件中，冒号后面都是要带空格的；
+
+### 将博客项目上传到仓库
 
 然后执行命令：
 ``` bash
@@ -267,5 +271,25 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
   tags:
   - node.js
   - express
+  ---
+```
+
+## 头部设置
+在博客文章的开头会有对文章的说明文字，叫做文章头部，文章的头部除了可以设置文章标题、书写日期等基础信息外，还可以对文章添加标签、分类等，一个简单的示例如下:
+```
+  ---
+  title: Title #标题
+  date: YYYY-MM-DD HH:MM:SS #文件建立日期
+  tags: #标签（不适用于分页）
+  - 标签1
+  - 标签2
+  categories: #分类（不适用于分页）
+  - 分类1
+  - 分类2
+  layout: #布局
+  updated: YYYY-MM-DD HH:MM:SS #文件更新日期
+  comments：true #开启文章的评论功能
+  permalink：覆盖文章网址
+  abbrlink：覆盖文章网址
   ---
 ```

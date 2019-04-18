@@ -114,6 +114,17 @@ post_wordcount:
     #FB Page: https://www.facebook.com/yourname || facebook
 ```
 
+### 博客主页自定义样式修改
+打开博客根目录`/themes/next/source/css/_custom/custom.styl`文件，修改自己想要的主页样式就可以。
+
+### 添加自定义js/css文件
+- 首先把`js`文件放在`\themes\next\source\js\src`文件目录下
+- 首先把`css`文件放在`\themes\next\source\css\src`文件目录下
+- 找到`\themes\next\layout`目录下的布局文件`_layout.swig`
+- 把引用代码加入到该文件中即可`<script type="text/javascript" src="/js/src/xxx.js"></script>`
+- 也可以在`\themes\next\source\css\_custom\custom.styl`文件中进行样式的添加
+
+
 ### 网站动画效果
 开关网站的动画。
 ```
@@ -139,17 +150,131 @@ post_wordcount:
   canvas_sphere: false
 ```
 
+### 设置网站图标
+- 找`16*16`与`32*32`的icon图标，并将图标名称改为`favicon16.ico`与`favicon32.ico`。
+- 把图标放在`/themes/next/source/images`或者放在根目录的`/source/images`文件夹里。
+- 在主题配置文件`_config`内搜索`favicon`字段，把`small`、`medium`字段的地址修改为`/images/favicon16.ico`与`/images/favicon32.ico`。。
+
+### 网站标题栏背景颜色
+打开`themes/next/source/css/_custom/custom.styl`，在里面写下如下代码：
+```
+  .site-meta {
+    background: #FF0033; //修改为自己喜欢的颜色
+  }
+```
+
+### 添加静态背景
+打开博客根目录`/themes/next/source/css/_custom/custom.styl`文件，编辑如下：
+```
+  // Custom styles.
+  body {
+      background-image: url(/images/xxx.png); //动图也可以添加
+      background-attachment: fixed; // 不随屏幕滚动而滚动
+      background-repeat: repeat; // 如果背景图不够屏幕大小则重复铺，改为no-repeat则表示不重复铺
+      background-size: contain; // 等比例铺满屏幕
+```
+
+### 限制首页显示字数
+博客首页会显示文章的内容（默认显示文章的全部内容），如果当文章太长的时候就会显得十分冗余，所以我们有必要对其进行精简。
+在主题配置文件中找到`auto_excerpt`，将`enable`变为`true`
+```
+  # Automatically Excerpt. Not recommend.
+  # Please use <!-- more --> in the post to control excerpt accurately.
+  auto_excerpt:
+    enable: true
+    length: 150 #长度可自由调节
+```
+
+### 加载页面顶部显示进度条
+在主题的`_config`文件，
+```
+  # Progress bar in the top during page loading.
+    pace: true
+    pace_theme: pace-theme-minimal
+```
+
+### 增加回到顶部按钮及显示当前浏览进度
+主题配置文件搜索`b2t`字段，改为`true`即可，（注意此功能只能用于`Pisces`和`Gemini`主题）。
+```
+  # Back to top in sidebar (only for Pisces | Gemini).
+    b2t: true
+
+    # Scroll percent label in b2t button.
+    # scrollpercent字段设置为true即可实现当前浏览进度的显示。
+    scrollpercent: true
+
+    # Enable sidebar on narrow view (only for Muse | Mist).
+    onmobile: true
+```
+
+### 左侧文章目录
+首先文章要有标题，所谓标题就是例如这种一级标题(#)，二级标题(##)，三级标题(###)的。
+在主题的`_config`文件里面，将`toc`的`enable`设置为`true`，默认的目录是有序号的，如果你不想要序号，你需要把`number`置为`false` 。
+```
+  # Table Of Contents in the Sidebar
+  toc:
+    enable: true
+    number: true
+    wrap: false
+```
+
+### 增加本地搜索功能
+首先安装插件，根目录命令行输入:
+```
+  npm install hexo-generator-searchdb --save
+```
+编辑博客配置文件，新增以下内容到任意位置：
+```
+  search:
+    path: search.xml
+    field: post
+    format: html
+    limit: 10000
+```
+主题配置文件搜索local_search字段，设置enable为true
+```
+  # Local search
+  local_search:
+    enable: true
+```
+开启此功能成功后，在博客左侧菜单栏会多一项搜索，点击后即可搜索
+
+
+### 添加图片懒加载
+博客根目录打开命令输入（若主题已包含则不用安装）:
+```
+  git clone https://github.com/theme-next/theme-next-jquery-lazyload themes/next/source/lib/jquery_lazyload
+```
+然后在配置文件中搜索`lazyload`,将其修改为true
+```
+  # Added switch option for separated repo in 6.0.0.
+  # Dependencies: https://github.com/theme-next/theme-next-jquery-lazyload
+  lazyload: true
+```
+但是开启`lazyload`后博客的所有文字内容都无法加载，不知为何原因，所以我没有启用懒加载
+
+
 ### 添加评论
+可在文章模板（scaffolds/post.md） / 文章头部中设置`comments`
+```
+  ---
+  title: {{ title }}
+  date: {{ date }}
+  comments: true
+  categories:
+  tags:
+  ---
+```
 ### 统计阅读次数
 [Next主题添加文章阅读量统计功能]()
 
 ### SEO 优化
-next 提供了 seo 优化选项，在主题配置文件 `_config.yml` 中有个选项是 seo，设置成 true 即开启了 seo 优化，会进行一些 seo 优化。
-百度无法搜索到博客信息，是因为 Github Pages 屏蔽了百度爬虫，所以我将博客同步到两个平台上，一个 [Github](https://github.com/)，一个国内的 [Coding](https://coding.net/)。
+`Next`提供了`seo`优化选项，在主题配置文件`_config.yml`中有个选项是`seo`，设置成`true`即开启了`seo`优化，会进行一些`seo`优化。
+百度无法搜索到博客信息，是因为`Github Pages`屏蔽了百度爬虫，所以我将博客同步到两个平台上，一个 [Github](https://github.com/)，一个国内的 [Coding](https://coding.net/)。
 
 ### 添加 robots.txt
-robots.txt 是搜索引擎蜘蛛协议，告诉引擎哪些要收录，哪些禁止收录。  
-source 文件下新建 robots.txt，内容如下:
+`robots.txt`是搜索引擎蜘蛛协议，告诉引擎哪些要收录，哪些禁止收录。  
+`source`文件夹下新建robots.txt，内容如下:
 ```
   User-agent: *
   Allow: /
@@ -166,12 +291,6 @@ source 文件下新建 robots.txt，内容如下:
   Sitemap: https://luanzhuxian.github.io/baidusitemap.xml
 ```
 
-### 添加自定义js/css文件
-- 首先把`js`文件放在`\themes\next\source\js\src`文件目录下
-- 首先把`css`文件放在`\themes\next\source\css\src`文件目录下
-- 找到`\themes\next\layout`目录下的布局文件`_layout.swig`
-- 把引用代码加入到该文件中即可`<script type="text/javascript" src="/js/src/xxx.js"></script>`
-- 也可以在`\themes\next\source\css\_custom\custom.styl`文件中进行样式的添加
 
 ## 第三方插件
 ### 博客压缩 ??? hexo-all-minifier

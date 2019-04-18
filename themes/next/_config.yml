@@ -218,8 +218,8 @@ excerpt_description: true
 # Automatically Excerpt. Not recommend.
 # Please use <!-- more --> in the post to control excerpt accurately.
 auto_excerpt:
-  enable: false
-  length: 150
+  enable: true
+  length: 300
 
 # Post meta display settings
 post_meta:
@@ -743,7 +743,7 @@ vendors:
 
   # Internal version: 1.9.7
   # See: https://github.com/tuupola/jquery_lazyload
-  lazyload: true
+  lazyload:
 
   # Internal version: 1.2.1
   # See: http://VelocityJS.org
