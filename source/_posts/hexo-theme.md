@@ -266,7 +266,78 @@ post_wordcount:
   ---
 ```
 ### 统计阅读次数
-[Next主题添加文章阅读量统计功能]()
+[Next主题添加文章阅读量统计功能]()  
+
+
+### 让百度谷歌收录我们的博客
+打开[百度站长平台](https://ziyuan.baidu.com/)，注册登陆后，提示要绑定`熊掌ID`，注册验证绑定`熊掌ID`后，在`用户中心` > `站点管理`下添加网站。根据提示输入域名等信息，建议输入的域名为`www`开头的，不要输入`github.io`的，因为`github`是不允许百度的`spider`爬取`github`上的内容的，所以如果想让你的站点被百度收录，只能使用自己购买的域名。   
+之后需要验证，有三种验证方式，这里说前两种。
+#### 文件验证
+- 下载验证文件
+- 将验证文件放置于您所配置域名的根目录下，即放在博客的本地根目录的`source`文件夹下，注意`html`文件会被`hexo`编译导致之后验证不通过，所以必须要加上的`layout:false`，这样就不会被`hexo`编译。然后控制台输入`hexo g -d`，部署更新。
+- 根据提示检查是否验证文件可以正常访问
+- 点击完成验证按钮
+#### HTML标签验证
+- 方法一：打开`themes/next/layout/_partials/head.swig`文件，将百度站长给你的`meta`标签添加上：
+```
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta name="theme-color" content="{{ theme.android_chrome_color }}">
+  <meta name="baidu-site-verification" content="lsIWHEaglh" />  # 此为新添加的
+```
+- 方法二：打开`Hexo`主题配置文件，按如下修改/添加：
+```
+  google_site_verification: #索引擎提供给你的HTML标签的content后的内容
+  baidu_site_verification: #索引擎提供给你的HTML标签content后的内容
+```
+然后控制台输入`hexo g -d`，部署更新。
+- 最后点击完成验证按钮
+
+
+### 生成sitemap站点地图
+<blockquote bgcolor=#FF4500>
+站点地图是一种文件，您可以通过该文件列出您网站上的网页，从而将您网站内容的组织架构告知Google等搜索引擎。搜索引擎网页抓取工具会读取此文件，以便更加智能地抓取您的网站。
+</blockquote>
+
+先确认博客是否被搜索引擎收录，在百度或者谷歌输入下面格式来判断，如果能搜索到就说明被收录，否则就没有。
+```
+  site:写你要搜索的域名 # site:xxx.github.io
+```
+先安装谷歌和百度的插件，如下：
+```
+  npm install hexo-generator-sitemap --save
+  npm install hexo-generator-baidu-sitemap --save
+```
+在博客根目录的`_config.yml`中改`url`为你的站点地址：
+```
+  # URL
+  ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+  url: https://luanzhuxian.github.io/
+  root: /
+  # permalink: :year/:month/:day/:title/
+  permalink: post/:abbrlink.html
+  permalink_defaults:
+```
+在博客根目录的`_config.yml`中添加如下代码：
+```
+  baidusitemap:
+    path: baidusitemap.xml
+  sitemap:
+    path: sitemap.xml
+```
+之后重新打包`hexo g -d`，若在你的博客根目录的`public`下面发现生成了`sitemap.xml`以及`baidusitemap.xml`就表示成功了。可以通过`https://xxx.github.io/baidusitemap.xml`查看该文件。
+
+
+### 设置自动推送
+在主题配置文件下设置，将`baidu_push`设置为`true`：
+```
+  # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
+  baidu_push: true
+```
+之后提交生成的`baidusitemap.xml`给[百度站长平台](http://ziyuan.baidu.com/linksubmit/index)，有两种提交方式：
+- 自动提交：
+- 手动提交：在`数据引入` > `手动提交`下填写链接地址并提交。
 
 ### SEO 优化
 `Next`提供了`seo`优化选项，在主题配置文件`_config.yml`中有个选项是`seo`，设置成`true`即开启了`seo`优化，会进行一些`seo`优化。
