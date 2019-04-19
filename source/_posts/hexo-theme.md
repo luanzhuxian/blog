@@ -291,7 +291,7 @@ post_wordcount:
   google_site_verification: #索引擎提供给你的HTML标签的content后的内容
   baidu_site_verification: #索引擎提供给你的HTML标签content后的内容
 ```
-然后控制台输入`hexo g -d`，部署更新。
+- 然后控制台输入`hexo g -d`，部署更新。
 - 最后点击完成验证按钮
 
 
