@@ -20,7 +20,9 @@ tags: Hexo
 
 ## 让百度收录博客
 打开[百度站长平台](https://ziyuan.baidu.com/)，注册登陆后，提示要绑定`熊掌ID`，注册验证绑定`熊掌ID`。
-之后在`用户中心 > 站点管理`下添加网站。根据提示输入站点地址等信息，建议输入的域名为`www`开头的，不要输入`github.io`的，因为`github`是不允许百度的`spider`爬取`github`上的内容的，所以如果想让你的站点被百度收录，只能使用自己购买的域名。   
+之后在`用户中心 > 站点管理`下添加网站。根据提示输入站点地址等信息，建议输入的域名为`www`开头的，不要输入`github.io`的，因为`github`是不允许百度的`spider`爬取`github`上的内容的，所以如果想让你的站点被百度收录，只能使用自己购买的域名。
+
+### 验证站点  
 在选择完网站的类型之后需要验证网站的所有权，有三种验证方式，文件验证、html标签验证、cname解析验证。
 #### 1、文件验证
 - 下载验证文件
@@ -50,8 +52,7 @@ tags: Hexo
 #### 3、cname解析验证
 只需添加一条解析  
 
-
-## 生成sitemap站点地图
+### 生成sitemap站点地图
 <blockquote bgcolor=#FF4500>站点地图是一种文件，您可以通过该文件列出您网站上的网页，从而将您网站内容的组织架构告知Google等搜索引擎。搜索引擎网页抓取工具会读取此文件，以便更加智能地抓取您的网站。</blockquote>
 我们需要使用插件自动生成网站的`sitemap`，然后将生成的`sitemap`提交到百度和其他搜索引擎。  
 先安装谷歌和百度的插件，如下：
@@ -78,7 +79,7 @@ tags: Hexo
 ```
 之后重新打包`hexo g -d`，若在你的博客根目录的`public`下面发现生成了`sitemap.xml`以及`baidusitemap.xml`就表示成功了，其中`sitemap.xml`文件是搜索引擎通用的文件，`baidusitemap.xml`是百度专用的`sitemap`文件。可以通过`https://xxx.github.io/baidusitemap.xml`查看该文件。
 
-## 向百度提交链接
+### 向百度提交链接
 之后就可以将生成的`sitemap`文件提交给百度，可加快爬虫抓取速度。  
 还是在百度站长平台，找到`网站支持 > 数据引入 > 链接提交`。这里我们可以看到有两种提交方式，自动提交和手动提交，自动提交又分为主动推送、自动推送和`sitemap`。  
 如何选择链接提交方式：
@@ -162,7 +163,30 @@ npm install hexo-baidu-url-submit --save
 ```
 
 ## 让谷歌收录博客
+[google站点平台](https://www.google.com/webmasters/)，首先登陆注册。
+### 验证站点
+也是有几种方法：
+- `Domain`验证
+- `URL prefix`验证，包含以下验证方法：
+  - HTML file（文件验证）
+  - HTML taghtml（标签验证）
+  - Google Analytics
+  - Google Tag Manager
+  - Google name provider  
 
+`URL prefix`验证下的，文件验证、标签验证和百度类似，我选的标签验证，在主题配置文件中修改：
+```
+  # Google Webmaster tools verification setting
+  # See: https://www.google.com/webmasters/
+  google_site_verification: xxxxxxxxxxxxx # 此处改为google提供给你的字段
+```
+
+### 提交sitemap
+打开 [google search console](https://search.google.com/search-console/)，点击左侧'sitemap'栏，在`Add a new sitemap`下面添加，如：
+```
+  https://xxx.github.io/sitemap.xml
+```
+最后在`google`搜索你的站点地址，如：`site:xxx.github.io`来检查是否收录成功。
 
 ## 添加 robots.txt
 `robots.txt`是搜索引擎蜘蛛协议，告诉引擎哪些要收录，哪些禁止收录。  
