@@ -284,53 +284,6 @@ post_wordcount:
 
 按照其要求配置好以后，用截图软件截图后，或者本地图片后 copy，然后直接按设置好的 command+option+v，然后在图片成功上传到七牛云图床上，剪贴板上也有相应的连接。
 
-### hexo-abbrlink 链接持久化
-大家知道`hexo`默认的链接是 `http://xxx.yy.com/2018/07/14/hello-world` 这种类型的，这源于站点目录下的配置 `_config.yml` 里的配置 `:permalink: :year/:month/:day/:title/`，这种默认配置的缺点就是一般文件名是中文，导致`url`链接里有中文出现，这会造成很多问题，如使用`gitment`，也不利于`SEO`，另外年月日都会有分隔符。  
-`hexo-abbrlink`这个插件，猜测是根据时间点算出的最终链接，这样就确保了博文链接的唯一化，只要不修改`md`文件的`abbrlink`的值，`url`就永久不会改变。如此`md`文件名和文件内容也可以随便改了。后面的层级更短，这样也有利于`SEO`优化。
-
-- 安装：
-```
-  npm install hexo-abbrlink --save
-```
-
-- 配置：  
-站点配置文件里:
-```
-  permalink: post/:abbrlink.html
-  abbrlink:
-   alg: crc32  # 算法：crc16(default) and crc32
-   rep: hex    # 进制：dec(default) and hex
-```
-另外可以修改`scaffolds`里的模版文件，修改`post.md`为:
-```
-  ---
-  title: {{ title }}
-  date: {{ date }}
-  comments: true
-  categories:
-  tags:
-  ---
-```
-<blockquote bgcolor=#FF4500>百度蜘蛛抓取网页的规则: 对于蜘蛛说网页权重越高、信用度越高抓取越频繁，例如网站的首页和内页。蜘蛛先抓取网站的首页，因为首页权重更高，并且大部分的链接都是指向首页。然后通过首页抓取网站的内页，并不是所有内页蜘蛛都会去抓取。</blockquote>
-搜索引擎认为对于一般的中小型站点，3层足够承受所有的内容了，所以蜘蛛经常抓取的内容是前三层，而超过三层的内容蜘蛛认为那些内容并不重要，所以不经常爬取。出于这个原因所以permalink后面跟着的最好不要超过2个斜杠。
-
-### hexo-autonofollow
-nofollow 标签是由谷歌领头创新的一个反垃圾链接的标签，并被百度、yahoo 等各大搜索引擎广泛支持，引用 nofollow 标签的目的是：用于指示搜索引擎不要追踪（即抓取）网页上的带有 nofollow 属性的任何出站链接，以减少垃圾链接的分散网站权重。
-这里推荐 `hexo-autonofollow` 插件来解决。  
-- 安装：
-```
-  npm install hexo-autonofollow  --save
-```
-- 配置：  
-在站点配置文件中添加以下代码：
-```
-  nofollow:
-    enable: true
-    exclude: # 例外的链接，可将友情链接放置此处
-    - exclude1.com
-    - exclude2.com
-```
-
 ### hexo-douban
 [`hexo-douban`](https://github.com/mythsman/hexo-douban) 插件可以在博客中添加豆瓣电影、读书和游戏页面，关联我们自己的账号。  
 
