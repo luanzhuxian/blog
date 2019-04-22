@@ -129,12 +129,10 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
 ``` bash
   deploy:
     type: git
-    repo: git@github.com:yourname/yourname.github.io.git,master
+    repo: git@github.com:yourname/yourname.github.io.git,master # yourname替换成你的Github账户名
     branch: master
 ```
-
-- 其中`yourname`替换成你的`Github`账户名;
-- 注意在`yml`文件中，冒号后面都是要带空格的；
+**注意：在`yml`文件中，冒号后面都是要带空格的**
 
 ### 将博客项目上传到仓库
 

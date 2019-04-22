@@ -40,8 +40,7 @@ date: 2018-12-09 17:46:34
    # sitemap: /sitemap.xml || sitemap
    # commonweal: /404/ || heartbeat
 ```
-注意点：
-
+注意：  
 - 如果事先没有通过hexo new page <pageName>来创建页面的话，即使在配置文件中取消注释，页面也没法显示
 - || 后面是fontAwesome里的文件对应的名称
 - menu_icons记得选enable: true（默认应该是true）

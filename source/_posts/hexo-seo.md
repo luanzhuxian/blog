@@ -16,7 +16,7 @@ tags: Hexo
 
 ## 开启Next主题的SEO优化项
 `Next`提供了`seo`优化选项，在主题配置文件`_config.yml`中有个选项是`seo`，设置成`true`即开启了`seo`优化，会进行一些`seo`优化。
-百度无法搜索到博客信息，是因为`Github Pages`屏蔽了百度爬虫，所以我将博客同步到两个平台上，一个 [Github](https://github.com/)，一个国内的 [Coding](https://coding.net/)。
+百度无法搜索到博客信息，是因为`Github Pages`屏蔽了百度爬虫，所以可以将博客同步到两个平台上，一个 [Github](https://github.com/)，一个国内的 [Coding](https://coding.net/)。
 
 ## 让百度收录博客
 打开[百度站长平台](https://ziyuan.baidu.com/)，注册登陆后，提示要绑定`熊掌ID`，注册验证绑定`熊掌ID`。
