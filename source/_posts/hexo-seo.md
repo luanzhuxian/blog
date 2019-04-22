@@ -178,7 +178,7 @@ npm install hexo-baidu-url-submit --save
 ```
   # Google Webmaster tools verification setting
   # See: https://www.google.com/webmasters/
-  google_site_verification: xxxxxxxxxxxxx # 此处改为google提供给你的字段
+  google_site_verification: xxxxxxxxxxxxx # 此处改为google提供给你的HTML标签content后的内容
 ```
 
 ### 提交sitemap
