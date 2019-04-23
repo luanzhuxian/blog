@@ -27,6 +27,10 @@
     </header>
 
     <main id="main" class="main">
+      <a href="https://github.com/luanzhuxian" style="display:block; position:absolute; top:3px ; left:0; border:none;">
+        <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_orange_ff7600.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1">
+      </a>
+
       <div class="main-inner">
         <div class="content-wrap">
           <div id="content" class="content">
@@ -88,5 +92,9 @@
   {% include '_third-party/mathjax.swig' %}
   {% include '_third-party/scroll-cookie.swig' %}
   {% include '_third-party/exturl.swig' %}
+
+  {% if theme.canvas_nest %}
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  {% endif %}
 </body>
 </html>

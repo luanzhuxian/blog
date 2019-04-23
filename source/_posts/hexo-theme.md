@@ -24,6 +24,47 @@ date: 2018-12-09 17:46:34
   theme: next
 ```
 
+## 目录结构
+```
+  ├── .github            #git信息
+  ├── languages          #多语言
+  |   ├── default.yml    #默认语言
+  |   └── zh-Hans.yml    #简体中文
+  |   └── zh-tw.yml      #繁体中文
+  ├── layout             #布局，根目录下的*.ejs文件是对主页，分页，存档等的控制
+  |   ├── _custom        #可以自己修改的模板，覆盖原有模板
+  |   |   ├── _header.swig    #头部样式
+  |   |   ├── _sidebar.swig   #侧边栏样式
+  |   ├── _macro        #可以自己修改的模板，覆盖原有模板
+  |   |   ├── post.swig    #文章模板
+  |   |   ├── reward.swig    #打赏模板
+  |   |   ├── sidebar.swig   #侧边栏模板
+  |   ├── _partial       #局部的布局
+  |   |   ├── head       #头部模板
+  |   |   ├── search     #搜索模板
+  |   |   ├── share      #分享模板
+  |   ├── _script        #局部的布局
+  |   ├── _third-party   #第三方模板
+  |   ├── _layout.swig   #主页面模板
+  |   ├── index.swig     #主页面模板
+  |   ├── page           #页面模板
+  |   └── tag.swig       #tag模板
+  ├── scripts            #script源码
+  |   ├── tags           #tags的script源码
+  |   ├── marge.js       #页面模板
+  ├── source             #源码
+  |   ├── css            #css源码
+  |   |   ├── _common    #*.styl基础css
+  |   |   ├── _custom    #*.styl局部css
+  |   |   └── _mixins    #mixins的css
+  |   ├── fonts          #字体
+  |   ├── images         #图片
+  |   ├── uploads        #添加的文件
+  |   └── js             #javascript源代码
+  ├── _config.yml        #主题配置文件
+  └── README.md          
+```
+
 ## 配置主题
 接下来我们就可以来按需配置主题内容了，所有内容都在themes/next文件夹下的config.yml文件里修改。  
 
@@ -114,7 +155,7 @@ post_wordcount:
 ```
 
 ### 博客主页自定义样式修改
-打开博客根目录`/themes/next/source/css/_custom/custom.styl`文件，修改自己想要的主页样式就可以。
+打开博客根目录`/themes/next/source/css/_custom/custom.styl`文件，修改自己想要的主页样式就可以，会覆盖主题的样式。
 
 ### 添加自定义js/css文件
 - 首先把`js`文件放在`\themes\next\source\js\src`文件目录下
@@ -162,6 +203,16 @@ post_wordcount:
   }
 ```
 
+### 添加Fork me on GitHub
+打开 [此链接](https://github.com/blog/273-github-ribbons) 挑选自己喜欢的样式，并复制代码，添加到`themes\next\layout\_layout.swig`的相应标签内即可，记得把`<a href="https://github.com/you">`里面的url换成自己的github地址    
+我添加到`<main id="main" class="main">`标签下，并修改了样式，如下：
+```
+  <main id="main" class="main">
+    <a href="https://github.com/luanzhuxian" style="display:block; position:absolute; top:3px ; left:0; border:none;">
+      <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_orange_ff7600.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1">
+    </a>
+```
+
 ### 添加静态背景
 打开博客根目录`/themes/next/source/css/_custom/custom.styl`文件，编辑如下：
 ```
@@ -171,6 +222,19 @@ post_wordcount:
       background-attachment: fixed; // 不随屏幕滚动而滚动
       background-repeat: repeat; // 如果背景图不够屏幕大小则重复铺，改为no-repeat则表示不重复铺
       background-size: contain; // 等比例铺满屏幕
+```
+
+### 添加动态背景
+在`themes\next\layout\_layout.swig`文件`</body>`标签前添加如下内容：
+```
+  {% if theme.canvas_nest %}
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  {% endif %}
+```
+修改主题配置文件`next/_config.yml`如下：
+```
+  # Canvas-nest
+  canvas_nest: true
 ```
 
 ### 限制首页显示字数
@@ -266,7 +330,7 @@ post_wordcount:
 ```
 
 ### 统计阅读次数
-[Next主题添加文章阅读量统计功能](https://luanzhuxian.github.io/post/ec069b41.html)  
+[Hexo + Next添加文章阅读量统计](https://luanzhuxian.github.io/post/ec069b41.html)  
 
 ### SEO
 [Hexo + Next主题博客提交百度谷歌收录](https://luanzhuxian.github.io/post/82d92ad4.html)  

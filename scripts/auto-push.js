@@ -17,21 +17,26 @@ function run() {
 		// cd('/Users/666/Desktop/code/project/Blog');    //此处修改为Hexo根目录路径
     exec('D:');
     cd('D:\\project\\Blog');
+
+    if (exec('gulp build').code !== 0) {
+      echo('Error: Gulp build failed');
+    }
+
 		if (exec('git add --all').code !== 0) {
 			echo('Error: Git add failed');
 			exit(1);
-
 		}
+
 		if (exec('git commit -am "Form auto backup script\'s commit"').code !== 0) {
 			echo('Error: Git commit failed');
 			exit(1);
-
 		}
+
 		if (exec('git push origin master').code !== 0) {
 			echo('Error: Git push failed');
 			exit(1);
-
 		}
+
 		echo("==================Auto Backup Complete============================")
 	}
 }

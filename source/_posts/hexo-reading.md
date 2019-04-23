@@ -1,5 +1,5 @@
 ---
-title: Next主题添加文章阅读量统计功能
+title: Hexo + Next添加文章阅读量统计
 comments: true
 categories: Hexo
 tags: Hexo
@@ -11,7 +11,7 @@ date: 2018-12-09 17:46:34
 基于[LeanCloud](https://leancloud.cn)这家服务提供商，实现`Hexo`博客文章的浏览数统计功能。
 
 ### 配置
-`Next`主题目前已经合并这个功能，可以直接使用不用修改主题模版而直接在`_config.yml`中配置即可。
+`Next`主题目前已经合并这个功能，相关代码在`themes\next\layout\_third-party\analytics\lean-analytics.swig`，可以不用修改主题模版，直接在`_config.yml`中配置即可。
 
 ### 配置LeanCloud
 在注册完成`LeanCloud`帐号并验证邮箱之后，我们就可以登录帐号，进行一番配置之后拿到`AppID`以及`AppKey`这两个参数即可正常使用文章阅读量统计的功能了。
