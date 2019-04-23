@@ -338,17 +338,15 @@ post_wordcount:
 ### 压缩
 [使用 Gulp 压缩 Hexo](https://luanzhuxian.github.io/post/e5ac3b51.html)  
 
+### 增加七牛图床
+将图片上传至七牛，然后获得外链，在我们使用markdown写博客的时候直接插入外链。还可以直接获取带水印、压缩、剪裁过后的图片。  
+
+首先打开 [七牛](https://portal.qiniu.com/)，注册登录，实名认证。  
+之后在左侧找到对象存储，第一次要新建存储空间，之后上传图片后可以在图片列表找到图片的外链，直接在文章中使用即可。  
+另外在图片样式下可以对图片进行处理，比如缩放、裁剪、增加水印、设置输出格式等。使用时只要在图片外链后加上设置的连接符样式名称，即可得到处理后的图片。  
+
 
 ## 第三方插件
-### 博客压缩 ??? hexo-all-minifier
-### 上传图片到七牛云 ???
-在markdown中写blog的朋友，想必这点是最烦恼的吧，一般来说都要手动上传图片到七牛云，再把链接写到markdown中。
-- 有人用phthon实现一个自动上传的脚本，
-- 在github上找到一个一键贴图工具[qiniu-image-tool](https://github.com/jiwenxing/qimage-mac)，它支持本地文件、截图、网络图片一键上传七牛云并返回图片引用。Mac 是基于 Alfred 的，其 windows 也有相应版本windows版本。
-
-### 将博客同时部署到 github 和 coding ???
-
-按照其要求配置好以后，用截图软件截图后，或者本地图片后 copy，然后直接按设置好的 command+option+v，然后在图片成功上传到七牛云图床上，剪贴板上也有相应的连接。
 
 ### hexo-douban
 [`hexo-douban`](https://github.com/mythsman/hexo-douban) 插件可以在博客中添加豆瓣电影、读书和游戏页面，关联我们自己的账号。  

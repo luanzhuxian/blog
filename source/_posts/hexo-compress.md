@@ -84,4 +84,4 @@ date: 2019-04-23 14:44:56
   gulp.task('build', ['minify-html', 'minify-css', 'minify-js', 'images']);
 ```
 终端执行`gulp build`就会执行`gulp.task('build', ['minify-html', 'minify-css', 'minify-js', 'images']);`任务，即分别压缩`public`下的`html、css、js和图片`。  
-之后每次发布前先执行`gulp build`，再执行`hexo deploy`，这样提交上线的是压缩后的`public`下的代码。
+之后每次发布前先执行`gulp build`，再执行`hexo depl`，这样提交上线的是压缩后的`public`下的代码。

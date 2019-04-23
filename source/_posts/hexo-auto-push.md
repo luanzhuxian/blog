@@ -102,5 +102,16 @@ new|在文章文件建立后发布
 
 保存脚本并退出，然后执行`hexo deploy`命令，将会得到类似以下结果：
 ```
+  INFO  Deploy done: git
+  INFO  Deploying: baidu_url_submitter
+  INFO  Submitting urls
+  ...省略
+  INFO  Deploy done: baidu_url_submitter
+  [master 3db66ca] Form auto backup script's commit
+   4 files changed, 93 insertions(+), 8 deletions(-)
+   create mode 100644 source/_posts/hexo-compress.md
+  To https://github.com/luanzhuxian/Blog.git
+     f7e5190..3db66ca  master -> master
+  ==================Auto Backup Complete============================
 ```
 这样子，每次更新博文并`deploy`到服务器上之后，备份就自动启动并完成备份啦~
