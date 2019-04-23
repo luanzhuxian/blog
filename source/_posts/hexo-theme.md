@@ -335,6 +335,9 @@ post_wordcount:
 ### SEO
 [Hexo + Next主题博客提交百度谷歌收录](https://luanzhuxian.github.io/post/82d92ad4.html)  
 
+### 压缩
+[使用 Gulp 压缩 Hexo](https://luanzhuxian.github.io/post/e5ac3b51.html)  
+
 
 ## 第三方插件
 ### 博客压缩 ??? hexo-all-minifier

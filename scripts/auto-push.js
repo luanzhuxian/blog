@@ -18,10 +18,6 @@ function run() {
     exec('D:');
     cd('D:\\project\\Blog');
 
-    if (exec('gulp build').code !== 0) {
-      echo('Error: Gulp build failed');
-    }
-
 		if (exec('git add --all').code !== 0) {
 			echo('Error: Git add failed');
 			exit(1);
