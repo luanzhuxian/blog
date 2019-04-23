@@ -8,7 +8,8 @@ date: 2018-12-09 17:46:34
 ---
 
 ## 主题
-我用的是 [next](http://theme-next.iissnan.com/) 主题
+我用的是 [next](http://theme-next.iissnan.com/) 主题。  
+**注意：我使用的`Hexo`版本为`3.8.0`，`Next`版本为`5.1.4`，也就是文章是基于上述版本写的。**
 
 ## 安装主题
 进入 hexo 站点文件夹
@@ -318,16 +319,7 @@ post_wordcount:
 
 
 ### 添加评论
-可在文章模板（scaffolds/post.md） / 文章头部中设置`comments`
-```
-  ---
-  title: {{ title }}
-  date: {{ date }}
-  comments: true
-  categories:
-  tags:
-  ---
-```
+[Hexo + Next添加 Valine 评论功能](https://luanzhuxian.github.io/post/c49d1b87.html)  
 
 ### 统计阅读次数
 [Hexo + Next添加文章阅读量统计](https://luanzhuxian.github.io/post/ec069b41.html)  
