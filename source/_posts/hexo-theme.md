@@ -130,7 +130,10 @@ footer:
 - 把用户的图标从 user 改成了 envira
 - copyright 留空
 - powered 设为 false 把 hexo 的授权图片取消了
-- theme 的 enable 设为 false 把主题的内容也取消了
+- theme 的 enable 设为 false 把主题的内容也取消了  
+
+修改后的footer如下图：
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/blog-footer.png)
 
 ### 统计文章字数和阅读时间
 ```
@@ -270,7 +273,7 @@ post_wordcount:
     onmobile: true
 ```
 
-### 左侧文章目录
+### 文章目录
 首先文章要有标题，所谓标题就是例如这种一级标题(#)，二级标题(##)，三级标题(###)的。
 在主题的`_config`文件里面，将`toc`的`enable`设置为`true`，默认的目录是有序号的，如果你不想要序号，你需要把`number`置为`false` 。
 ```
@@ -300,7 +303,7 @@ post_wordcount:
   local_search:
     enable: true
 ```
-开启此功能成功后，在博客左侧菜单栏会多一项搜索，点击后即可搜索
+开启此功能成功后，在博客菜单栏会多一项搜索，点击后即可搜索
 
 
 ### 添加图片懒加载

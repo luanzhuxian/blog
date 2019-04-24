@@ -17,10 +17,13 @@ date: 2019-04-23 17:14:10
 在注册完成`LeanCloud`帐号并验证邮箱之后，我们就可以登录帐号。
 
 ### 1、创建一个开发版应用（免费）：
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/leancloud-application.png-watermark)
 ### 2、设置
-在`LeanCloud > 设置 > 安全中心`中，把除`数据存储`外其他选项都关闭。并将你的博客域名添加到`Web 安全域名`中。
+在`LeanCloud > 设置 > 安全中心`中，把除`数据存储`外其他选项都关闭。并将你的博客域名添加到`Web 安全域名`中：
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/leancloud-setting.png-watermark)
 ### 3、创建Class
-在`LeanCloud > 存储 > 创建Class`，选择`无限制的Class`并创建。
+在`LeanCloud > 存储 > 创建Class`，选择`无限制的Class`并创建：
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/leancloud-class.png-watermark)
 ### 4、修改next配置
 在`LeanCloud > 设置 > 应用 Key`中，找到`App ID`和`App Key`。之后修改`Next`的配置文件`_config.yml`如下：
 ```
@@ -40,8 +43,10 @@ date: 2019-04-23 17:14:10
 ```
 如果要`开启email通知`除了修改`_config.yml`文件之外还要将`LeanCloud > 设置邮件模板 > 用于重置密码的邮件主题`进行修改。  
 
-之后重新`hexo g -d`就可以看到文章下的评论框了:
+之后重新`hexo g -d`就可以看到文章下的评论框了：
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/comment-view.png-watermark)
 评论成功后，在相应的表里能看新插入的数据，可以删除编辑：
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/comment-data.png-watermark)
 
 ## 其他
 可在文章模板`scaffolds/post.md` 或文章头部中设置`comments`
@@ -52,5 +57,14 @@ date: 2019-04-23 17:14:10
   comments: true
   categories:
   tags:
+  ---
+```
+在`source/categories/index.md`和`source/tags/index.md`里要禁用`comments`，否则分类和标签页面会显示评论框：
+```
+  ---
+  title: categories
+  date: 2018-12-06 22:54:28
+  type: "categories"
+  comments: false
   ---
 ```
