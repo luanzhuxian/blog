@@ -22,7 +22,7 @@ date: 2019-04-23 14:44:56
   npm i gulp gulp-htmlclean gulp-htmlmin gulp-imagemin gulp-minify-css gulp-uglify --save
 ```
 `gulp -v`查看版本。  
-**注意：`gulp 3`和`gulp 4`的`api`有变化，本文用的是`3.9.1`，若使用`gulp 4`则不要使用后面的`gulpfile.js`。**  
+**注意：本文用的是`gulp 3 (3.9.1)`，使用`gulp 4`或更高版本可能会不适应。**  
 
 项目根目录新建`gulpfile.js`，添加如下内容：
 ```

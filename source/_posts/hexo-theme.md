@@ -31,7 +31,6 @@ date: 2018-12-09 17:46:34
   ├── languages          #多语言
   |   ├── default.yml    #默认语言
   |   └── zh-Hans.yml    #简体中文
-  |   └── zh-tw.yml      #繁体中文
   ├── layout             #布局，根目录下的*.ejs文件是对主页，分页，存档等的控制
   |   ├── _custom        #可以自己修改的模板，覆盖原有模板
   |   |   ├── _header.swig    #头部样式
@@ -60,8 +59,8 @@ date: 2018-12-09 17:46:34
   |   |   └── _mixins    #mixins的css
   |   ├── fonts          #字体
   |   ├── images         #图片
-  |   ├── uploads        #添加的文件
-  |   └── js             #javascript源代码
+  |   ├── js             #javascript源代码
+  |   └── lib            #第三方库
   ├── _config.yml        #主题配置文件
   └── README.md          
 ```
@@ -334,9 +333,14 @@ post_wordcount:
 将图片上传至七牛，然后获得外链，在我们使用markdown写博客的时候直接插入外链。还可以直接获取带水印、压缩、剪裁过后的图片。  
 
 首先打开 [七牛](https://portal.qiniu.com/)，注册登录，实名认证。  
-之后在左侧找到对象存储，第一次要新建存储空间，之后上传图片后可以在图片列表找到图片的外链，直接在文章中使用即可。  
-另外在图片样式下可以对图片进行处理，比如缩放、裁剪、增加水印、设置输出格式等。使用时只要在图片外链后加上设置的连接符样式名称，即可得到处理后的图片。  
-
+之后在左侧找到对象存储，第一次要新建存储空间：
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/qiniu-new.png-watermark)
+之后在该`存储空间 > 内容管理 > 上传文件`上传图片：
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/qiniu-uplpad.png-watermark)
+上传后可以在`存储空间 > 内容管理`图片列表管理图片，还可以找到图片的外链，直接在文章中使用即可。
+![avatar](http://pqg06rxde.bkt.clouddn.com/qiniu-list.png-watermark)
+另外在图片样式下可以对图片进行处理，比如缩放、裁剪、增加水印、设置输出格式等。使用时只要在图片外链后加上设置的样式分隔符和样式名称，即可得到处理后的图片。  
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/qiniu-process.png-watermark)
 
 ## 第三方插件
 
