@@ -334,13 +334,13 @@ post_wordcount:
 
 首先打开 [七牛](https://portal.qiniu.com/)，注册登录，实名认证。  
 之后在左侧找到对象存储，第一次要新建存储空间：
-![avatar](http://pqg06rxde.bkt.clouddn.com/blog/qiniu-new.png-watermark)
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/qiniu-space.png-watermark)
 之后在该`存储空间 > 内容管理 > 上传文件`上传图片：
 ![avatar](http://pqg06rxde.bkt.clouddn.com/blog/qiniu-uplpad.png-watermark)
 上传后可以在`存储空间 > 内容管理`图片列表管理图片，还可以找到图片的外链，直接在文章中使用即可。
 ![avatar](http://pqg06rxde.bkt.clouddn.com/qiniu-list.png-watermark)
 另外在图片样式下可以对图片进行处理，比如缩放、裁剪、增加水印、设置输出格式等。使用时只要在图片外链后加上设置的样式分隔符和样式名称，即可得到处理后的图片。  
-![avatar](http://pqg06rxde.bkt.clouddn.com/blog/qiniu-process.png-watermark)
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/qiniu-style.png-watermark)
 
 ## 第三方插件
 
