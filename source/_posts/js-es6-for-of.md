@@ -37,7 +37,8 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的Symbol.iterator属
 - String
 - TypedArray
 - 函数的 arguments 对象
-- NodeList 对象
+- NodeList 对象  
+
 也就是数组和类数组才有Symbol.iterator属性，而Object是没有的。  
 那么怎么做到使对象可遍历？
 
