@@ -71,7 +71,7 @@ new|在文章文件建立后发布
   build/    # 忽略 build/ 目录下的所有文件
   doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 ```
-**注意：若有不该提交的文件已经提交后，仅仅在 .gitignore 中加入忽略是不行的。这个时候需要执行：`git rm -r --cached 文件/文件夹名字`**  
+**注意：若有不该提交的文件已经提交后，仅仅在 .gitignore 中加入忽略是不行的。这个时候需要执行：`git rm -r --cached 文件/文件夹名字`。**  
 
 在 .gitignore 文件里面加入`*.log`和 `public/`以及`.deploy*/`。因为每次执行`hexo generate`命令时，上述目录都会被重写更新。因此忽略这两个目录下的文件更新，加快 push 速度。
 

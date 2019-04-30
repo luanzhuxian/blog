@@ -30,14 +30,14 @@ date: 2018-12-09 17:46:34
 ## 添加文件到暂存区
 ```
   git add <filename>	# 添加指定文件到暂存区
-  git add .	         # 添加工作区所有文件到暂存区
+  git add .	          # 添加工作区所有文件到暂存区
   git add -i	        # 交互方式添加文件到暂存区
   git add -u	        # 将工作区中已经变动的文件添加到暂存区，当新增加的文件不会被添加
 ```
 
 ## 提交文件到仓库
 ```
-  git commit -m "描述信息"		# 提交更新
+  git commit -m "描述信息"		 # 提交更新
   git commit -am "描述信息"	   # 如果工作目录中仅是已跟踪的文件被修改或被删除，使用此提交命令
 ```
 
@@ -50,7 +50,9 @@ date: 2018-12-09 17:46:34
   git checkout -b 新分支名		   # 创建同时切换到新分支
   git checkout -b 本地分支名 origin/远程分支名		   # 将远程git仓库里的指定分支拉取到本地（本地不存在的分支）
   git merge 要被合并的分支名	    # 合并分支
-  git rebase 要被合并的分支名	    # 合并分支
+  git rebase 要被合并的分支名	    # 重新设置基线，将你的当前分支重新设置开始点
+  git rebase -i  [startpoint]  [endpoint]	    # 合并多个提交为一个提交
+  git rebase   [startpoint]   [endpoint]  --onto  [branchName]	    # 将某一段commit粘贴到另一个分支上
   git branch -d 要删除的分支名	   # 删除指定分支（如果分支没有被合并过，该命令会执行失败）
   git branch -D 要删除的分支名	   # 删除指定分支，不管有没有被合并过
   gitk				                   # 用图形界面查看分支提交历史
@@ -59,8 +61,8 @@ date: 2018-12-09 17:46:34
 
 ## 标签的添加、删除、查看
 ```
-  git tag		                   # 查看标签
-  git tag 标签名	                # 创建简单的标签
+  git tag		                     # 查看标签
+  git tag 标签名	                 # 创建简单的标签
   git tag -a 标签名 -m '附加信息'	# 创建附加信息的标签
   git show 标签名	               # 通过标签查看信息
   git tag -d 标签名	             # 删除标签
@@ -91,21 +93,22 @@ date: 2018-12-09 17:46:34
 
 ## 查看工作区、暂存区、仓库之间的差异
 ```
-  git diff		      # 比较工作区与暂存区的差异
-  git diff HEAD		 # 比较工作区与仓库中最近一次的提交间的差异
-  git diff --cached	 # 比较暂存区与仓库中最近一次提交的差异
+  git diff		        # 比较工作区与暂存区的差异
+  git diff HEAD		    # 比较工作区与仓库中最近一次的提交间的差异
+  git diff --cached	  # 比较暂存区与仓库中最近一次提交的差异
   git blame filename	# 可以列出该文件每次被修改的时间和内容。
 ```
 
 ## 版本回退、撤销操作
 ```
-  git reflog	              # 显示提交历史的简介
-  git checkout -- filename	# 丢弃工作区的修改
-  git reset --hard HEAD^		# 回退到上一个版本
+  git reflog	                # 显示提交历史的简介
+  git checkout -- filename  	# 丢弃工作区的修改
+  git reset              		  # 将当前HEAD复位到指定状态。一般用于撤消之前的一些操作(如:git add, git commit等)
+  git reset --hard HEAD^		  # 回退到上一个版本
   git reset --hard commit_id	# 回退到指定版本
   git checkout -- filename	  # 恢复工作区被删除的指定文件（文件之前被提交到仓库中）
-  git checkout -f 		      # 恢复工作区中所有被删除的文件(文件之前被提交到仓库中)
-  git ls-files -d			   # 列出工作区被删除的文件（文件之前被提交到仓库中）
+  git checkout -f 		        # 恢复工作区中所有被删除的文件(文件之前被提交到仓库中)
+  git ls-files -d			        # 列出工作区被删除的文件（文件之前被提交到仓库中）
 ```
 有时候，由于我们的误操作，产生了一些错误，我们发现后希望能够及时纠正这些因为误操作而产生的结果，将工作目录恢复到某个正常状态。
 - 撤销修改，但还没有添加到暂存区：`git checkout -- filename`修改的文件会被恢复到上次提交时的状态，修改的内容会丢失。
@@ -114,11 +117,11 @@ date: 2018-12-09 17:46:34
 
 ## 备份工作区
 ```
-  git stash			       # 将工作区文件保存在Git内部栈中
-  git stash list			  # 列出Git内部栈中保存的工作区文件列表
+  git stash			            # 将工作区文件保存在Git内部栈中
+  git stash list			      # 列出Git内部栈中保存的工作区文件列表
   git stash apply stash_id	# 恢复工作区到指定的内部栈状态
-  git stash pop			   # 恢复工作区到上一个内部栈状态
-  git stash clear			 # 清空Git内部栈
+  git stash pop			        # 恢复工作区到上一个内部栈状态
+  git stash clear			      # 清空Git内部栈
 ```
 如果正在一个`develop`分支上正在开发新功能，但这时`master`分支(稳定版本)突然发现了 bug，并需要及时修复，而`develop`分支此时的工作还没有完成，且不希望将之前的工作就这样提交到仓库中时，这时就可以用`git stash`来暂时保存这些状态到 Git 内部栈中，并用当前分支上一次的提交内容来恢复工作目录，然后切换到`master`分支进行 bug 修复工作，等修复完毕并提交到仓库上后，再使用`git stash apply [stash@{0}]`或者`git stash pop`将工作目录恢复到之前的状态，继续之前的工作。  
 
@@ -139,20 +142,20 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
 
 ## 远程仓库的克隆、添加、查看
 ```
-  git remote	# 显示已添加的远程仓库
-  git remote -v 	# 显示已添加的远程仓库和地址
-  git remote add 远程仓库名 远程仓库地址	# 在本地添加远程仓库
-  git remote rm 远程仓库名			# 删除本地添加的远程仓库
-  git remote rename 原名 新名		# 重命名远程仓库
+  git remote	                              # 显示已添加的远程仓库
+  git remote -v 	                          # 显示已添加的远程仓库和地址
+  git remote add 远程仓库名 远程仓库地址	     # 在本地添加远程仓库
+  git remote rm 远程仓库名		               	# 删除本地添加的远程仓库
+  git remote rename 原名 新名		             # 重命名远程仓库
   git clone 远程仓库地址 [克隆到指定的文件夹]	# 克隆远程仓库到本地
-  git fetch 远程仓库名		# 从远程仓库抓取最新数据到本地但不与本地分支进行合并
-  git pull 远程仓库名	本地要合并的分支名	# 从远程仓库抓取最新数据并自动与本地分支进行合并
-  git push 远程仓库名 本地分支名	# 将本地仓库推送到远程仓库中
-  git remote show 远程仓库名	# 查看远程仓库信息
-  git remote show			# 查看所有远程仓库
-  git push 远程仓库名 标签名	# 将标签推送到远程仓库（Git默认不推送标签）
-  git rm file_path  # 删除暂存区或分支上的文件, 同时工作区也不需要这个文件
-  git rm --cached file_path  # 删除暂存区或分支上的文件, 但本地又需要使用, 只是不希望这个文件被版本控制
+  git fetch 远程仓库名		                    # 从远程仓库抓取最新数据到本地但不与本地分支进行合并
+  git pull 远程仓库名	本地要合并的分支名	     # 从远程仓库抓取最新数据并自动与本地分支进行合并
+  git push 远程仓库名 本地分支名	            # 将本地仓库推送到远程仓库中
+  git remote show 远程仓库名	                # 查看远程仓库信息
+  git remote show		      	                # 查看所有远程仓库
+  git push 远程仓库名 标签名                	# 将标签推送到远程仓库（Git默认不推送标签）
+  git rm file_path                          # 删除暂存区或分支上的文件, 同时工作区也不需要这个文件
+  git rm --cached file_path                 # 删除暂存区或分支上的文件, 但本地又需要使用, 只是不希望这个文件被版本控制
 ```
 
 ## 协同流程
@@ -171,9 +174,16 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
 - 登录 Github，在你的首页可以看到一个`pull request`按钮，点击它，填写一些说明信息，提交即可
 
 ## 多人协作技巧
-看远程库信息，使用`git remote -v`；
-本地新建的分支如果不推送到远程，对其他人就是不可见的；
-从本地推送分支，使用`git push 远程仓库名 分支名`，如果推送失败，先用`git pull`抓取远程的新提交；
-在本地创建和远程分支对应的分支，使用`git checkout -b branch-name origin/branch-name`，本地和远程分支的名称最好一致；
-建立本地分支和远程分支的关联，使用`git branch --set-upstream branch-name origin/branch-name`；
-从远程抓取分支，使用`git pull`，如果有冲突，要先处理冲突。
+- 看远程库信息：使用`git remote -v`；  
+- 在本地创建和远程分支对应的分支：使用`git checkout -b branch-name origin/branch-name`，本地和远程分支的名称最好一致；  
+- 建立本地分支和远程分支的关联：使用`git branch --set-upstream branch-name origin/branch-name`；  
+- 从本地推送分支：使用`git push 远程仓库名 分支名`，如果推送失败，先用`git pull`抓取远程的新提交；  
+- 从远程抓取分支：使用`git pull`，如果有冲突，要先处理冲突；  
+- 合并多个 commit 为一个完整 commit：`git rebase -i`。  
+
+避免拉取更新后提交有两条记录：
+- 在 pull 之前，先将本地修改存储起来`$ git stash`，
+- 暂存了本地修改之后，就可以 pull 了，
+- 还原暂存的内容，`$ git stash pop stash@{0}`，
+- 有冲突的话解决冲突
+- 之后提交  
