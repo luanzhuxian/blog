@@ -1,5 +1,5 @@
 ---
-title: Hexo + Next主题博客提交百度谷歌收录
+title: Hexo + Next 主题博客提交百度谷歌收录
 comments: true
 abbrlink: 82d92ad4
 date: 2019-04-22 13:54:37

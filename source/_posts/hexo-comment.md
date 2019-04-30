@@ -1,5 +1,5 @@
 ---
-title: Hexo + Next添加 Valine 评论功能
+title: Hexo + Next 添加 Valine 评论功能
 comments: true
 categories: Hexo
 tags: Hexo

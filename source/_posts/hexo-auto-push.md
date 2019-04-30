@@ -1,5 +1,5 @@
 ---
-title: 自动备份Hexo博客文件
+title: 自动备份 Hexo 博客文件
 comments: true
 categories: Hexo
 tags: Hexo
@@ -27,26 +27,28 @@ new|在文章文件建立后发布
 # 实现
 
 ## 删除 Next 主题的 .git 缓存文件夹
-我们如果要将项目上传到远程仓库，先要`git add .`添加到暂存区，然后`git commit`。这时会出现如下报错：
+我们如果要将项目上传到远程仓库，先要`git add .`添加到暂存区，然后`git commit`，这时会出现如下报错：
 ```
   Changes not staged for commit:
           modified:   themes/xxx
 ```
-并且提交后会发现远程仓库主题文件夹都是空的。因为位于`themes`文件夹下的主题是从另一个 git 仓库上 clone 过来的，由于你 clone 下来的文件夹也是一个 git 仓库，因此正常的`git add .`是无法提交该文件夹下的文件的，会和 Hexo 仓库冲突，每次提交只会提交 Hexo 项目的修改，而不会提交 Next 主题的修改。  所以我们要先删除`.git缓存文件`，  
-解决方案：
-### 1、先强行删除 clone 来的主题目录下的 .git 文件夹：
+并且提交后会发现远程仓库主题文件夹都是空的。因为位于`themes`文件夹下的主题是从另一个 git 仓库上 clone 过来的，由于你 clone 下来的文件夹也是一个 git 仓库，因此正常的`git add .`是无法提交该文件夹下的文件的，会和 Hexo 仓库冲突，每次提交只会提交 Hexo 项目的修改，而不会提交 Next 主题的修改。  所以我们要先删除`.git缓存文件`。  
+
+**解决方案：**
+- 1、先强行删除 clone 来的主题目录下的 .git 文件夹：
 在`themes/next`目录下打开命令行工具，执行`rd/s/q .git`命令，删除成功后执行`ls .git`命令提示如下内容说明删除成功：
 ```
   $ ls .git
   ls: cannot access '.git': No such file or directory
 ```
-### 2、回到仓库根目录删除已经托管的空主题文件夹：
+- 2、回到仓库根目录删除已经托管的空主题文件夹：
 ```
   git rm -rf --cached "themes/next"
   git commit -m "remove empty folder"
   git push origin master
 ```
 使名为主题目录不再接受版本控制，所以就没有子模块的冲突了。之后上传不会报上面的错。  
+
 
 ## 将 Hexo 博客源文件上传 Git 仓库
 上传后也可以随时拉取代码，方便更新管理项目。  

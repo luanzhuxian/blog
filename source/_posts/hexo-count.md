@@ -1,5 +1,5 @@
 ---
-title: Hexo + Next添加文章阅读量统计
+title: Hexo + Next 添加文章阅读量统计
 comments: true
 categories: Hexo
 tags: Hexo

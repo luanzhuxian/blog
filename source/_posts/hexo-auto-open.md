@@ -1,5 +1,5 @@
 ---
-title: Hexo添加文章时自动打开编辑器
+title: Hexo 添加文章时自动打开编辑器
 comments: true
 categories: Hexo
 tags: Hexo

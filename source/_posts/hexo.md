@@ -1,5 +1,5 @@
 ---
-title: Hexo + Next搭建博客
+title: Hexo 搭建博客
 comments: true
 categories: Hexo
 tags: Hexo
