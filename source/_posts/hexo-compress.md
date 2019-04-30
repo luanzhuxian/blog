@@ -11,13 +11,13 @@ abbrlink: e5ac3b51
 date: 2019-04-23 14:44:56
 ---
 
-只压缩`hexo g`生成的`public`文件夹下的要发布到`github page`的源码。  
+只压缩`hexo g`生成的`public`文件夹下的要发布到 Github Page 的源码。  
 
 首先全局安装 [Gulp](https://www.gulpjs.com.cn/)：
 ```
   npm i gulp -g
 ```
-`cd`到项目根目录本地安装`gulp`插件：
+`cd`到项目根目录本地安装 gulp 插件：
 ```
   npm i gulp gulp-htmlclean gulp-htmlmin gulp-imagemin gulp-minify-css gulp-uglify --save
 ```

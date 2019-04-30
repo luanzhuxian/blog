@@ -8,13 +8,13 @@ date: 2019-04-23 17:14:10
 ---
 
 ## 前言
-基于 [LeanCloud](https://leancloud.cn) 这家服务提供商，实现`Hexo`博客文章的浏览数统计功能。  
-[Valine](https://valine.js.org/) 评论系统用的是`LeanCloud`作为数据库，洁面很简洁，没有后台，删除和管理评论只能直接操作数据库。  
+基于 [LeanCloud](https://leancloud.cn) 这家服务提供商，实现 Hexo 博客文章的浏览数统计功能。  
+[Valine](https://valine.js.org/) 评论系统用的是 LeanCloud 作为数据库，洁面很简洁，没有后台，删除和管理评论只能直接操作数据库。  
 
-本文用的`Next`版本为`5.1.4`，已经合并这个功能，相关代码在`themes\next\layout\_third-party\comments\valine.swig`，可以不用修改主题模版，直接在`_config.yml`中配置即可。如果低于这个版本的可以考虑升级或者自己手动修改。  
+本文用的 Next 版本为 5.1.4，已经合并这个功能，相关代码在`themes\next\layout\_third-party\comments\valine.swig`，可以不用修改主题模版，直接在`_config.yml`中配置即可。如果低于这个版本的可以考虑升级或者自己手动修改。  
 
 ## 配置LeanCloud
-在注册完成`LeanCloud`帐号并验证邮箱之后，我们就可以登录帐号。
+在注册完成 LeanCloud 帐号并验证邮箱之后，我们就可以登录帐号。
 
 ### 1、创建一个开发版应用（免费）：
 ![avatar](http://pqg06rxde.bkt.clouddn.com/blog/leancloud-application.png-watermark)
@@ -25,7 +25,7 @@ date: 2019-04-23 17:14:10
 在`LeanCloud > 存储 > 创建Class`，选择`无限制的Class`并创建：
 ![avatar](http://pqg06rxde.bkt.clouddn.com/blog/leancloud-class.png-watermark)
 ### 4、修改next配置
-在`LeanCloud > 设置 > 应用 Key`中，找到`App ID`和`App Key`。之后修改`Next`的配置文件`_config.yml`如下：
+在`LeanCloud > 设置 > 应用 Key`中，找到`App ID`和`App Key`。之后修改 Next 的配置文件`_config.yml`如下：
 ```
   # Valine.
   # You can get your appid and appkey from https://leancloud.cn

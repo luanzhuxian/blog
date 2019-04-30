@@ -27,41 +27,41 @@ date: 2018-12-09 17:46:34
 
 ## 目录结构
 ```
-  ├── .github            #git信息
-  ├── languages          #多语言
-  |   ├── default.yml    #默认语言
-  |   └── zh-Hans.yml    #简体中文
-  ├── layout             #布局，根目录下的*.ejs文件是对主页，分页，存档等的控制
-  |   ├── _custom        #可以自己修改的模板，覆盖原有模板
-  |   |   ├── _header.swig    #头部样式
-  |   |   ├── _sidebar.swig   #侧边栏样式
-  |   ├── _macro        #可以自己修改的模板，覆盖原有模板
-  |   |   ├── post.swig    #文章模板
-  |   |   ├── reward.swig    #打赏模板
-  |   |   ├── sidebar.swig   #侧边栏模板
-  |   ├── _partial       #局部的布局
-  |   |   ├── head       #头部模板
-  |   |   ├── search     #搜索模板
-  |   |   ├── share      #分享模板
-  |   ├── _script        #局部的布局
-  |   ├── _third-party   #第三方模板
-  |   ├── _layout.swig   #主页面模板
-  |   ├── index.swig     #主页面模板
-  |   ├── page           #页面模板
-  |   └── tag.swig       #tag模板
-  ├── scripts            #script源码
-  |   ├── tags           #tags的script源码
-  |   ├── marge.js       #页面模板
-  ├── source             #源码
-  |   ├── css            #css源码
-  |   |   ├── _common    #*.styl基础css
-  |   |   ├── _custom    #*.styl局部css
-  |   |   └── _mixins    #mixins的css
-  |   ├── fonts          #字体
-  |   ├── images         #图片
-  |   ├── js             #javascript源代码
-  |   └── lib            #第三方库
-  ├── _config.yml        #主题配置文件
+  ├── .github            # git信息
+  ├── languages          # 多语言
+  |   ├── default.yml    # 默认语言
+  |   └── zh-Hans.yml    # 简体中文
+  ├── layout             # 布局，根目录下的*.ejs文件是对主页，分页，存档等的控制
+  |   ├── _custom        # 可以自己修改的模板，覆盖原有模板
+  |   |   ├── _header.swig    # 头部样式
+  |   |   ├── _sidebar.swig   # 侧边栏样式
+  |   ├── _macro        # 可以自己修改的模板，覆盖原有模板
+  |   |   ├── post.swig    # 文章模板
+  |   |   ├── reward.swig    # 打赏模板
+  |   |   ├── sidebar.swig   # 侧边栏模板
+  |   ├── _partial       # 局部的布局
+  |   |   ├── head       # 头部模板
+  |   |   ├── search     # 搜索模板
+  |   |   ├── share      # 分享模板
+  |   ├── _script        # 局部的布局
+  |   ├── _third-party   # 第三方模板
+  |   ├── _layout.swig   # 主页面模板
+  |   ├── index.swig     # 主页面模板
+  |   ├── page           # 页面模板
+  |   └── tag.swig       # tag模板
+  ├── scripts            # script源码
+  |   ├── tags           # tags的script源码
+  |   ├── marge.js       # 页面模板
+  ├── source             # 源码
+  |   ├── css            # css源码
+  |   |   ├── _common    # *.styl基础css
+  |   |   ├── _custom    # *.styl局部css
+  |   |   └── _mixins    # mixins的css
+  |   ├── fonts          # 字体
+  |   ├── images         # 图片
+  |   ├── js             # javascript源代码
+  |   └── lib            # 第三方库
+  ├── _config.yml        # 主题配置文件
   └── README.md          
 ```
 
@@ -221,7 +221,7 @@ post_wordcount:
 ```
   // Custom styles.
   body {
-      background-image: url(/images/xxx.png); //动图也可以添加
+      background-image: url(/images/xxx.png); // 动图也可以添加
       background-attachment: fixed; // 不随屏幕滚动而滚动
       background-repeat: repeat; // 如果背景图不够屏幕大小则重复铺，改为no-repeat则表示不重复铺
       background-size: contain; // 等比例铺满屏幕
@@ -377,10 +377,10 @@ user 就写我们豆瓣的 id，可以在我的豆瓣页面中找到。builtin �
 
 - 生成页面：
 ```
-  hexo douban   #生成读书、电影、游戏三个页面
-  hexo douban -b  #生成读书页面
-  hexo douban -m  #生成电影页面
-  hexo douban -g  #生成游戏页面
+  hexo douban   # 生成读书、电影、游戏三个页面
+  hexo douban -b  # 生成读书页面
+  hexo douban -m  # 生成电影页面
+  hexo douban -g  # 生成游戏页面
 ```
 
 - 在博客中生成页面：
@@ -397,7 +397,7 @@ user 就写我们豆瓣的 id，可以在我的豆瓣页面中找到。builtin �
     home: /
     categories: /categories/
     archives: /archives/
-    Books: /books/     #This is your books page
-    Movies: /movies/   #This is your movies page
-    Games: /games/     #This is your games page
+    Books: /books/     # This is your books page
+    Movies: /movies/   # This is your movies page
+    Games: /games/     # This is your games page
 ```
