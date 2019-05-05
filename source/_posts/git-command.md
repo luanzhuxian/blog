@@ -7,9 +7,15 @@ abbrlink: caff8000
 date: 2018-12-09 17:46:34
 ---
 
-# 基本配置命令
+# Git 的工作流程
+<blockquote bgcolor=#FF4500>Git是分布式版本控制系统，每一台客户端都是一个独立的git仓库（有git工作的全套机制）。  
+一个git仓库分为三个区域：
+  1. 工作区：平时写代码的地方
+  2. 暂存区：代码暂时存储的地方
+  3. 历史区：生成版本记录的地方
+</blockquote>
 
-## Git 常用命令速查表
+# 基本配置命令
 
 ## 使用 Git 生成 ssh 密钥
 ```
@@ -17,17 +23,19 @@ date: 2018-12-09 17:46:34
 ```
 
 ## 设置全局用户名和邮箱
+安装完成git后，我们应该先把基础信息配置一下：  
 ```
-  git config --global user.name "YourName"
-  git config --global user.email "email@example.com"
+  git config -l # 查看当前本机的配置清单
+  git config --global user.name "name"
+  git config --global user.email "email@example.com" # github/coding等平台的账号和邮箱
 ```
 
 ## 初始化仓库
-```
-  git init
-```
+在指定目录中，打开命令行，执行`git init`，相当于以当前目录作为基础，创建了一个本地 git 仓库。
+创建完成后，会在项目的根目录中展示`.git`这个隐藏文件：有这个`.git`文件的才叫做 git 仓库（暂存区和历史区都是存在`.git`文件夹）。
 
-## 添加文件到暂存区
+
+## 工作区提交到暂存区
 ```
   git add <filename>	# 添加指定文件到暂存区
   git add .	          # 添加工作区所有文件到暂存区
@@ -35,7 +43,7 @@ date: 2018-12-09 17:46:34
   git add -u	        # 将工作区中已经变动的文件添加到暂存区，当新增加的文件不会被添加
 ```
 
-## 提交文件到仓库
+## 暂存区提交到历史区
 ```
   git commit -m "描述信息"		 # 提交更新
   git commit -am "描述信息"	   # 如果工作目录中仅是已跟踪的文件被修改或被删除，使用此提交命令
@@ -79,6 +87,7 @@ date: 2018-12-09 17:46:34
 ```
   git log
   git log -p	# 显示每次提交文件变化
+  git reflog	# 显示提交历史的简介
 ```
 通过`git log`可以查看当前分支的所有提交历史，知道每次提交的 commit 对象的 ID 以及提交时附加的描述信息等。要显示更多的信息，需要使用其支持的选项，如`git log -p`可以将每次提交的文件变化也显示出来。  
 
@@ -94,26 +103,26 @@ date: 2018-12-09 17:46:34
 ## 查看工作区、暂存区、仓库之间的差异
 ```
   git diff		        # 比较工作区与暂存区的差异
-  git diff HEAD		    # 比较工作区与仓库中最近一次的提交间的差异
-  git diff --cached	  # 比较暂存区与仓库中最近一次提交的差异
+  git diff HEAD		    # 比较工作区与历史区最近一次的提交间的差异
+  git diff --cached	  # 比较暂存区与历史区最近一次提交的差异
   git blame filename	# 可以列出该文件每次被修改的时间和内容。
 ```
 
 ## 版本回退、撤销操作
 ```
   git reflog	                # 显示提交历史的简介
-  git checkout -- filename  	# 丢弃工作区的修改
-  git reset              		  # 将当前HEAD复位到指定状态。一般用于撤消之前的一些操作(如:git add, git commit等)
-  git reset --hard HEAD^		  # 回退到上一个版本
+  git reset              		  # 暂存区中，HEAD复位到指定commit，回滚到暂存区记录的指定commit内容（暂存区先回滚一次，适用于丢弃已提交的内容）
+  git reset --hard HEAD^		  # 回退到上一个版本，即上一次暂存区中记录的内容
   git reset --hard commit_id	# 回退到指定版本
-  git checkout -- filename	  # 恢复工作区被删除的指定文件（文件之前被提交到仓库中）
-  git checkout -f 		        # 恢复工作区中所有被删除的文件(文件之前被提交到仓库中)
+  git checkout .              # 丢弃工作区的所有修改，把最新暂存区的内容回滚到工作区，替换工作区中的内容（适用于丢弃工作区还未提交的内容）
+  git checkout -- filename	  # 丢弃工作区的指定修改
   git ls-files -d			        # 列出工作区被删除的文件（文件之前被提交到仓库中）
 ```
 有时候，由于我们的误操作，产生了一些错误，我们发现后希望能够及时纠正这些因为误操作而产生的结果，将工作目录恢复到某个正常状态。
 - 撤销修改，但还没有添加到暂存区：`git checkout -- filename`修改的文件会被恢复到上次提交时的状态，修改的内容会丢失。
-- 版本回退：先通过`git reflog`找到某个版本的`commit_id`，然后用`git reset --hard commit_id`将工作目录的文件恢复到指定的版本。
-- 恢复工作区中被删除的文件（文件之前被提交到仓库中）：`git checkout -- filename`或`git checkout -f`。
+- 版本回退：先通过`git reflog`找到某个版本的`commit_id`，然后用`git reset --hard commit_id`将工作目录的文件恢复到指定的版本。  
+
+**注意：已经push到远程仓库的 commit 不允许 reset。如果 commit 已经被 push 到远程仓库上了，也就意味着其他开发人员就可能基于这个 commit 形成了新的 commit，这时你去 reset，就会造成其他开发人员的提交历史莫名其妙的丢失，或者其他灾难性的后果。**
 
 ## 备份工作区
 ```
@@ -142,10 +151,10 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
 
 ## 远程仓库的克隆、添加、查看
 ```
-  git remote	                              # 显示已添加的远程仓库
-  git remote -v 	                          # 显示已添加的远程仓库和地址
-  git remote add 远程仓库名 远程仓库地址	     # 在本地添加远程仓库
-  git remote rm 远程仓库名		               	# 删除本地添加的远程仓库
+  git remote	                              # 显示已关联的远程仓库
+  git remote -v 	                          # 显示已关联的远程仓库和地址
+  git remote add 远程仓库名 远程仓库地址	     # 在本地关联远程仓库
+  git remote rm 远程仓库名		               	# 移除本地关联的远程仓库
   git remote rename 原名 新名		             # 重命名远程仓库
   git clone 远程仓库地址 [克隆到指定的文件夹]	# 克隆远程仓库到本地
   git fetch 远程仓库名		                    # 从远程仓库抓取最新数据到本地但不与本地分支进行合并
@@ -155,7 +164,7 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
   git remote show		      	                # 查看所有远程仓库
   git push 远程仓库名 标签名                	# 将标签推送到远程仓库（Git默认不推送标签）
   git rm file_path                          # 删除暂存区或分支上的文件, 同时工作区也不需要这个文件
-  git rm --cached file_path                 # 删除暂存区或分支上的文件, 但本地又需要使用, 只是不希望这个文件被版本控制
+  git rm --cached file_path                 # 删除暂存区或分支上的文件, 已提交额内容也会被删除，但工作区保留
 ```
 
 ## 协同流程
@@ -173,7 +182,22 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
 - commit 之后 push 到自己的库
 - 登录 Github，在你的首页可以看到一个`pull request`按钮，点击它，填写一些说明信息，提交即可
 
-## 多人协作技巧
+# 团队协作
+
+## 创建中央仓库
+中央仓库可能是在：GitHub，Coding，自己公司的 Git 仓库服务平台，自己公司的服务器等...
+1. 基于gitHub创建远程仓库，创建完成后会生成一个远程地址，例如：
+```
+  https//github.com/username/Repository name.git
+```
+2. 还需要把项目中一些基础的信息提交到远程仓库上：
+- 在自己本地创建一个仓库，把一些基础内容都放在仓库中
+- 把新增加的内容提交到本地仓库历史区中
+- 让本地仓库和远程仓库保持关联`git remote add 远程仓库名 远程仓库地址`
+- 把本地仓库历史区中的信息同步（推送）到远程仓库上`git push`
+
+## 克隆远程仓库
+创建完成后远程仓库后，可以直接通过`git clone 仓库地址 [仓库别名]`的方式把远程仓库克隆到本地，相当于在本地创建了一个仓库，也让本地这个仓库和远程仓库保持了连接。团队成员可以创建本地分支在上面开发修改，合并提交等操作:
 - 看远程库信息：使用`git remote -v`；  
 - 在本地创建和远程分支对应的分支：使用`git checkout -b branch-name origin/branch-name`，本地和远程分支的名称最好一致；  
 - 建立本地分支和远程分支的关联：使用`git branch --set-upstream branch-name origin/branch-name`；  
@@ -181,7 +205,7 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
 - 从远程抓取分支：使用`git pull`，如果有冲突，要先处理冲突；  
 - 合并多个 commit 为一个完整 commit：`git rebase -i`。  
 
-避免拉取更新后提交有两条记录：
+## 避免拉取更新后提交有两条记录：
 - 在 pull 之前，先将本地修改存储起来`$ git stash`，
 - 暂存了本地修改之后，就可以 pull 了，
 - 还原暂存的内容，`$ git stash pop stash@{0}`，
