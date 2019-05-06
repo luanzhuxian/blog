@@ -8,12 +8,14 @@ date: 2018-12-09 17:46:34
 ---
 
 # Git 的工作流程
-<blockquote bgcolor=#FF4500>Git是分布式版本控制系统，每一台客户端都是一个独立的git仓库（有git工作的全套机制）。  
-一个git仓库分为三个区域：
-  1. 工作区：平时写代码的地方
-  2. 暂存区：代码暂时存储的地方
-  3. 历史区：生成版本记录的地方
+<blockquote bgcolor=#FF4500>Git 是分布式版本控制系统，每一台客户端都是一个独立的 git 仓库（有 git 工作的全套机制）。  
+一个 git 仓库分为三个区域：
+  1. 工作区：平时写代码的地方。就是你在电脑里能看到的目录。
+  2. 暂存区：代码暂时存储的地方。英文叫 stage 或 index。一般存放在`.git目录`下的 index 文件`.git/index`中，所以我们把暂存区有时也叫作索引 index。
+  3. 历史区(本地仓库版本库)：生成版本记录的地方。工作区有一个隐藏目录 .git，这个不算工作区，而是 Git 的版本库。版本库又名仓库，英文名 repository，你可以简单理解成一个目录，这个目录里面的所有文件都可以被 Git 管理起来，每个文件的修改、删除，Git 都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。
 </blockquote>
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/git-flow_1.png)
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/git-flow_2.png)
 
 # 基本配置命令
 
@@ -38,7 +40,7 @@ date: 2018-12-09 17:46:34
 ## 工作区提交到暂存区
 ```
   git add <filename>	# 添加指定文件到暂存区
-  git add .	          # 添加工作区所有文件到暂存区
+  git add .	          # 添加工作区所有变动到暂存区
   git add -i	        # 交互方式添加文件到暂存区
   git add -u	        # 将工作区中已经变动的文件添加到暂存区，当新增加的文件不会被添加
 ```
@@ -65,6 +67,17 @@ date: 2018-12-09 17:46:34
   git branch -D 要删除的分支名	   # 删除指定分支，不管有没有被合并过
   gitk				                   # 用图形界面查看分支提交历史
 ```
+使用例子：
+```
+  $ git checkout -b [branch]                // 新建一个分支，并切换到该分支
+  $ git branch                              // 命令会列出所有分支，当前分支前面会标一个*号。
+  $ git add .
+  $ git commit -m "提交分支branch"
+  $ git checkout master                     // 切换回master分支
+  $ git merge [branch]                      // 把branch分支合并到master分支
+  $ git branch -d branch                    // 合并完成后删除branch分支
+```
+
 合并分支过程中如果发生冲突则需要自己手动解决冲突，然后再提交。有冲突时，Git 会显示哪个文件有冲突，并在冲突的文件中加上特殊的标识符号，解决完冲突后，要手动去掉这些被添加的标识符号。如果冲突比较复杂的话，最好使用其他工具来协助，通过`git merge tool`来启动。冲突一般是在不同的分支上对同一文件的同一位置内容进行了改动，并已提交到仓库中，这样在合并的时候就会发生冲突。
 
 ## 标签的添加、删除、查看
@@ -111,16 +124,17 @@ date: 2018-12-09 17:46:34
 ## 版本回退、撤销操作
 ```
   git reflog	                # 显示提交历史的简介
-  git reset              		  # 暂存区中，HEAD复位到指定commit，回滚到暂存区记录的指定commit内容（暂存区先回滚一次，适用于丢弃已提交的内容）
+  git reset --hard            # 重置暂存区与工作区，与上一次 commit 保持一致（暂存区先回滚一次，适用于丢弃已提交的内容）
   git reset --hard HEAD^		  # 回退到上一个版本，即上一次暂存区中记录的内容
-  git reset --hard commit_id	# 回退到指定版本
+  git reset --hard commit_id	# 回退到指定版本，重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致
   git checkout .              # 丢弃工作区的所有修改，把最新暂存区的内容回滚到工作区，替换工作区中的内容（适用于丢弃工作区还未提交的内容）
   git checkout -- filename	  # 丢弃工作区的指定修改
   git ls-files -d			        # 列出工作区被删除的文件（文件之前被提交到仓库中）
 ```
 有时候，由于我们的误操作，产生了一些错误，我们发现后希望能够及时纠正这些因为误操作而产生的结果，将工作目录恢复到某个正常状态。
-- 撤销修改，但还没有添加到暂存区：`git checkout -- filename`修改的文件会被恢复到上次提交时的状态，修改的内容会丢失。
-- 版本回退：先通过`git reflog`找到某个版本的`commit_id`，然后用`git reset --hard commit_id`将工作目录的文件恢复到指定的版本。  
+- 丢弃还没有添加到暂存区的，某个文件的修改：`git checkout -- filename`修改的文件会被恢复到上次提交时的状态，修改的内容会丢失。
+- 丢弃已添加到暂存区的，某个文件的修改：先通过`$ git reset HEAD file`回到上面的场景，第二步`git checkout -- filename`。  
+- 已经提交了不合适的修改到版本库，想要撤销本次提交：`$ git reset --hard`。  
 
 **注意：已经push到远程仓库的 commit 不允许 reset。如果 commit 已经被 push 到远程仓库上了，也就意味着其他开发人员就可能基于这个 commit 形成了新的 commit，这时你去 reset，就会造成其他开发人员的提交历史莫名其妙的丢失，或者其他灾难性的后果。**
 
@@ -163,8 +177,8 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
   git remote show 远程仓库名	                # 查看远程仓库信息
   git remote show		      	                # 查看所有远程仓库
   git push 远程仓库名 标签名                	# 将标签推送到远程仓库（Git默认不推送标签）
-  git rm file_path                          # 删除暂存区或分支上的文件, 同时工作区也不需要这个文件
-  git rm --cached file_path                 # 删除暂存区或分支上的文件, 已提交额内容也会被删除，但工作区保留
+  git rm file_path                          # 删除暂存区和工作区上的文件
+  git rm --cached file_path                 # 删除暂存区或分支上的文件, 已提交内容也会被删除，但工作区保留
 ```
 
 ## 协同流程
@@ -182,7 +196,7 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
 - commit 之后 push 到自己的库
 - 登录 Github，在你的首页可以看到一个`pull request`按钮，点击它，填写一些说明信息，提交即可
 
-# 团队协作
+# 多人协作
 
 ## 创建中央仓库
 中央仓库可能是在：GitHub，Coding，自己公司的 Git 仓库服务平台，自己公司的服务器等...
@@ -211,3 +225,28 @@ Git 相比其他版本控制软件的一个优点就是大多数的操作都可�
 - 还原暂存的内容，`$ git stash pop stash@{0}`，
 - 有冲突的话解决冲突
 - 之后提交  
+
+## 避免拉取更新后提交有两条记录：
+在实际开发中，我们应该按照几个基本原则进行分支管理：
+- master 分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；
+- 干活都在 dev 分支上，到某个时候，比如 1.0 版本发布时，再把 dev 分支合并到 master 上，在 master 分支发布 1.0 版本；
+- 团队成员每个人都在 dev 分支上干活，每个人都有自己的分支，时不时地往 dev 分支上合并就可以了。
+
+## Bug分支
+每个bug都可以通过一个新的临时分支来修复，修复后，合并分支，然后将临时分支删除。
+```
+  //我们在dev分支上，发现master分支上有代号101号bug
+  $ git stash                                               // 冷冻现在在dev分支上的工作状态 冻结吧！  
+  $ git checkout master                                     // 这个bug发生在master主分支上,我们切回master分支
+  $ git checkout -b issue-101                               // 创建代号101的修复bug分支
+  修改你的bug
+  $ git add .                                               // 提交到暂存区
+  $ git commit -m "fix bug 101"                             // 注意填写信息，以免日后查证
+  $ git checkout master                                     // 切换回master分支
+  $ git merge --no-ff -m "merged bug fix 101" issue-101     // 合并分支，注意不使用fast forward模式
+  $ git branch -d issue-101                                 // 删除issue-101分支
+  $ git checkout dev                                        // bug 改完了，是时候回到dev继续写bug了
+  $ git stash list                                          // 查看刚刚的冻结现场
+  $ git stash pop                                           // git stash pop，恢复的同时把stash内容也删了
+                                                            // 或者用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除
+```
