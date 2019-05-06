@@ -244,3 +244,56 @@ reduce方法返回值是回调函数最后一次执行返回的累积结果。
     fetch('/comments')
   ])
 ```
+
+# vue 监听数组长度变化
+```
+  var vm = new Vue({
+    el: 'body',
+    data: {
+      list: []
+    },
+    computed: {
+      length () {
+        return this.list.length
+      }
+    },
+    watch: {
+      list: {
+        deep: true,
+        handler (newValue, oldValue) {
+          console.log(newValue.length)
+        }
+      }
+    }
+  })
+```
+
+# vue 监听对象变化
+```
+  var vm = new Vue({
+    el: 'body',
+    data: {
+      items: {}
+    },
+    computed: {
+      isEmpty () {
+        return Object.keys(this.items).length === 0
+      }
+    },
+    watch: {
+      items: {
+        deep: true,
+        handler (newValue, oldValue) {
+          this.isEmpty = Object.keys(newValue).length === 0
+        }
+      }
+    }
+  })
+```
+
+# DOM 节点列表转化成数组的几种方式
+1. for 循环
+2. Array.prototype.slice.call(NodeList)
+3. Array.from(NodeList)
+ES6 为了增加语义的清晰，语法的简洁性。添加了一个新方法 Array.from，用于将 arrayLike 的对象转换成数组。
+4. 数组/对象扩展运算符 arr = [...NodeList]

@@ -31,8 +31,10 @@ vue（vue 2.xx）采用的是`数据劫持`结合`发布者-订阅者模式`的�
 
 1、 实现 Observer  
 将需要 observe 的数据对象进行递归遍历，包括子属性对象的属性，都加上 setter 和 getter。实现一个消息订阅器，维护一个数组，用来收集订阅者，数据变动触发 notify，再调用订阅者的 update 方法。  
+
 2、 实现 Compiler  
 compile 解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图。  
+
 3、 实现 Watcher  
 Watcher 订阅者是 Observer 和 Compiler 之间通信的桥梁。    
 主要做的事情是：
@@ -40,7 +42,7 @@ Watcher 订阅者是 Observer 和 Compiler 之间通信的桥梁。
 - 自身必须有一个 update 方法
 - 待属性变动 dep.notice 通知时，能调用自身的 update 方法，并触发 Compiler 中绑定的回调  
 
-4、 实现MVVM  
+4、 实现 MVVM  
 MVVM 作为数据绑定的入口，整合 Observer、Compiler 和 Watcher 三者，通过 Observer 来监听自己的 model 数据变化，通过 Compiler 来解析编译模板指令，最终利用 Watcher 搭起 Observer 和 Compiler 之间的通信桥梁，达到`数据变化 -> 视图更新`；`视图交互变化(input) -> 数据model变更`的双向绑定效果  
 
 # Vue 的 template 编译
