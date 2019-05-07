@@ -61,17 +61,76 @@ push 方法可向数组的末尾添加一个或多个元素，并返回新的长
 impureAddNumber 里 push 方法是不纯的，而且读取外部的 arr。
 
 # 函数式编程
+函数式编程（以下简称 FP ）凭借其高复用性、易测试性和与之带来的健壮性和简洁开始逐渐占据前端技术圈，我们发现越来越多的前端框架以 FP 为设计核心准则。  
+我们先简单介绍一下 FP，函数式编程的特征主要包括以下几个方面：
+- 函数为“一等公民”
+- 模块化、组合
+- 引用透明
+- 避免状态改变
+- 避免共享状态  
+
+JS 语言中的函数不同于 Java ，C/C++ 等语言, 可以被当做参数和返回值进行传递，因此天生具备“一等公民”特性。“模块化、组合”、“引用透明”、“避免状态改变”、“避免共享状态”这四个特征都需要通过特定代码模式实现。  
+## 分别实现数组所有元素相加、相乘、相与
+非 FP 风格
+```
+  function plus(array) {
+    var res = array[0]
+    for (let i = 1; i < array.length; i++) {
+      res += array[i]
+    }
+  }
+
+  function mul(array) {
+    var res = array[0]
+    for (let i = 1; i < array.length; i++) {
+      res *= array[i]
+    }
+  }
+
+  function and (array) {
+    var res = array[0]
+    for (let i = 1; i < array.length; i++) {
+      res = res & array[i]
+    }
+  }
+
+  plus(array)
+  mul(array)
+  and(array)
+```
+FP 风格
+```
+  var array = [1, 2, 3]
+  var ops = {
+    "plus": (x,y) => x+y,
+    "mul" : (x,y) => x*y,
+    "and" : (x,y) => x&y
+  }
+
+  function operation(op, [head, ...tail]) {
+    return tail.reduce(ops[op], head)
+  }
+
+  operation("plus", array)
+  operation("mul",  array)
+  operation("and",  array)
+```
+
 ```
   var compose = function (f, g) {
     return function (x) {
       return f(g(x))
     }
   }
+
   // 或
   var compose = (f, g) => (x) => f(g(x))
 
+  // 或
+  var compose = (...args) => x => args.reduceRight((value, func) => func(value), x)
+
   var toUpperCase = (x) => x.toUpperCase()
-  var exclaim = (x) => return x + '!'
+  var exclaim = (x) => x + '!'
   var shout = compose(exclaim, toUpperCase)
 
   shout("send in the clowns") //=> "SEND IN THE CLOWNS!"
@@ -80,13 +139,16 @@ impureAddNumber 里 push 方法是不纯的，而且读取外部的 arr。
 ```
   var shout = (x) => exclaim(toUpperCase(x))
 ```
+
 组合函数实现反转数组：
 ```
   var head = x => x[0]
   var reverse = x => x.reduce((arr, x) => [x].concat(arr), [])
   var last = compose(head, reverse)
-  last(['jumpkick', 'roundhouse', 'uppercut']) //=> 'uppercut'
+  last(['jumpkick', 'roundhouse', 'uppercut']) // => 'uppercut'
 ```
+代码从右往左执行，非常清晰明了，一目了然。我们定义的 compose 像 N 面胶一样，可以将任意多个纯函数结合到一起。这种灵活的组合可以让我们像拼积木一样来组合函数式的代码。  
+
 结合律：
 ```
   var associative = compose(f, compose(g, h)) == compose(compose(f, g), h)  // true
@@ -95,200 +157,46 @@ impureAddNumber 里 push 方法是不纯的，而且读取外部的 arr。
   // 或
   compose(compose(toUpperCase, head), reverse)
 ```
-结合律的好处是任何一个函数分组都可以被拆解开来，然后再以他们自己的组合打包在一起，组合成新的函数。下面用到了上面 compose 、head、reverse 函数：
+结合律的好处是任何一个函数分组都可以被拆解开来，然后再以他们自己的组合打包在一起，组合成新的函数。  
+
+下面用到了上面 compose 、head、reverse 函数：
 ```
-var loudLastUpper = compose(exclaim, toUpperCase, head, reverse)
+  var loudLastUpper = compose(exclaim, toUpperCase, head, reverse)
 
-// 或
-var last = compose(head, reverse)
-var loudLastUpper = compose(exclaim, toUpperCase, last)
+  // 或
+  var last = compose(head, reverse)
+  var loudLastUpper = compose(exclaim, toUpperCase, last)
 
-// 或
-var last = compose(head, reverse)
-var angry = compose(exclaim, toUpperCase)
-var loudLastUpper = compose(angry, last)
+  // 或
+  var last = compose(head, reverse)
+  var angry = compose(exclaim, toUpperCase)
+  var loudLastUpper = compose(angry, last)
 
-// 更多变种...
-```
-
-# reduce
-reduce方法返回值是回调函数最后一次执行返回的累积结果。  
-## 使用 reduce 做到同时有 map 和 filter 的作用
-```
-  const numbers = [10, 20, 30, 40]
-  const doubledOver50 = numbers.reduce((finalList, num) => {
-    num = num * 2 // double each number
-    if (num > 50) { // filter number > 50
-      finalList.push(num)
-    }
-    return finalList
-  }, [])
-  doubledOver50 // [60, 80]
+  // 更多变种...
 ```
 
-## 使用 reduce 代替 map
+# 函数单一职责
+函数功能混乱，一个函数包含多个功能
 ```
-  function map (arr, exec) {
-      const res = arr.reduce((res, item, index) => {
-          const newItem = exec(item, index)
-          res.push(newItem)
-          return res
-      }, [])
-      return res
+  function sendEmailToClients(clients) {
+    clients.forEach(client => {
+      const clientRecord = database.lookup(client)
+      if (clientRecord.isActive()) {
+        email(client)
+      }
+    })
+  }
+```
+功能拆解
+```
+  function sendEmailToActiveClients(clients) {
+    clients.filter(isActiveClient).forEach(email)
   }
 
-  [1, 2, 3].map((item) => item * 2) // [2, 4, 6]
-  map([1, 2, 3], item => item * 2) // [2, 4, 6]
-```
-
-## 使用 reduce 代替 filter
-```
-  function filter (arr, exec) {
-    var res = arr.reduce((res, item, index) => {
-        if (exec(item, index)) {
-            res.push(item)
-        }
-        return res
-    }, [])
-    return res
+  function isActiveClient(client) {
+    const clientRecord = database.lookup(client)
+    retuen clientRecord.isActive()
   }
-
-  [1, 2, 3].filter((item, index) => index < 2) // [1, 2]
-  filter([1, 2, 3], (item, index) => index < 2) // [1, 2]
-```
-
-## 使用 redece 来判断括号是否匹配
-这个例子说明 reduce 这个函数功能的强大。给你一串字符串，你想要知道这串字符串的括号是否是匹配。  
-常规的做法是使用栈来匹配，但是这里我们使用 reduce 就可以做到，我们只需要一个变量 counter ，这个变量的初始值是 0 , 当遇到`(`的时候，`counter++`当遇到`)`的时候，`counter--`。 如果括号是匹配的，那么这个 counter 最终的值是 0。
-```
-  //Returns 0 if balanced.
-  const isParensBalanced = (str) => {
-    return str.split('').reduce((counter, char) => {
-      if (counter < 0) { // matched ")" before "("
-        return counter
-      } else if (char === '(') {
-        return ++counter
-      } else if (char === ')') {
-        return --counter
-      } else { // matched some other charreturn counter;
-      }
-    }, 0) // starting value of the counter
-  }
-  isParensBalanced('(())') // 0 <-- balanced
-  isParensBalanced('(asdfds)') //0 <-- balanced
-  isParensBalanced('(()') // 1 <-- not balanced
-  isParensBalanced(')(') // -1 <-- not balanced
-```
-
-## 计算数组中元素出现的次数(将数组转为对象)
-如果你想计算数组中元素出现的次数或者想把数组转为对象，那么你可以使用 reduce 来做到。
-```
-  const cars = ['BMW','Benz', 'Benz', 'Tesla', 'BMW', 'Toyota']
-  const carsObj = cars.reduce((obj, name) => {
-    obj[name] = obj[name] ? ++obj[name] : 1
-    return obj
-  }, {})
-  carsObj // { BMW: 2, Benz: 2, Tesla: 1, Toyota: 1 }
-```
-
-# 对象解构
-## 移除不想要的属性
-```
-  let {_internal, tooBig, ...cleanObject} = {el1: '1', _internal:"secret", tooBig:{}, el2: '2', el3: '3'} // 移除 _internal 和 tooBig 这两个属性
-  cleanObject // {el1: '1', el2: '2', el3: '3'}
-```
-
-## 在函数参数中使用嵌套对象解构
-在这个例子中 engine 是一个嵌套在 car 里面的对象，如果我们只需要 engine 里面的属性 vin 我们可以这样做。
-```
-  const car = {
-    model: 'bmw 2018',
-    engine: {
-      v6: true,
-      turbo: true,
-      vin: 12345
-    }
-  }
-  const modelAndVIN = ({model, engine: {vin}}) => {
-    console.log(`model: ${model} vin: ${vin}`)
-  }
-  modelAndVIN(car) // model: bmw 2018  vin: 12345
-```
-## 合并对象
-扩展运算符...
-```
-  let object1 = { a:1, b:2,c:3 }
-  let object2 = { b:30, c:40, d:50}
-  let merged = {…object1, …object2} //spread and re-add into merged
-```
-
-# Sets
-## 使用 set 来对数组去重
-```
-  let arr = [1, 1, 2, 2, 3, 3]
-  let deduped = [...new Set(arr)] // [1, 2, 3]
-```
-
-## 使用 Array 的方法
-可以通过 (...) 扩展运算符将 Set 转换成 Array 这样我们就可以在 Set 使用所有 Array 的方法了。
-```
-  let mySet = newSet([1,2, 3, 4, 5])
-  const filtered = [...mySet].filter((x) => x > 3) // [4, 5]
-```
-
-# 数组的解构
-## 交换2个值
-```
-  const [post, comments] = Promise.all([
-    fetch('/post'),
-    fetch('/comments')
-  ])
-```
-
-# vue 监听数组长度变化
-```
-  var vm = new Vue({
-    el: 'body',
-    data: {
-      list: []
-    },
-    computed: {
-      length () {
-        return this.list.length
-      }
-    },
-    watch: {
-      list: {
-        deep: true,
-        handler (newValue, oldValue) {
-          console.log(newValue.length)
-        }
-      }
-    }
-  })
-```
-
-# vue 监听对象变化
-```
-  var vm = new Vue({
-    el: 'body',
-    data: {
-      items: {}
-    },
-    computed: {
-      isEmpty () {
-        return Object.keys(this.items).length === 0
-      }
-    },
-    watch: {
-      items: {
-        deep: true,
-        handler (newValue, oldValue) {
-          this.isEmpty = Object.keys(newValue).length === 0
-        }
-      }
-    }
-  })
 ```
 
 # DOM 节点列表转化成数组的几种方式
@@ -297,3 +205,10 @@ reduce方法返回值是回调函数最后一次执行返回的累积结果。
 3. Array.from(NodeList)
 ES6 为了增加语义的清晰，语法的简洁性。添加了一个新方法 Array.from，用于将 arrayLike 的对象转换成数组。
 4. 数组/对象扩展运算符 arr = [...NodeList]
+
+# 是否可迭代
+```
+  if ((typeof arr[Symbol.iterator]).toUpperCase() === 'FUNCTION') {
+
+  }
+```
