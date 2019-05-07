@@ -1,5 +1,5 @@
 ---
-title: js 继承
+title: Javascript 继承
 comments: true
 categories: javascript
 tags: javascript
@@ -200,4 +200,4 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
   console.log(son1.arr)     // [1, 2, 3, 4]
   console.log(son2.arr)     // [1, 2, 3]
 ```
-根据文章开头得知，Object.create 时相当于 new 了一个空函数而不是 new Father()，所以不会重复调用父类的构造函数。而这个空函数又起到了连接创建的新对象和 Father.prototype 的作用，所以最后子类的实例是可以沿原型链找到父类的，可以共享父类原型上的属性方法。
+根据文章开头得知，Object.create 时相当于 new 了一个空函数而不是 new Father()，所以不会重复调用父类的构造函数。而这个空函数又起到了连接创建的新对象（实例）和 Father.prototype 的作用，所以最后子类的实例是可以沿原型链找到父类的，可以共享父类原型上的属性方法。

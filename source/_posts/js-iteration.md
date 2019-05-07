@@ -1,5 +1,5 @@
 ---
-title: js 遍历
+title: Javascript 遍历
 comments: true
 categories: javascript
 tags: javascript
@@ -7,7 +7,7 @@ abbrlink: 6e2a8c6e
 date: 2019-05-07 13:25:04
 ---
 
-# 用好 filter，map，和其它 ES6 新增的高阶遍历函数
+# 使用 filter、map 和其它 ES6 新增的高阶遍历函数
 
 ## 将数组中的 falsy 值去除
 ```
