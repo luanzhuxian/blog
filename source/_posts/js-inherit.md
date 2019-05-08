@@ -8,6 +8,10 @@ date: 2019-05-07 16:44:16
 ---
 # new 一个函数 和 Object.create 都发生了什么
 new 一个构造函数时相当于：
+1. 新生成了一个对象
+2. 链接到原型
+3. 绑定 this
+4. 返回新对象
 ```
   // new Father()
 
@@ -117,15 +121,53 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
   son1.getAge()         // 18
 
   var son2 = new Son("b", 20)
-  son1.getName()        // b
-  son1.getAge()         // 20
+  son2.getName()        // b
+  son2.getAge()         // 20
 
   son1.arr.push(4)
   console.log(son1.arr) // [1, 2, 3, 4]
   console.log(son2.arr) // [1, 2, 3]
 ```
-缺点：
-父构造函数调用了两次，一次在创建子原型对象，另一次在子构造函数内部，复制两次私有属性。  
+缺点：父构造函数调用了两次，一次在创建子原型对象，另一次在子构造函数内部，复制两次私有属性。
+
+# 四、组合继承优化
+```
+  function Father(name) {
+    this.name = name
+    this.arr = [1,2,3]
+  }
+
+  Father.prototype.getName = function () {
+    console.log(this.name)
+  }
+
+  function Son(name, age) {
+    Father.call(this, name)
+    this.age = age
+  }
+
+  Son.prototype = Father.prototype
+  Son.prototype.constructor = Son
+  Son.prototype.getAge = function () {
+    console.log(this.age)
+  }
+
+  var son1 = new Son("a", 18)
+  son1.getName()        // a
+  son1.getAge()         // 18
+
+  var son2 = new Son("b", 20)
+  son2.getName()        // b
+  son2.getAge()         // 20
+
+  son1.arr.push(4)
+  console.log(son1.arr) // [1, 2, 3, 4]
+  console.log(son2.arr) // [1, 2, 3]
+
+  console.log(Son.prototype.constructor) // Son
+  console.log(Father.prototype.constructor) // Son
+```
+缺点：父类的构造器出现了紊乱，指向子构造函数。  
 
 # 四、寄生式继承
 ```
