@@ -170,6 +170,11 @@ getter 或 setter 函数都会把 this 绑定到设置或获取属性的对象�
   b() // undefined, 0
   a.test()  // 1, 2
 
+  // ES5中，顶层对象的属性等价于全局变量
+  // ES6中，var、function声明的全局变量，依然是顶层对象的属性；let、const、class声明的全局变量不属于顶层对象的属性，也就是说ES6开始，全局变量和顶层对象的属性开始分离。
+  var b = a.test
+  b() // ƒ test () {}, 0
+
   let c = {
     b: 3,
     length: 4,
