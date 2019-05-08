@@ -279,37 +279,232 @@ ES6 为了增加语义的清晰，语法的简洁性。添加了一个新方法 
   }
 ```
 
+
 # 闭包
 ## 防抖
-不管你触发多少次，都等到你最后触发后过一段你指定的时间才触发。
+当持续触发事件时，debounce 会合并事件且不会去触发事件，当一段时间内没有再次触发这个事件时，才真正去触发事件。  
+
+非立即执行版
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/debounce_1.png)
+非立即执行版是触发事件后函数不会立即执行，而是在 n 秒后执行，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。
 ```
-  function debounce(func, wait) {
+  function debounce(func, wait, ...args) {
     var timer
-    return function() {
+    return function () {
       var context = this
-      var args = arguments
+      // var args = arguments
       clearTimeout(timer)
-      timer = setTimeout(function() {
+      timer = setTimeout(() => {
         func.apply(context, args)
       }, wait)
     }
   }
 ```
 
-## 节流
-不管怎么触发，都是按照指定的间隔来执行。
+立即执行版
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/debounce_2.png)
+立即执行版是触发事件后函数会立即执行，然后 n 秒内不触发事件才能继续执行。
 ```
-  function throttle(func, wait) {
+  const debounce = (func, wait, ...args) => {
+    let timer
+    return function (){
+      const context = this
+      if (timer) cleatTimeout(timer)
+      let callNow = !timer
+      timer = setTimeout(() => {
+        timer = null
+      },wait)
+
+      if(callNow) func.apply(context,args)
+    }
+  }
+```
+
+结合版
+```
+  /**
+  * @desc 函数防抖
+  * @param func 函数
+  * @param wait 延迟执行毫秒数
+  * @param immediate true 表立即执行，false 表非立即执行
+  */
+  function debounce(func, wait, immediate) {
+    var timer
+
+    return function () {
+      var context = this
+      var args = arguments
+
+      if (timer) clearTimeout(timer)
+      if (immediate) {
+        var callNow = !timer
+        timer = setTimeout(function(){
+          timer = null
+        }, wait)
+        if (callNow) func.apply(context, args)
+      } else {
+        timer = setTimeout(function(){
+          func.apply(context, args)
+        }, wait)
+      }
+    }
+  }
+```
+
+underscore 源码
+```
+  /**
+   * underscore 防抖函数，返回函数连续调用时，空闲时间必须大于或等于 wait，func 才会执行
+   *
+   * @param  {function} func        回调函数
+   * @param  {number}   wait        表示时间窗口的间隔
+   * @param  {boolean}  immediate   设置为ture时，是否立即调用函数
+   * @return {function}             返回客户调用函数
+   */
+  _.debounce = function(func, wait, immediate) {
+      var timeout, args, context, timestamp, result
+
+      var later = function() {
+        // 现在和上一次时间戳比较
+        var last = _.now() - timestamp
+        // 如果当前间隔时间少于设定时间且大于0就重新设置定时器
+        if (last < wait && last >= 0) {
+          timeout = setTimeout(later, wait - last)
+        } else {
+          // 否则的话就是时间到了执行回调函数
+          timeout = null
+          if (!immediate) {
+            result = func.apply(context, args)
+            if (!timeout) context = args = null
+          }
+        }
+      }
+
+      return function() {
+        context = this
+        args = arguments
+        // 获得时间戳
+        timestamp = _.now()
+        // 如果定时器不存在且立即执行函数
+        var callNow = immediate && !timeout
+        // 如果定时器不存在就创建一个
+        if (!timeout) timeout = setTimeout(later, wait)
+        if (callNow) {
+          // 如果需要立即执行函数的话 通过 apply 执行
+          result = func.apply(context, args)
+          context = args = null
+        }
+
+        return result
+      }
+    }
+```
+
+
+## 节流
+throttle（节流），当持续触发事件时，保证隔间时间触发一次事件。  
+持续触发事件时，throttle 会合并一定时间内的事件，并在该时间结束时真正去触发一次事件。  
+
+时间戳版
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/throttle_1.png)
+在持续触发事件的过程中，函数会立即执行，并且每间隔时间执行一次。
+```
+  const throttle = (func, wait, ...args) => {
+    let pre = 0
+    return function(){
+      const context = this
+      let now = Date.now()
+      if (now - pre >= wait){
+         func.apply(context, args)
+         pre = Date.now()
+      }
+    }
+  }
+```
+
+定时器版
+![avatar](http://pqg06rxde.bkt.clouddn.com/blog/throttle_2.png)
+函数不会立即执行，并且每间隔时间执行一次，在停止触发事件后，函数会执行一次。
+```
+  function throttle(func, wait, ...args) {
     var timer
     return function() {
       var context = this
-      var args = arguments
       if (!timer) {
-        timer = setTimeout(function () {
+        timer = setTimeout(() => {
           timer = null
           func.apply(context, args)
         }, wait)
       }
+    }
+  }
+```
+
+underscore 源码
+```
+  /**
+  * underscore 节流函数，返回函数连续调用时，func 执行频率限定为 次 / wait
+  *
+  * @param  {function}   func      回调函数
+  * @param  {number}     wait      表示时间窗口的间隔
+  * @param  {object}     options   如果想忽略开始函数的的调用，传入{leading: false}。
+  *                                如果想忽略结尾函数的调用，传入{trailing: false}
+  *                                两者不能共存，否则函数不能执行
+  * @return {function}             返回客户调用函数   
+  */
+  _.throttle = function(func, wait, options) {
+    var context, args, result
+    var timeout = null
+    // 之前的时间戳
+    var previous = 0
+    // 如果 options 没传则设为空对象
+    if (!options) options = {}
+    // 定时器回调函数
+    var later = function() {
+      // 如果设置了 leading，就将 previous 设为 0
+      // 用于下面函数的第一个 if 判断
+      previous = options.leading === false ? 0 : _.now()
+      // 置空一是为了防止内存泄漏，二是为了下面的定时器判断
+      timeout = null
+      result = func.apply(context, args)
+      if (!timeout) context = args = null
+    };
+    return function() {
+      // 获得当前时间戳
+      var now = _.now()
+      // 首次进入前者肯定为 true
+    // 如果需要第一次不执行函数
+    // 就将上次时间戳设为当前的
+      // 这样在接下来计算 remaining 的值时会大于0
+      if (!previous && options.leading === false) previous = now
+      // 计算剩余时间
+      var remaining = wait - (now - previous)
+      context = this
+      args = arguments
+      // 如果当前调用已经大于上次调用时间 + wait
+      // 或者用户手动调了时间
+    // 如果设置了 trailing，只会进入这个条件
+    // 如果没有设置 leading，那么第一次会进入这个条件
+    // 还有一点，你可能会觉得开启了定时器那么应该不会进入这个 if 条件了
+    // 其实还是会进入的，因为定时器的延时
+    // 并不是准确的时间，很可能你设置了2秒
+    // 但是他需要2.2秒才触发，这时候就会进入这个条件
+      if (remaining <= 0 || remaining > wait) {
+        // 如果存在定时器就清理掉否则会调用二次回调
+        if (timeout) {
+          clearTimeout(timeout)
+          timeout = null
+        }
+        previous = now
+        result = func.apply(context, args)
+        if (!timeout) context = args = null
+      } else if (!timeout && options.trailing !== false) {
+        // 判断是否设置了定时器和 trailing
+      // 没有的话就开启一个定时器
+        // 并且不能不能同时设置 leading 和 trailing
+        timeout = setTimeout(later, remaining)
+      }
+      return result
     }
   }
 ```

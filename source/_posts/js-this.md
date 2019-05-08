@@ -11,16 +11,16 @@ date: 2019-05-08 10:34:32
 试想下面代码如果不使用 this 应该怎么写：
 ```
   function speak(){
-      var name = this.name
-      console.log(`Hello I am ${name}`)
+    var name = this.name
+    console.log(`Hello I am ${name}`)
   }
   var me = {
-      name: 'a',
-      speak: speak
+    name: 'a',
+    speak: speak
   }
   var you = {
-      name: 'b',
-      speak: speak
+    name: 'b',
+    speak: speak
   }
   me.speak()  //Hello I am a
   you.speak()  //Hello I am b
@@ -102,7 +102,7 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
   }
   function bind(fn, obj) {
     return function() {
-        return fn.apply(obj, arguments)
+      return fn.apply(obj, arguments)
     }
   }
   var obj = { a:2 }
@@ -126,9 +126,9 @@ js 中 new 与传统的面向类的语言机制不同，js中的构造函数其�
 ```
   function foo() {
     var self = this
-    setTimeout( function(){
-        console.log( self )
-    }, 100 )
+    setTimeout(function(){
+      console.log( self )
+    }, 100)
   }
 ```
 
