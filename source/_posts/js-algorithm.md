@@ -1,8 +1,8 @@
 ---
 title: JavaScript 中的算法
 comments: true
-categories: javaScript
-tags: javaScript
+categories: javascript
+tags: javascript
 abbrlink: d13db1cc
 date: 2019-05-06 17:37:27
 ---
