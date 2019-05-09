@@ -1,5 +1,5 @@
 ---
-title: Javascript 中的 this
+title: JavaScript 中的 this
 comments: true
 categories: javascript
 tags: javascript
@@ -28,10 +28,11 @@ date: 2019-05-08 10:34:32
 this 可以在同一个执行环境中使用不同的上下文对象。它其实提供了一种更加优雅的方式来隐式传递一个对象引用，因此可以使 API 设计的更加简洁且易于复用。
 
 # this 指向谁
+人们很容易把 this 理解成指向函数自身，其实 this 的指向在函数定义阶段是无法确定的，只有函数执行时才能确定 this 到底指向谁，实际上 this 的最终指向是调用它的那个对象。  
 <blockquote bgcolor=#FF4500>当一个函数被调用时，会创建一个活动记录（执行上下文）。这个记录会包含函数在哪里被调用（调用栈）、函数的调用方法、传入的参数等信息，this 也是其中的一个属性。</blockquote>
 this 是运行时绑定的，所以取决于函数的执行上下文。确定 this 指向就是确定函数的执行上下文，也就是谁调用的它，有以下几种判断方式：
 
-## 独立函数调用
+## 独立函数调用（默认绑定）
 这种直接调用的方式 this 指向全局对象，如果是在浏览器就指向 window。
 ```
   function foo(){
@@ -39,6 +40,21 @@ this 是运行时绑定的，所以取决于函数的执行上下文。确定 th
   }
   var a = 2
   foo()  // 2
+```
+for 循环中的`foo(i)`调用它的对象是 window，等价于`window.foo(i)`，因此函数 foo 里面的`this.count++`的 this 指向的是 window。
+```
+  function foo(num){
+    console.log("foo: " + num)
+    this.count++  //记录foo被调用次数
+  }
+
+  foo.count = 0
+  for(let i=0; i<10; i++){
+    if(i > 5){
+        foo(i)
+    }
+  }
+  console.log(foo.count) // 0
 ```
 
 ## 对象上下文（隐式绑定）
@@ -94,6 +110,19 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
 
 ## 显式绑定
 显式绑定的说法是和隐式绑定相对的，指的是通过 call、apply、bind 显式地更改 this 指向。这三个方法第一个参数是 this 要指向的对象。  
+```
+  function fruit (){
+      console.log(this.name, arguments);
+  }
+  var apple = {
+      name: '苹果'
+  }
+  var banana = {
+      name: '香蕉'
+  }
+  fruit.call(banana, banana, apple)  // 香蕉 { '0': { name: '香蕉' }, '1': { name: '苹果' } }
+  fruit.apply(apple, [banana, apple]) // 苹果 { '0': { name: '香蕉' }, '1': { name: '苹果' } }
+```
 这三个方法中的 bind 方法比较特殊，它可以延迟方法的执行，这可以让我们写出更加灵活的代码。它的原理也很容易模拟：
 ```
   function foo(something) {
@@ -121,7 +150,24 @@ js 中 new 与传统的面向类的语言机制不同，js中的构造函数其�
 其中，第三步绑定了 this，所以构造函数和原型中的 this 永远指向 new 出来的实例。
 
 ## 箭头函数中的 this
-箭头函数不是通过 function 关键字定义的，也不使用上面的 this 规则，而是继承外层作用域中的 this 指向。  
+箭头函数并非使用 function 关键字进行定义，也不会使用上面的 this 标准规范，而是继承外层作用域、函数调用中的 this 绑定。
+
+执行 fruit.call(apple)时，箭头函数this已被绑定，无法再次被修改：  
+```
+  function fruit(){
+    return () => {
+        console.log(this.name)
+    }
+  }
+  var apple = {
+    name: '苹果'
+  }
+  var banana = {
+    name: '香蕉'
+  }
+  var fruitCall = fruit.call(apple)
+  fruitCall.call(banana) // 苹果
+```
 其实以前虽然没有箭头函数，我们也经常做和箭头函数一样效果的事情，比如说：
 ```
   function foo() {

@@ -1,5 +1,5 @@
 ---
-title: Javascript 遍历
+title: JavaScript 遍历
 comments: true
 categories: javascript
 tags: javascript

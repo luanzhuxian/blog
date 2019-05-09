@@ -1,5 +1,5 @@
 ---
-title: Javascript 继承
+title: JavaScript 继承
 comments: true
 categories: javascript
 tags: javascript
