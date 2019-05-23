@@ -223,7 +223,7 @@ foo 弹出后，代码就运行到了打印 bar 到控制台的部分。此刻�
 
   function second() {
     var name = 'Jake'
-  	console.log(name)
+    console.log(name)
   }
 
   console.log(name)

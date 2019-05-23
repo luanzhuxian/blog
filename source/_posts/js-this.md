@@ -207,6 +207,7 @@ getter 或 setter 函数都会把 this 绑定到设置或获取属性的对象�
     b: 1,
     length: 2,
     test () {
+      console.log(this)
       console.log(this.b)
       console.log(this.length)
     }
@@ -225,14 +226,46 @@ getter 或 setter 函数都会把 this 绑定到设置或获取属性的对象�
     b: 3,
     length: 4,
     test () {
-      b()
+      b()     // 直接调用 this 永远指向 window
       a.test()
       a.test.apply(arguments)
     }
   }
 
   let d = c.test
-  d() // undefined, 0, 1, 2, undefined, 0
-  c.test() // undefined, 0, 1, 2, undefined, 0
-  c.test(1) // undefined, 0, 1, 2, undefined, 1
+  d()      // window, undefined, 0,
+              { b: 1, length: 2, test: ƒ }, 1, 2,
+              Arguments, undefined, 0
+
+  c.test() // window, undefined, 0,
+              { b: 1, length: 2, test: ƒ }, 1, 2,
+              Arguments, undefined, 0
+
+  c.test(1) // window, undefined, 0,
+               { b: 1, length: 2, test: ƒ }, 1, 2,
+               Arguments, undefined, 1
+```
+
+```
+  function x() {
+    console.log(this)
+  }
+
+  const y = {
+    name: 'y',
+    run () {
+      x()
+    }
+  }
+
+  const z = {
+    name: 'z'
+  }
+
+  y.run() //  window
+
+  x.apply(z)  //  {name: "z"}
+
+  z.run = x
+  z.run()     //  {name: "z", run: ƒ}
 ```

@@ -426,7 +426,7 @@ impureAddNumber 里 push 方法是不纯的，而且读取外部的 arr。
         timer = null
       },wait)
 
-      if(callNow) func.apply(context,args)
+      if(callNow) func.apply(context, args)
     }
   }
 ```
