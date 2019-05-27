@@ -392,6 +392,24 @@ impureAddNumber 里 push 方法是不纯的，而且读取外部的 arr。
 
 # 闭包
 虽然函数早已返回而且已经在内存中执行垃圾回收。但是它的变量还是以某种方式保持存活。
+## 保存当前 this 的引用
+```
+  class Bar {
+    constructor (name) {
+      this.name = name
+    }
+    getName () {
+      let that = this
+      setTimeout(function() {
+          console.log(that.name)
+      }, 1000)
+    }
+  }
+
+  conts bar = new Bar('bar')
+  bar.getName() //  'bar'
+```
+
 ## 防抖
 当持续触发事件时，debounce 会合并事件且不会去触发事件，当一段时间内没有再次触发这个事件时，才真正去触发事件。  
 

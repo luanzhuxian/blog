@@ -10,18 +10,21 @@ date: 2019-05-08 10:34:32
 # 为什么要用 this
 试想下面代码如果不使用 this 应该怎么写：
 ```
-  function speak(){
+  function speak() {
     var name = this.name
     console.log(`Hello I am ${name}`)
   }
+
   var me = {
     name: 'a',
     speak: speak
   }
+
   var you = {
     name: 'b',
     speak: speak
   }
+
   me.speak()  //Hello I am a
   you.speak()  //Hello I am b
 ```
@@ -35,22 +38,23 @@ this 是运行时绑定的，所以取决于函数的执行上下文。确定 th
 ## 独立函数调用（默认绑定）
 这种直接调用的方式 this 指向全局对象，如果是在浏览器就指向 window。
 ```
-  function foo(){
+  var a = 2
+  function foo() {
     console.log(this.a)
   }
-  var a = 2
+
   foo()  // 2
 ```
 for 循环中的`foo(i)`调用它的对象是 window，等价于`window.foo(i)`，因此函数 foo 里面的`this.count++`的 this 指向的是 window。
 ```
-  function foo(num){
+  function foo(num) {
     console.log("foo: " + num)
     this.count++  //记录foo被调用次数
   }
 
   foo.count = 0
-  for(let i=0; i<10; i++){
-    if(i > 5){
+  for (let i=0; i<10; i++) {
+    if (i > 5) {
         foo(i)
     }
   }
@@ -63,10 +67,12 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
   function foo() {
     console.log(this.a)
   }
+
   var obj = {
     a: 2,
     foo: foo
   }
+
   obj.foo() // 2
 ```
 这里有两个问题：
@@ -79,10 +85,12 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
   function foo() {
     console.log(this.a)
   }
+
   var obj = {
     a: 2,
     foo: foo
   }
+
   var bar = obj.foo
   var a = "xxxxx"
   bar() // xxxxx
@@ -92,16 +100,18 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
     function foo() {
       console.log(this.a)
     }
+
     var obj = {
       a: 2,
       foo: foo
     }
+
     var a = "xxxxx"
     setTimeout(obj.foo, 100) // xxxxx
   ```
   我们看到，回调函数虽然是通过 obj 引用的，但是 this 也不是 obj 了。其实内置的 setTimeout() 函数实现和下面的伪代码类似：
   ```
-    function setTimeout(fn, delay){
+    function setTimeout(fn, delay) {
       //等待delay毫秒
       fn()
     }
@@ -111,15 +121,18 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
 ## 显式绑定
 显式绑定的说法是和隐式绑定相对的，指的是通过 call、apply、bind 显式地更改 this 指向。这三个方法第一个参数是 this 要指向的对象。  
 ```
-  function fruit (){
+  function fruit() {
       console.log(this.name, arguments);
   }
+
   var apple = {
       name: '苹果'
   }
+
   var banana = {
       name: '香蕉'
   }
+
   fruit.call(banana, banana, apple)  // 香蕉 { '0': { name: '香蕉' }, '1': { name: '苹果' } }
   fruit.apply(apple, [banana, apple]) // 苹果 { '0': { name: '香蕉' }, '1': { name: '苹果' } }
 ```
@@ -129,11 +142,13 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
     console.log(this.a, something)
     return this.a + something
   }
+
   function bind(fn, obj) {
     return function() {
       return fn.apply(obj, arguments)
     }
   }
+
   var obj = { a:2 }
   var bar = bind(foo, obj)
   var b = bar(3) // 2 3
@@ -154,18 +169,22 @@ js 中 new 与传统的面向类的语言机制不同，js中的构造函数其�
 
 执行 fruit.call(apple)时，箭头函数this已被绑定，无法再次被修改：  
 ```
-  function fruit(){
+  function fruit() {
     return () => {
         console.log(this.name)
     }
   }
+
   var apple = {
     name: '苹果'
   }
+
   var banana = {
     name: '香蕉'
   }
+
   var fruitCall = fruit.call(apple)
+
   fruitCall.call(banana) // 苹果
 ```
 其实以前虽然没有箭头函数，我们也经常做和箭头函数一样效果的事情，比如说：
@@ -184,6 +203,7 @@ getter 或 setter 函数都会把 this 绑定到设置或获取属性的对象�
   function sum() {
     return this.a + this.b + this.c;
   }
+
   var o = {
     a: 1,
     b: 2,
@@ -192,6 +212,7 @@ getter 或 setter 函数都会把 this 绑定到设置或获取属性的对象�
       return (this.a + this.b + this.c) / 3;
     }
   }
+
   Object.defineProperty(o, 'sum', { get: sum, enumerable: true, configurable: true} )
   console.log(o.average, o.sum) // 2, 6
 ```
