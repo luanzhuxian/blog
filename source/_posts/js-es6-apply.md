@@ -14,8 +14,19 @@ date: 2019-05-07 12:52:11
 # 对象解构
 ## 移除不想要的属性
 ```
-  let { _internal, tooBig, ...cleanObject } = { el1: '1', _internal: "secret", tooBig: {}, el2: '2', el3: '3' } // 移除 _internal 和 tooBig 这两个属性
-  cleanObject // { el1: '1', el2: '2', el3: '3' }
+  // 移除 _internal 和 tooBig 这两个属性
+  let {
+    _internal,
+    tooBig,
+    ...cleanObject
+  } = {
+    _internal: "secret",
+    tooBig: {},
+    el1: '1',
+    el2: '2',
+    el3: '3'
+  }
+  console.log(cleanObject) // { el1: '1', el2: '2', el3: '3' }
 ```
 ```
   let obj = {
