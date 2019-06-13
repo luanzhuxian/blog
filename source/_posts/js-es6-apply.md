@@ -26,6 +26,7 @@ date: 2019-05-07 12:52:11
     el2: '2',
     el3: '3'
   }
+
   console.log(cleanObject) // { el1: '1', el2: '2', el3: '3' }
 ```
 ```
@@ -45,6 +46,7 @@ date: 2019-05-07 12:52:11
     ...rest2,
     age: Number(age)
   }
+
   console.log(rest1)  //  { name: 'peter', gender: 'male' }
   console.log(rest2)  //  { height: '180', weight: '160' }
   console.log(person)  //  { name: 'peter', gender: 'male', height: '180', weight: '160', age: 28 }
@@ -61,9 +63,11 @@ date: 2019-05-07 12:52:11
       vin: 12345
     }
   }
+
   const modelAndVIN = ({ model, engine: { vin } }) => {
     console.log(`model: ${model} vin: ${vin}`)
   }
+
   modelAndVIN(car) // model: bmw 2018  vin: 12345
 ```
 
@@ -137,18 +141,20 @@ date: 2019-05-07 12:52:11
     }
   }, {})
 
-  console.log(result);
+  console.log(result)
   /* 输出
-  Berlin: "no"
-  Genoa: "yes"
-  Hamburg: "yes"
-  Lyon: "no"
-  Marseille: "yes"
-  Milan: "no"
-  New York: "yes"
-  Palermo: "yes"
-  Paris: "no"
-  Rome: "yes"
+  {
+    Berlin: "no"
+    Genoa: "yes"
+    Hamburg: "yes"
+    Lyon: "no"
+    Marseille: "yes"
+    Milan: "no"
+    New York: "yes"
+    Palermo: "yes"
+    Paris: "no"
+    Rome: "yes"
+  }
   */
 ```
 
