@@ -212,3 +212,106 @@ date: 2019-05-07 12:52:11
   console.log(map.get('b'))
   console.log(map.get('c'))
 ```
+
+# 模板字符串
+如果这样做的话：
+```
+  const string = `First
+                  Second`
+```
+那么它会创建出像下面的字符串：
+```
+  First
+                  Second
+```
+有一个简单的方法可以修复这个问题，只需要将第一行置为空，然后添加了右边的翻译好后调用一个 trim() 方法，就可以消除第一个字符前的所有空格：
+```
+  const string = `
+  First
+  Second`.trim()
+```
+
+# 对象方法
+## Object.is() 确定两个值是不是同一个
+```
+  Object.is(a, b)
+```
+
+# 扩展运算符
+用在字符串上的时候，展开操作符会以字符串中的每一个字符创建一个数组：
+```
+  const hey = 'hey'
+  const arrayized = [...hey] // ['h', 'e', 'y']
+```
+## 不定参数
+在之前的语法规范中，你只能通过`fn.apply(null, arr)`的方式来实现，但是这种方式不是很友好和易读。
+```
+  const arr = [1, 3, 0, -1, 20, 100]
+  Math.max.apply(null, arr) // 100
+```
+```
+  const array = [1, 2, 3, 4, 5]
+  function fn() {
+    console.log(arguments)
+  }
+  fn.apply(null, array) // Arguments(5) [0: 1, 1: 2, 2: 3, 3: 4, 4: 5]
+```
+现在，剩余参数（rest element）在和数组解构（array destructuring）搭配使用来实现。
+```
+  const array = [1, 2, 3, 4, 5]
+  const fn = (foo, bar, ...rest) => {
+    console.log(rest)
+  }
+  fn(...array)  // [3, 4, 5]
+```
+
+# Generators
+一个解释generator如何工作的例子：
+```
+  function *calculator(input) {
+    var doubleThat = 2 * (yield (input / 2))
+    var another = yield (doubleThat)
+    return (input * doubleThat * another)
+  }
+```
+我们先初始化它：``
+```
+  const calc = calculator(10)
+```
+然后我们在generator中开始进行iterator迭代：
+```
+  calc.next()
+
+  //
+  {
+    done: false,
+    value: 5
+  }
+```
+具体过程如下：代码运行了函数，并把`input=10`传入到生成器构造函数中，该函数一直运行直到抵达 yield，并返回 yield 输出的内容: `input / 2 = 5`，因此，我们得到的值为5，并告知迭代器还没有 done (函数只是暂停了)。  
+
+在第二个迭代处，我们输入7：
+```
+  {
+    done: false
+    value: 14
+  }
+```
+7被作为 doubleThat 的值，注意：你可能会把`input/2`作为输入参数，但这只是第一次迭代的返回值。现在我们忽略它，使用新的输入值7，并将其乘以2。
+然后，我们得到第二个 yield 的值，它返回 doubleThat，因此返回值为14。  
+
+之后，也是最后一个迭代器，我们输入100：
+```
+  calc.next(100)
+
+  //
+  {
+    done: true
+    value: 14000
+  }
+```
+当迭代器完成时(没有更多的 yield 关键字)，我们返回 input doubleThat another，这相当于`10 * 14 * 100`。
+
+
+# Iterator
+[Iterator](https://luanzhuxian.github.io/post/8aa98d9.html)  

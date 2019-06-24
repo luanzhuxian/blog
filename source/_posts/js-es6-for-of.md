@@ -14,13 +14,15 @@ date: 2019-04-29 17:20:20
 # Iterator 接口
 Iterator 接口的目的，就是为所有数据结构，提供了一种统一的访问机制，即`for…of`循环。当使用`for…of`循环遍历某种数据结构时，该循环会自动去寻找 Iterator 接口。一种数据结构只要部署了 Iterator 接口，我们就称这种数据结构是“可遍历的”（iterable）。  
 
-ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`属性，或者说，一个数据结构只要具有`Symbol.iterator`属性，就可以认为是“可遍历的”（iterable）。`Symbol.iterator`属性本身是一个函数，就是当前数据结构默认的遍历器生成函数。执行这个函数，就会返回一个遍历器。至于属性名`Symbol.iterator`，它是一个表达式，返回 Symbol 对象的 iterator 属性，这是一个预定义好的、类型为 Symbol 的特殊值，所以要放在方括号内。  
+ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`属性，或者说，一个数据结构只要具有`Symbol.iterator`属性，就可以认为是“可遍历的”（iterable）。  
+
+`Symbol.iterator`属性本身是一个函数，就是当前数据结构默认的遍历器生成函数。执行这个函数，就会返回一个遍历器。至于属性名`Symbol.iterator`，它是一个表达式，返回 Symbol 对象的 iterator 属性，这是一个预定义好的、类型为 Symbol 的特殊值，所以要放在方括号内。  
 
 ```
   const obj = {
-    [Symbol.iterator] : function () {
+    [Symbol.iterator] () {
       return {
-        next: function () {
+        next () {
           return {
             value: 1,
             done: true
@@ -30,7 +32,43 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`�
     }
   };
 ```
-下面是原生具备 Iterator 接口的数据结构：  
+
+对象进行for...of循环时，会调用Symbol.iterator方法，返回该对象的默认遍历器：
+```
+  // Generator
+
+  class Collection {
+    *[Symbol.iterator] () {
+      let i = 0
+      while(this[i] !== undefined) {
+        yield this[i]
+        ++i
+      }
+    }
+  }
+
+  let myCollection = new Collection()
+  myCollection[0] = 1
+  myCollection[1] = 2
+  for(let value of myCollection) {
+    console.log(value)
+  }
+  // 1
+  // 2
+```
+
+由于`Generator`函数就是遍历器生成函数，因此可以把`Generator`赋值给对象的`Symbol.iterator`属性，从而使得该对象具有`Iterator`接口。
+```
+  var myIterable = {}
+  myIterable[Symbol.iterator] = function* () {
+    yield 1
+    yield 2
+    yield 3
+  }
+  [...myIterable] // [1, 2, 3]
+```
+
+下面是原生具备`Iterator`接口的数据结构：
 - Array
 - Map
 - Set
@@ -40,7 +78,7 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`�
 - NodeList 对象  
 
 也就是数组和类数组才有`Symbol.iterator`属性，而 Object 是没有的。  
-那么怎么做到使对象可遍历？
+那么怎么做到使`对象可遍历`？
 
 # 方法一：部署 Iterator 接口（在 Symbol.iterator 的属性上部署遍历器生成方法）
 一个对象如果要具备可被`for…of`循环调用的 Iterator 接口，就必须在`Symbol.iterator`的属性上部署遍历器生成方法（原型链上的对象具有该方法也可）。

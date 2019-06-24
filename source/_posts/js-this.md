@@ -156,7 +156,7 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
 ```
 
 ## new 绑定
-js 中 new 与传统的面向类的语言机制不同，js中的构造函数其实和普通函数没有任何区别。其实当我们使用new来调用函数的时候，发生了下列事情：
+js 中 new 与传统的面向类的语言机制不同，js 中的构造函数其实和普通函数没有任何区别。其实当我们使用 new 来调用函数的时候，发生了下列事情：
 - 创建一个全新的对象
 - 这个新对象会被执行原型链接
 - 这个新对象会被绑定到调用的this
@@ -165,13 +165,19 @@ js 中 new 与传统的面向类的语言机制不同，js中的构造函数其�
 其中，第三步绑定了 this，所以构造函数和原型中的 this 永远指向 new 出来的实例。
 
 ## 箭头函数中的 this
-箭头函数并非使用 function 关键字进行定义，也不会使用上面的 this 标准规范，而是继承外层作用域、函数调用中的 this 绑定。
+箭头函数自身不绑定 this，箭头函数并非使用 function 关键字进行定义，也不会使用上面的 this 标准规范，而是<font color=red>继承外层作用域、函数调用中的 this 绑定</font>。由于箭头中的 this 的<font color=red>作用域继承自执行上下文</font>，因此 this 的值将在<font color=red>调用堆栈中查找</font>。  
 
-执行 fruit.call(apple)时，箭头函数this已被绑定，无法再次被修改：  
+- 没有`this、super、arguments、new.target`绑定，由外围最近一层非箭头函数决定。  
+- 不能通过new关键字调用  
+箭头函数没有`[[Construct]]`，所以不能用作构造函数
+- 没有原型
+因为不能通过 new 关键字调用，没有构造原型的需求，所以箭头函数不存在 prototype 属性
+- 不可以改变 this 的绑定
+执行`fruit.call(apple)`时，箭头函数 this 已被绑定，无法再次被修改：  
 ```
   function fruit() {
     return () => {
-        console.log(this.name)
+      console.log(this.name)
     }
   }
 
@@ -187,7 +193,43 @@ js 中 new 与传统的面向类的语言机制不同，js中的构造函数其�
 
   fruitCall.call(banana) // 苹果
 ```
-其实以前虽然没有箭头函数，我们也经常做和箭头函数一样效果的事情，比如说：
+- 箭头函数不适合作为对象方法，箭头函数也不适合使用创建构造函数。
+```
+  // 常规函数
+  const car = {
+    model: 'Fiesta',
+    manufacturer: 'Ford',
+    fullName: function() {
+      return `${this.manufacturer} ${this.model}`
+    }
+  }
+  car.funName() // Ford Fiesta
+
+  // 箭头函数
+  const car = {
+    model: 'Fiesta',
+    manufacturer: 'Ford',
+    fullName: () => {
+      return `${this.manufacturer} ${this.model}`
+    }
+  }
+  car.funName() // undefined undefined
+```
+- 在事件监听器上使用箭头函数也会存在问题。因为 DOM 事件侦听器会自动将 this 与目标元素绑定，如果该事件处理程序的逻辑依赖 this，那么需要常规函数。
+```
+  // 常规函数
+  const link = document.querySelector('#link')
+  link.addEventListener('click', function() {
+    // this === link
+  })
+
+  // 箭头函数
+  const link = document.querySelector('#link')
+  link.addEventListener('click', () => {
+    // this === window
+  })
+```
+- 其实以前虽然没有箭头函数，我们也经常做和箭头函数一样效果的事情，比如说：
 ```
   function foo() {
     var self = this

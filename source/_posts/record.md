@@ -84,7 +84,7 @@ https、同构直出、service worker...
 1. Array.concat()：会创建一个新的数组，对于大数组来说会消耗大量内存。
 2. Array.push.apply(arr1，arr2)
 
-## DOM 节点列表转化成数组的几种方式
+## 类数组 arguments 对象、DOM 节点列表转化成数组的几种方式
 1. for 循环
 2. Array.prototype.slice.call(NodeList)
 3. Array.from(NodeList)
