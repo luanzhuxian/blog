@@ -18,6 +18,9 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`�
 
 `Symbol.iterator`属性本身是一个函数，就是当前数据结构默认的遍历器生成函数。执行这个函数，就会返回一个遍历器。至于属性名`Symbol.iterator`，它是一个表达式，返回 Symbol 对象的 iterator 属性，这是一个预定义好的、类型为 Symbol 的特殊值，所以要放在方括号内。  
 
+对象进行for...of循环时，会调用Symbol.iterator方法，返回该对象的默认遍历器：
+
+1、添加 next 方法：
 ```
   const obj = {
     [Symbol.iterator] () {
@@ -26,17 +29,15 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`�
           return {
             value: 1,
             done: true
-          };
+          }
         }
-      };
+      }
     }
-  };
+  }
 ```
 
-对象进行for...of循环时，会调用Symbol.iterator方法，返回该对象的默认遍历器：
+2、Generator：
 ```
-  // Generator
-
   class Collection {
     *[Symbol.iterator] () {
       let i = 0
@@ -85,35 +86,35 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`�
 ```
   class RangeIterator {
     constructor(start, stop) {
-      this.value = start;
-      this.stop = stop;
+      this.value = start
+      this.stop = stop
     }
 
-    [Symbol.iterator]() { return this; }
+    [Symbol.iterator]() { return this }
 
     next() {
-      var value = this.value;
+      var value = this.value
       if (value < this.stop) {
-        this.value++;
-        return {done: false, value: value};
+        this.value++
+        return {done: false, value: value}
       }
-      return {done: true, value: undefined};
+      return {done: true, value: undefined}
     }
   }
 
   function range(start, stop) {
-    return new RangeIterator(start, stop);
+    return new RangeIterator(start, stop)
   }
 
   for (var value of range(0, 3)) {
-    console.log(value); // 0, 1, 2
+    console.log(value) // 0, 1, 2
   }
 ```
 
 # 方法二：使用 Object.keys
 ```
   for (var key of Object.keys(someObject)) {
-   console.log(key + ': ' + someObject[key]);
+   console.log(key + ': ' + someObject[key])
   }
 ```
 
@@ -121,12 +122,12 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`�
 ```
   function* entries(obj) {
     for (let key of Object.keys(obj)) {
-      yield [key, obj[key]];
+      yield [key, obj[key]]
     }
   }
 
   for (let [key, value] of entries(obj)) {
-    console.log(key, '->', value);
+    console.log(key, '->', value)
   }
   // a -> 1
   // b -> 2

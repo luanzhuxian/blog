@@ -265,7 +265,7 @@ date: 2019-05-07 12:52:11
   fn(...array)  // [3, 4, 5]
 ```
 
-# Generators
+# Generator
 一个解释generator如何工作的例子：
 ```
   function *calculator(input) {
