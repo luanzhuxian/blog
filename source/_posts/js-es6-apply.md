@@ -261,8 +261,17 @@ date: 2019-05-07 12:52:11
   const array = [1, 2, 3, 4, 5]
   const fn = (foo, bar, ...rest) => {
     console.log(rest)
+    console.log(...arguments)
   }
   fn(...array)  // [3, 4, 5]
+```
+箭头函数没有 arguments
+```
+  const array = [1, 2, 3, 4, 5]
+  function fn() {
+    console.log(...arguments)
+  }
+  fn(...array)  // 1 2 3 4 5
 ```
 
 # Generator
