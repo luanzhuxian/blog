@@ -51,9 +51,9 @@ FP 风格
 ```
   var array = [1, 2, 3]
   var ops = {
-    "plus": (x,y) => x+y,
-    "mul" : (x,y) => x*y,
-    "and" : (x,y) => x&y
+    "plus": (x, y) => x + y,
+    "mul" : (x, y) => x * y,
+    "and" : (x, y) => x & y
   }
 
   function operation(op, [head, ...tail]) {
