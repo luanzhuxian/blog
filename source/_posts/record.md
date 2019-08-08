@@ -130,3 +130,14 @@ ES6 在编译时就能确定模块的依赖关系，而 CommonJS 只能在运行
   a = ~a + 2
   console.log(a) // 1
 ```
+
+# 最大最小值
+```
+  // ES5
+  var max = Math.max.apply(null, arr)
+  var min = Math.min.apply(null, arr)
+
+  // ES6
+  var max = Math.max(...arr)
+  var min = Math.min(...arr)
+```
