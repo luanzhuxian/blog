@@ -21,11 +21,11 @@ tags: Hexo
 ## 让百度收录博客
 打开[百度站长平台](https://ziyuan.baidu.com/)，注册登陆后，提示要绑定熊掌ID，注册验证绑定熊掌ID。
 之后在`用户中心 > 站点管理`下添加网站。根据提示输入站点地址等信息，建议输入的域名为`www`开头的，不要输入`github.io`的，因为 github 是不允许百度的 spider 爬取 github 上的内容的，所以如果想让你的站点被百度收录，只能使用自己购买的域名。
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-add.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-add.png)
 
 ### 验证站点  
 在选择完网站的类型之后需要验证网站的所有权，有三种验证方式，文件验证、html 标签验证、cname 解析验证。  
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-verify.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-verify.png)
 
 #### 1、文件验证
 - 下载验证文件
@@ -95,7 +95,7 @@ tags: Hexo
 一般主动提交比手动提交效果好，这里介绍主动提交的三种方法。从效率上来说：`主动推送>自动推送>sitemap`。
 
 #### 1、主动推送
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-sitemap1.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-sitemap1.png)
 安装插件：
 ```
 npm install hexo-baidu-url-submit --save
@@ -133,7 +133,7 @@ npm install hexo-baidu-url-submit --save
 这样以后每次执行`hexo deploy`，链接就会被推送给百度了。
 
 #### 2、自动推送
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-sitemap2.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-sitemap2.png)
 在主题配置文件下设置，将`baidu_push`设置为`true`：
 ```
   # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
@@ -161,7 +161,7 @@ npm install hexo-baidu-url-submit --save
 这样每次访问博客中的页面就会自动向百度提交 sitemap。
 
 #### 3、sitemap
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-sitemap3.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-baidu-sitemap3.png)
 将上面生成的 sitemap 文件，填写到`请填写数据文件地址`下面的文本框，再提交就可以了，如：
 ```
   https://xxx.github.io/sitemap.xml
@@ -170,11 +170,11 @@ npm install hexo-baidu-url-submit --save
 
 ## 让谷歌收录博客
 [google站点平台](https://www.google.com/webmasters/)，首先登陆注册。之后点击添加资源。
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-google-add.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-google-add.png)
 
 ### 验证站点
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-google-verify1.png-watermark)
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-google-verify2.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-google-verify1.png)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-google-verify2.png)
 有几种验证方法：
 - Domain 网域验证
 - URL prefix 网址前缀验证，包含以下验证方法：
@@ -193,7 +193,7 @@ URL prefix 验证下的，文件验证、标签验证和百度类似，我选的
 
 ### 提交 sitemap
 打开 [google search console](https://search.google.com/search-console/)，点击左侧`sitemap (站点地图)`栏，在`Add a new sitemap (添加新的站点地图)`下面添加，如`https://xxx.github.io/sitemap.xml`：
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-google-sitemap.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/seo-google-sitemap.png)
 最后在 google 搜索你的站点地址，如：`site:xxx.github.io`来检查是否收录成功。
 
 ## 添加 robots.txt
