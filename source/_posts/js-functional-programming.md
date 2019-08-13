@@ -414,7 +414,7 @@ impureAddNumber 里 push 方法是不纯的，而且读取外部的 arr。
 当持续触发事件时，debounce 会合并事件且不会去触发事件，当一段时间内没有再次触发这个事件时，才真正去触发事件。  
 
 非立即执行版
-![avatar](http://pqg06rxde.bkt.clouddn.com/blog/debounce_1.png)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/debounce_1.png)
 非立即执行版是触发事件后函数不会立即执行，而是在 n 秒后执行，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。
 ```
   function debounce(func, wait, ...args) {
@@ -431,7 +431,7 @@ impureAddNumber 里 push 方法是不纯的，而且读取外部的 arr。
 ```
 
 立即执行版
-![avatar](http://pqg06rxde.bkt.clouddn.com/blog/debounce_2.png)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/debounce_2.png)
 立即执行版是触发事件后函数会立即执行，然后 n 秒内不触发事件才能继续执行。
 ```
   const debounce = (func, wait, ...args) => {
@@ -535,7 +535,7 @@ throttle（节流），当持续触发事件时，保证隔间时间触发一次
 持续触发事件时，throttle 会合并一定时间内的事件，并在该时间结束时真正去触发一次事件。  
 
 时间戳版
-![avatar](http://pqg06rxde.bkt.clouddn.com/blog/throttle_1.png)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/throttle_1.png)
 在持续触发事件的过程中，函数会立即执行，并且每间隔时间执行一次。
 ```
   const throttle = (func, wait, ...args) => {
@@ -552,7 +552,7 @@ throttle（节流），当持续触发事件时，保证隔间时间触发一次
 ```
 
 定时器版
-![avatar](http://pqg06rxde.bkt.clouddn.com/blog/throttle_2.png)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/throttle_2.png)
 函数不会立即执行，并且每间隔时间执行一次，在停止触发事件后，函数会执行一次。
 ```
   function throttle(func, wait, ...args) {

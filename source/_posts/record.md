@@ -7,7 +7,7 @@ categories:
 tags:
 ---
 
-用户从输入url到最终页面展示，这个过程都发生了什么？  
+# 用户从输入url到最终页面展示，这个过程都发生了什么？  
 计算机网络：http请求组包、网络模型、dns解析、建立连接
 ```
 用户输入url，
@@ -22,6 +22,7 @@ dns解析，
 怎么根据请求头把内容缓存到浏览器端，
 https、同构直出、service worker...
 ```
+
 # 函数单一职责
 函数功能混乱，一个函数包含多个功能
 ```
@@ -46,7 +47,7 @@ https、同构直出、service worker...
   }
 ```
 
-# 对象拷贝
+# 对象深拷贝
 - JSON.parse(JSON.stringify(obj)
 - 递归
 ```
@@ -78,26 +79,6 @@ https、同构直出、service worker...
   console.log(shallow === objects) // false
 ```
 
-
-# 数组
-## 合并数组
-1. Array.concat()：会创建一个新的数组，对于大数组来说会消耗大量内存。
-2. Array.push.apply(arr1，arr2)
-
-## 类数组 arguments 对象、DOM 节点列表转化成数组的几种方式
-1. for 循环
-2. Array.prototype.slice.call(NodeList)
-3. Array.from(NodeList)
-ES6 为了增加语义的清晰，语法的简洁性。添加了一个新方法 Array.from，用于将 arrayLike 的对象转换成数组。
-4. 数组/对象扩展运算符 arr = [...NodeList]
-
-# 是否可迭代
-```
-  if ((typeof arr[Symbol.iterator]).toUpperCase() === 'FUNCTION') {
-    // do something
-  }
-```
-
 # css 样式的优先级和使用时候的位置无关，只与声明的位置有关
 ```
   <div class="red blue">123</div>
@@ -123,21 +104,3 @@ ES6 在编译时就能确定模块的依赖关系，而 CommonJS 只能在运行
 - 编译时加载：ES6 模块不是这样，采用的静态命令的形式。即在输入时可以指定加载摸个输出值的形式。而不是加载整个模块。  
 
 所以 CommonJS 是先把整个模块加载完形成一个对象，在执行后面的操作，这意味着整个过程是一个同步事件，如果应用在服务器上，模块文件都存于本地硬盘加载比较快就不用考虑非同步加载的方式，所以 CommonJS 规范还是比较适用的。但是在客户端浏览器环境，要从服务器端获取资源，这时就可能必须要使用非同步模式，所以就有了 AMD 规范。  
-
-# 0、1互换
-```
-  let a = 0
-  a = ~a + 2
-  console.log(a) // 1
-```
-
-# 最大最小值
-```
-  // ES5
-  var max = Math.max.apply(null, arr)
-  var min = Math.min.apply(null, arr)
-
-  // ES6
-  var max = Math.max(...arr)
-  var min = Math.min(...arr)
-```
