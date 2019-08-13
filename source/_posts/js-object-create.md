@@ -74,7 +74,7 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
 # Object.create 实现类式继承
 ```
     function Car (desc) {
-        this.desc = desc
+        this.desc = desc || 'car'
         this.color = "red"
     }
 

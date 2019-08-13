@@ -100,14 +100,17 @@ Javascript 引擎首次开始解析代码时创建。只有一个。
 - 函数环境（Function Environment）：用户在函数中定义的变量被存储在环境记录中，包含了`arguments`对象。其外部环境可以是全局环境，也可以是包含内部函数的外部函数环境。  
 - 模块环境（Module Environment）：每个模块有自己的词法环境，存储了包括`imports`在内的所有的`top-level declarations`。其外部环境引用为全局环境。  
 
-每种词法环境有两个组成部分：
-- 环境记录（Environment Record）：存储变量和函数声明的实际位置。它包括3个子类：`Declarative Environment Record`、`Object Environment Record`、`Global Environment Record`。其中`Declarative Environment Record`又有两个子类：`Function Environment Records`和`Module Environment Records`。
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_11.jpg)
+
+每种词法环境有两个字段：一个`Environment Record`，还有一个指向外层`Lexical Environment`的可空引用。
+- 环境记录（Environment Record）：存储变量和函数声明的实际位置。它包括3个子类：
   - Declarative Environment Record；
-    - Function Environment Records
-    - Module Environment Records
   - Object Environment Record；
   - Global Environment Record；
 - 对外部环境的引用：可以访问其外部词法环境。  
+
+其中`Declarative Environment Record`又有两个子类：`Function Environment Records`和`Module Environment Records`。
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_12.jpg)
 
 ```
   GlobalExectionContext = {     // 全局执行上下文

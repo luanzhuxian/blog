@@ -385,10 +385,11 @@ valine:
   appkey: qODRtEtDSVo4Mxj6DkhVAqd9
   notify: true # mail notifier , https://github.com/xCss/Valine/wiki
   verify: true # Verification code
-  placeholder:  # comment box placeholder
-  avatar: mm # gravatar style
+  placeholder: 留下点什么吧~ # comment box placeholder
+  avatar:  # gravatar style
   guest_info: nick,mail,link # custom comment header
-  pageSize: 10 # pagination size
+  pageSize: 15 # pagination size
+  avatar_cdn: https://www.gravatar.com/avatar/
 
 
 # Support for youyan comments system.
