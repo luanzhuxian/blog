@@ -341,7 +341,7 @@ post_wordcount:
 之后在该`存储空间 > 内容管理 > 上传文件`上传图片：
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/qiniu-uplpad.png-watermark)
 上传后可以在`存储空间 > 内容管理`图片列表管理图片，还可以找到图片的外链，直接在文章中使用即可。
-![avatar](http://pw5hoox1r.bkt.clouddn.com/qiniu-list.png-watermark)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/qiniu-list.png-watermark)
 另外在图片样式下可以对图片进行处理，比如缩放、裁剪、增加水印、设置输出格式等。使用时只要在图片外链后加上设置的样式分隔符和样式名称，即可得到处理后的图片。  
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/qiniu-style.png-watermark)
 

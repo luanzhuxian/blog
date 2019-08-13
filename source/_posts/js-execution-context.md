@@ -44,7 +44,7 @@ Javascript 引擎首次开始解析代码时创建。只有一个。
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_5.gif)
 
 我们来改写之前的代码，让函数拥有局部变量。
-![avatar](http://pw5hoox1r.bkt.clouddn.com/execution-context_6.gif)
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_6.gif)
 这里有几处重要细节需要注意。  
 首先，传入函数的所有参数都作为局部变量存在于该函数的执行上下文中。在例子中，handle 同时存在与全局执行上下文和 getURL 执行上下文中，因为我们把它传入了 getURL 函数做为参数。  
 其次，在函数中声明的变量存在于函数的执行上下文中。所以当我们创建 twitterURL，它就会存于 getURL 执行上下文中。这看起来显而易见，但却是`作用域`的基础。  
