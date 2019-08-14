@@ -160,7 +160,26 @@ post_wordcount:
 ### 博客主页自定义样式修改
 打开博客根目录`/themes/next/source/css/_custom/custom.styl`文件，修改自己想要的主页样式就可以，会覆盖主题的样式。
 
-### 添加自定义js/css文件
+### 修改 html/css
+1、html  
+在`themes\next\layout\`目录下找到相应的`swig`文件进行修改。和组件类似，目录下有：`page.swig、post.swig、category.swig、tag.swig、header.swig、sidebar.swig...` 
+比如要修改 sidebar 的结构，可以打开`themes\next\layout\_macro\sidebar.swig`进行修改。  
+
+2、css  
+在`themes\next\source\css\`目录下找到相应的`styl`文件进行修改。  
+例如要修改列表的样式，将列表前的空心圆改成实心，则打开`themes\next\source\css\_common\components\post\post-expand.styl`修改如下：
+```
+  ul li { list-style: disc; }
+```
+如果要将分类页列表前的原点去掉，则打开`themes\next\source\css\_common\components\pages\categories.styl`修改如下：
+```
+ .category-list-item {
+    margin: 5px 10px;
+    list-style: none !important;
+  }
+```
+
+### 添加自定义 js/css 文件
 - 首先把`js`文件放在`\themes\next\source\js\src`文件目录下
 - 首先把`css`文件放在`\themes\next\source\css\src`文件目录下
 - 找到`\themes\next\layout`目录下的布局文件`_layout.swig`
@@ -207,8 +226,7 @@ post_wordcount:
 ```
 
 ### 添加Fork me on GitHub
-打开 [此链接](https://github.com/blog/273-github-ribbons) 挑选自己喜欢的样式，并复制代码，添加到`themes\next\layout\_layout.swig`的相应标签内即可，记得把`<a href="https://github.com/you">`里面的url换成自己的github地址    
-我添加到`<main id="main" class="main">`标签下，并修改了样式，如下：
+打开 [此链接](https://github.com/blog/273-github-ribbons) 挑选自己喜欢的样式，并复制代码，添加到`themes\next\layout\_layout.swig`的相应标签内即可，记得把`<a href="https://github.com/you">`里面的url换成自己的github地址。最后添加到`<main id="main" class="main">`标签下，并修改样式，如下：
 ```
   <main id="main" class="main">
     <a href="https://github.com/luanzhuxian" style="display:block; position:absolute; top:3px ; left:0; border:none;">

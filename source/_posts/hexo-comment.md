@@ -80,6 +80,55 @@ date: 2019-04-23 17:14:10
   ---
 ```
 
+如果明明有评论，但标题下方的评论数却为0，如图：
+
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/comment_1.png)
+
+那么打开浏览器调试工具看看这个标签的类名是不是包含`valine-comment-count`：
+
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/comment_2.png)
+
+如上如所示，类名是`fb-comments-count`，说明模板渲染错了。打开`themes\next\layout\_macro\post.swig`找到下面的部分：
+```
+  // facebook
+  {% elseif theme.facebook_comments_plugin.enable %}
+    <span class="post-comments-count">
+      <span class="post-meta-divider">|</span>
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <a href="{{ url_for(post.path) }}#comments" itemprop="discussionUrl">
+        <span class="post-comments-count fb-comments-count" data-href="{{ post.permalink }}" itemprop="commentCount">0</span> comments
+      </a>
+    </span>
+
+    // 省略。。。。。。
+
+  // valine
+  {% elseif theme.valine.enable and theme.valine.appid and theme.valine.appkey %}
+    <span class="post-comments-count">
+      <span class="post-meta-divider">|</span>
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <a href="{{ url_for(post.path) }}#comments" itemprop="discussionUrl">
+        <span class="post-comments-count valine-comment-count" data-xid="{{ url_for(post.path) }}" itemprop="commentCount"></span>
+      </a>
+    </span>
+  {% endif %}
+```
+其实是根据`_config.yml`里的主题配置用`if...else...`来渲染模板。把配置文件里`theme.facebook_comments_plugin.enable`改为`false`，则`facebook`那部分不会渲染：
+```
+  facebook_comments_plugin:
+    enable:       false
+    num_of_posts: 10    # min posts num is 1
+    width:        100%  # default width is 550px
+    scheme:       light # default scheme is light (light or dark)
+```
+刷新后`valine`那部分渲染出来了，可以看到评论数。
+
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/comment_3.png)
+
 # 头像配置
 参考 **[Valine 评论系统中的头像配置](https://valine.js.org/avatar.html)**  
 
