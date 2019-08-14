@@ -22,6 +22,8 @@ date: 2019-04-23 17:14:10
 在`LeanCloud > 设置 > 安全中心`中，把除`数据存储`外其他选项都关闭。并将你的博客域名添加到`Web 安全域名`中：
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/leancloud-setting.png)
 ## 3、创建Class
+**Comment 实例在配置好 next 后会自动生成**  
+
 在`LeanCloud > 存储 > 创建Class`，选择`无限制的Class`并创建：
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/leancloud-class.png)
 ## 4、修改next配置

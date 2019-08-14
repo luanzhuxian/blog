@@ -199,7 +199,7 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
 在 source 目录下会生成 categories 目录，修改 source/categories 目录的 index.md :
 ```
   ---
-  title: categories
+  title: 分类
   date: 2018-12-06 22:54:28
   type: "categories"
   ---
@@ -236,7 +236,7 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
 在 source 目录下会生成 tags 目录，修改 source/tags 目录的 index.md :
 ```
   ---
-  title: tags
+  title: 标签
   date: 2018-12-06 22:54:28
   type: "tags"
   ---
