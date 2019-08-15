@@ -1,12 +1,8 @@
 ---
 title: for-of 遍历对象
 comments: true
-categories:
-  - javascript
-  - es6
-tags:
-  - javascript
-  - es6
+categories: [javascript, es6]
+tags: [javascript, es6]
 abbrlink: 8aa98d9
 date: 2019-04-29 17:20:20
 ---

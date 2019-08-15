@@ -1,12 +1,8 @@
 ---
 title: ES6 的应用
 comments: true
-categories:
-  - javascript
-  - es6
-tags:
-  - javascript
-  - es6
+categories: [javascript, es6]
+tags: [javascript, es6]
 abbrlink: b8aeaa25
 date: 2019-05-07 12:52:11
 ---

@@ -1,12 +1,8 @@
 ---
 title: 使用 Gulp 压缩 Hexo
 comments: true
-categories:
-  - Hexo
-  - gulp
-tags:
-  - Hexo
-  - gulp
+categories: [Hexo, gulp]
+tags: [Hexo, gulp]
 abbrlink: e5ac3b51
 date: 2019-04-23 14:44:56
 ---

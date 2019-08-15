@@ -54,7 +54,7 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
     obj.__proto__ === Object.prototype  // false
     console.log(obj.__proto__)  // undefined
 ```
-打印出来 obj 是没有`_proto_`属性的。参考上一段，因为在创建过程中 `F.prototype = obj` 原型链被切断了。  
+打印出来 obj 是没有`_proto_`属性的。参考上一段，因为在创建过程中 `F.prototype = null` 原型链被切断了。  
 如果把上面例子改一改：
 ```
     let obj = Object.create({})
@@ -66,7 +66,10 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
     let obj = Object.create(Object.prototype)
     obj.__proto__ === Object.prototype // true
 ```
-则结果和使用`{}`创建对象的结果一样了。  
+则结果和使用`{}`创建对象的结果一样了。所以：
+- `{}`或`new Object()`相当于`Object.create(Object.prototype)`。
+- `{}`或`new Object()`是将新创建的对象的`_proto_`指向构造函数的原型对象`Object.prototype`；而`Object.create()`是将新创建的对象的`_proto_`指向传入的对象；所以`Object.create()`如果传入的对象本身没有任何属性，比如`null`连`_proto_`也没有，则新创建的对象则是一个没有任何属性的对象。
+- `{}`或`new Object()`过程中构造函数会被调用；而`Object.create()`即使传入的对象为构造函数，也不会调用该构造函数。
 
 再回到文章开头的问题：  
 **Sure you can create an object that seems empty with {}, but that object still has a `__proto__` and the usual hasOwnProperty and other object methods. So if you aren't subclassing another object, then `Object.create()` would be a new option to create a pure “dictionary” object by passing a null value to the function.**
@@ -95,24 +98,24 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
 
 所以，不像组合继承`Son.prototype = new Father()`那样父类的`constructor`还要被执行一便，使用`Son.prototype = Object.create(Father.prototype)`实现继承不会重复调用父类的构造函数。而子类的实例是可以沿原型链找到父类的，可以共享父类原型上的属性方法。  
 
-下面的例子演示了如何使用Object.create()来实现类式继承：
+下面的例子演示了如何使用`Object.create()`来实现类式继承：
 ```
-    // Shape - 父类(superclass)
+    // 父类
     function Shape() {
-    this.x = 0
-    this.y = 0
+        this.x = 0
+        this.y = 0
     }
 
     // 父类的方法
     Shape.prototype.move = function(x, y) {
-    this.x += x
-    this.y += y
-    console.info('Shape moved.')
+        this.x += x
+        this.y += y
+        console.info('Shape moved.')
     }
 
-    // Rectangle - 子类(subclass)
+    // 子类
     function Rectangle() {
-    Shape.call(this) // call super constructor.
+        Shape.call(this) // call super constructor.
     }
 
     // 子类续承父类
@@ -121,11 +124,9 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
 
     var rect = new Rectangle()
 
-    console.log('Is rect an instance of Rectangle?',
-    rect instanceof Rectangle) // true
-    console.log('Is rect an instance of Shape?',
-    rect instanceof Shape) // true
-    rect.move(1, 1) // Outputs, 'Shape moved.'
+    console.log('Is rect an instance of Rectangle?', rect instanceof Rectangle) // true
+    console.log('Is rect an instance of Shape?', rect instanceof Shape) // true
+    rect.move(1, 1) // 'Shape moved.'
 ```
 如果你希望能继承到多个对象，则可以使用混入的方式：
 ```
@@ -142,6 +143,6 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
     MyClass.prototype.constructor = MyClass
 
     MyClass.prototype.myMethod = function() {
-        // do a thing
+        // do something
     }
 ```
