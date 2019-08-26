@@ -51,7 +51,7 @@ date: 2018-12-09 17:46:34
   git commit -am "描述信息"	   # 如果工作目录中仅是已跟踪的文件被修改或被删除，使用此提交命令
 ```
 
-## 分支的创建、删除、和平、切换、查看
+## 分支的创建、删除、合并、切换、查看
 ```
   git branch	                   # 查看本地已有的分支
   git branch -a	                 # 查看远程分支
@@ -69,12 +69,12 @@ date: 2018-12-09 17:46:34
 ```
 使用例子：
 ```
-  $ git checkout -b [branch]                // 新建一个分支，并切换到该分支
+  $ git checkout -b branch                // 新建一个分支，并切换到该分支
   $ git branch                              // 命令会列出所有分支，当前分支前面会标一个*号。
   $ git add .
   $ git commit -m "提交分支branch"
   $ git checkout master                     // 切换回master分支
-  $ git merge [branch]                      // 把branch分支合并到master分支
+  $ git merge branch or $ git merge branch master  // 把branch分支合并到master分支
   $ git branch -d branch                    // 合并完成后删除branch分支
 ```
 

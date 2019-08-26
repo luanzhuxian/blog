@@ -184,7 +184,7 @@ date: 2019-05-07 12:52:11
   ])
 ```
 
-## 使用 Array 的方法
+## Set 使用 Array 的方法
 可以通过 (...) 扩展运算符将 Set 转换成 Array 这样我们就可以在 Set 使用所有 Array 的方法了。
 ```
   let mySet = newSet([1,2, 3, 4, 5])
@@ -320,3 +320,58 @@ date: 2019-05-07 12:52:11
 
 # Iterator
 [Iterator](https://luanzhuxian.github.io/post/8aa98d9.html)  
+
+
+# 扩展运算符
+## 不使用 Apply 去调用函数
+这一点我们叫它`Function.prototype.apply`
+```
+  function doSomething (x, y, z) {}
+  const args = [0, 1, 2]
+  // 调用函数，传递参数
+  doSomething.apply(null, args)
+```
+通过扩展运算符我们可以避免使用`apply`
+```
+  doSomething(...args)
+```
+使代码更简洁
+
+## 合并数组
+```
+  // es5
+  Array.prototype.push.apply(arr1, arr2)
+  arr1.concat(arr2)
+
+  // es6
+  arr1.push(...arr2)
+  arr1.unshift(...arr2)
+  arr = [...arr1, ...arr2]
+```
+
+## 复制数组
+浅拷贝，只复制指针，相当于`slice`
+```
+  let arr1 = [1, 2, 3]
+  let arr2 = [...arr1]
+```
+
+## arguments 或 nodelist 转为数组
+```
+  // es5
+  Array.prototype.slice.call(NodeList)
+
+  // es6
+  Array.from(NodeList)
+  [...document.querySelectorAll('div')]
+
+  function (...args) {
+    // args 等同于 let args = [...arguments]
+  }
+```
+
+## 使用 Math 函数
+```
+  let numbers = [9, 4, 7, 1]
+  Math.min(...numbers) // 1
+```
