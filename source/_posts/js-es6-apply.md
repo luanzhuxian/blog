@@ -250,25 +250,26 @@ date: 2019-05-07 12:52:11
   function fn() {
     console.log(arguments)
   }
-  fn.apply(null, array) // Arguments(5) [0: 1, 1: 2, 2: 3, 3: 4, 4: 5]
+  // 不定参
+  fn(1, 2, 3, 4, 5) // Arguments(5) [0: 1, 1: 2, 2: 3, 3: 4, 4: 5]
+  // 相当于：
+  fn.apply(null, array)
+  // 相当于：
+  fn.call(null, 1, 2, 3, 4, 5)
+
 ```
 现在，剩余参数（rest element）在和数组解构（array destructuring）搭配使用来实现。
 ```
   const array = [1, 2, 3, 4, 5]
-  const fn = (foo, bar, ...rest) => {
-    console.log(rest)
+  function fn(foo, bar, ...rest) {
+    console.log(foo, bar, rest)
     console.log(...arguments)
   }
-  fn(...array)  // [3, 4, 5]
+  fn(...array)  // 1, 2, [3, 4, 5]
+  // 相当于：
+  fn(1, 2, 3, 4, 5)
 ```
 箭头函数没有 arguments
-```
-  const array = [1, 2, 3, 4, 5]
-  function fn() {
-    console.log(...arguments)
-  }
-  fn(...array)  // 1 2 3 4 5
-```
 
 # Generator
 一个解释generator如何工作的例子：

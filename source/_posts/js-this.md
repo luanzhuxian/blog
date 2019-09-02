@@ -139,10 +139,10 @@ foo 虽然被定义在全局作用域，但是调用的时候是通过 obj 上�
 这三个方法中的 bind 方法比较特殊，它可以延迟方法的执行，这可以让我们写出更加灵活的代码。它的原理也很容易模拟：
 ```
   function foo(something) {
-    console.log(this.a, something)
     return this.a + something
   }
 
+  // fn 的 this 指向 obj
   function bind(fn, obj) {
     return function() {
       return fn.apply(obj, arguments)
