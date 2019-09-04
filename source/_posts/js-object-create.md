@@ -69,7 +69,21 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
 则结果和使用`{}`创建对象的结果一样了。所以：
 - `{}`或`new Object()`相当于`Object.create(Object.prototype)`。
 - `{}`或`new Object()`是将新创建的对象的`_proto_`指向构造函数的原型对象`Object.prototype`；而`Object.create()`是将新创建的对象的`_proto_`指向传入的对象；所以`Object.create()`如果传入的对象本身没有任何属性，比如`null`连`_proto_`也没有，则新创建的对象则是一个没有任何属性的对象。
-- `{}`或`new Object()`过程中构造函数会被调用；而`Object.create()`即使传入的对象为构造函数，也不会调用该构造函数。
+- `{}`或`new Object()`过程中构造函数会被调用；而`Object.create()`即使传入的对象为构造函数，也不会调用该构造函数。  
+
+所以如果`let obj = Object.create(Father)`，则`obj`只是指向父类构造函数`Father`而不能继承`Father`的任何属性和方法。想要继承`Father.prototype`上的属性方法需要通过`let obj = Object.create(Father.prototype)`实现。
+```
+    function Father () {
+        this.a = 1
+    }
+    Father.prototype.b = 2
+    var child1 = new Father()
+    var child2 = Object.create(Father)
+    var child3 = Object.create(Father.prototype)
+    console.log(child1.a, child1.b) // 2， 3
+    console.log(child2.a, child2.b) // undefined, undefined
+    console.log(child3.a, child3.b) // undefined, 3
+```
 
 再回到文章开头的问题：  
 **Sure you can create an object that seems empty with {}, but that object still has a `__proto__` and the usual hasOwnProperty and other object methods. So if you aren't subclassing another object, then `Object.create()` would be a new option to create a pure “dictionary” object by passing a null value to the function.**
