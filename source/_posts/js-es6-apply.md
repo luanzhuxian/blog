@@ -170,9 +170,8 @@ date: 2019-05-07 12:52:11
     { name: 'New York', visited: 'yes' }
   ]
 
-  const cityNames = Array.from(cities, ({ name}) => name)
-  console.log(cityNames)
-  // 输出 ["Paris", "Lyon", "Marseille", "Rome", "Milan", "Palermo", "Genoa", "Berlin", "Hamburg", "New York"]
+  const cityNames = Array.from(cities, ({ name }) => name)
+  console.log(cityNames)  // 输出 ["Paris", "Lyon", "Marseille", "Rome", "Milan", "Palermo", "Genoa", "Berlin", "Hamburg", "New York"]
 ```
 
 # 数组的解构
@@ -376,3 +375,74 @@ date: 2019-05-07 12:52:11
   let numbers = [9, 4, 7, 1]
   Math.min(...numbers) // 1
 ```
+
+# Array.from
+```
+  Array.from(arrayLike[, mapFunction[, thisArg]])
+```
+- arrayLike：必传参数，想要转换成数组的伪数组对象或可迭代对象。
+- mapFunction：可选参数，mapFunction(item，index){...} 是在集合中的每个项目上调用的函数。返回的值将插入到新集合中。
+- thisArg：可选参数，执行回调函数 mapFunction 时 this 对象。  
+
+```
+  // 将类数组的每一项乘以2
+  const someNumbers = { '0': 10, '1': 15, length: 2 }
+  Array.from(someNumbers, value => value * 2) // => [20, 30]
+```
+
+应用：
+1. 将类数组转换成数组
+2. 克隆数组（浅拷贝）
+  实现深拷贝：
+  ```
+    function recursiveClone(val) {
+        return Array.isArray(val) ? Array.from(val, recursiveClone) : val
+    }
+
+    const numbers = [[0, 1, 2], ['one', 'two', 'three']]
+    const numbersClone = recursiveClone(numbers)
+
+    numbersClone // => [[0, 1, 2], ['one', 'two', 'three']]
+    numbers[0] === numbersClone[0] // => false
+```
+3. 填充数组
+  使用相同的值来初始化数组
+  ```
+    const length = 3
+    const init   = 0
+
+    // ES5
+    const result = Array(length).fill(init)
+
+    // ES6
+    const result = Array.from({ length }, () => init)
+
+    result // => [0, 0, 0]
+  ```
+  使用对象填充数组
+  ```
+    const length = 3
+    const resultA = Array.from({ length }, () => ({}))
+    const resultB = Array(length).fill({})
+    const resultC = Array(length).map(() => init)
+
+    resultA // => [{}, {}, {}]
+    resultB // => [{}, {}, {}]
+    resultC // => [undefined, undefined, undefined]
+
+    resultA[0] === resultA[1] // => false
+    resultB[0] === resultB[1] // => true
+  ```
+  这是因为 Array(length) 创建了一个有3个空项的数组。Array.from 的 () => ({}) 会返回一个新的对象。fill() 方法创建的 resultB 使用相同的空对象实例进行初始化。不会跳过空项。map() 方法会跳过空项。
+
+4. 生成数字范围
+  ```
+    // 生成一个数组，从0到 end - 1
+    function range(end) {
+        return Array.from({ length: end }, (_, index) => index)
+    }
+
+    range(4) // => [0, 1, 2, 3]
+  ```
+
+5. 数组去重
