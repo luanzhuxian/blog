@@ -130,4 +130,25 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的`Symbol.iterator`�
   // c -> 3
 ```
 
-# 方法四：使用 Map 代替对象
+# 方法四：Object.entries()
+```
+  const obj = { foo: 1, bar: 2 }
+
+  for (let [key, value] of Object.entries(obj)) {
+    console.log(key, '->', value)
+  }
+  // foo -> 1
+  // bar -> 2
+```
+
+# 方法五：使用 Map 代替对象
+```
+  const obj = { foo: 1, bar: 2 }
+  const map = new Map(Object.entries(obj))
+
+  for (let [key, value] of map) {
+    console.log(key, '->', value)
+  }
+  // foo -> 1
+  // bar -> 2
+```

@@ -193,7 +193,7 @@ js 中 new 与传统的面向类的语言机制不同，js 中的构造函数其
 
   fruitCall.call(banana) // 苹果
 ```
-- 箭头函数不适合作为对象方法，箭头函数也不适合使用创建构造函数。
+- 箭头函数不适合作为对象方法，箭头函数的this不会指向此对象，而是外部非箭头函数作用域的this，箭头函数也不适合使用创建构造函数。
 ```
   // 常规函数
   const car = {
@@ -203,9 +203,10 @@ js 中 new 与传统的面向类的语言机制不同，js 中的构造函数其
       return `${this.manufacturer} ${this.model}`
     }
   }
-  car.funName() // Ford Fiesta
+  car.fullName() // Ford Fiesta
 
   // 箭头函数
+  const manufacturer = 'BMW'
   const car = {
     model: 'Fiesta',
     manufacturer: 'Ford',
@@ -213,7 +214,7 @@ js 中 new 与传统的面向类的语言机制不同，js 中的构造函数其
       return `${this.manufacturer} ${this.model}`
     }
   }
-  car.funName() // undefined undefined
+  car.fullName() // undefined 'BMW'
 ```
 - 在事件监听器上使用箭头函数也会存在问题。因为 DOM 事件侦听器会自动将 this 与目标元素绑定，如果该事件处理程序的逻辑依赖 this，那么需要常规函数。
 ```
