@@ -33,8 +33,9 @@ date: 2019-05-09 14:11:31
   // Inside Global Execution Context
 ```
 
-# 执行上下文
+# 执行上下文（execution context）
 执行上下文是当前 JavaScript 代码被解析和执行时所在环境的抽象概念。帮助 JavaScript 引擎管理整个解析和运行代码的复杂过程。  
+执行上下文是在代码运行的时候确定的，是可以改变的。  
 
 ## 执行上下文的类型
 分为全局执行上下文和函数执行上下文。
@@ -86,7 +87,9 @@ Javascript 引擎首次开始解析代码时创建。只有一个。
 ## 执行上下文的创建
 执行上下文分两个阶段创建：创建阶段、执行阶段。
 ### 创建阶段
-An execution context has the following fields:  
+<blockquote bgcolor=#FF4500>JavaScript代码的整个执行过程，分为两个阶段，代码编译阶段与代码执行阶段。编译阶段由编译器完成，将代码翻译成可执行代码，这个阶段作用域规则会确定。执行阶段由引擎完成，主要任务是执行可执行代码，执行上下文在这个阶段创建。</blockquote>
+    
+<br/>先看看执行上下文包含的内容。An execution context has the following fields:  
 Environments: LexicalEnvironment and VariableEnvironment are what keep track of variables during runtime. Two references to environments. Both are usually the same.  
 
 - LexicalEnvironment (lookup and change existing): resolve identifiers.
@@ -105,8 +108,9 @@ Environments: LexicalEnvironment and VariableEnvironment are what keep track of 
 
 
 #### 2. 创建词法环境（Lexical Environment）
-<blockquote bgcolor=#FF4500 style="margin-bottom: 30px">**Lexical environments** hold variables and parameters. The currently active environment is managed via a stack of execution contexts (which grows and shrinks in sync with the call stack). Nested scopes are handled by chaining environments: each environment points to its outer environment (whose scope surrounds its scope). In order to enable lexical scoping, functions remember the scope (=environment) they were defined in. When a function is invoked, a new environment is created for is arguments and local variables. That environment’s outer environment is the function’s scope. </blockquote>    
+<blockquote bgcolor=#FF4500 style="margin-bottom: 30px">**Lexical environments** hold variables and parameters. The currently active environment is managed via a stack of execution contexts (which grows and shrinks in sync with the call stack). Nested scopes are handled by chaining environments: each environment points to its outer environment (whose scope surrounds its scope). In order to enable lexical scoping, functions remember the scope (=environment) they were defined in. When a function is invoked, a new environment is created for it's arguments and local variables. That environment’s outer environment is the function’s scope. </blockquote>    
 
+在规范中作用域更官方的叫法是词法环境，词法环境是 JavaScript 作用域的内部实现机制。  
 词法环境有三种类型：
 - 全局环境（Global Environment）：是一个没有外部环境的词法环境，其外部环境引用为 null。拥有一个全局对象（window 对象）及其关联的方法和属性（例如数组方法）以及任何用户自定义的全局变量，this 的值指向这个全局对象。
 - 函数环境（Function Environment）：用户在函数中定义的变量被存储在环境记录中，包含了`arguments`对象。其外部环境可以是全局环境，也可以是包含内部函数的外部函数环境。  
@@ -115,8 +119,8 @@ Environments: LexicalEnvironment and VariableEnvironment are what keep track of 
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_11.jpg)
 
 **Data Structures：A (lexical) environment is the following data structure**  
-每种词法环境有两个字段：一个`Environment Record`，还有一个指向外层`Lexical Environment`的可空引用。
-- **环境记录（Environment Record）：**An environment record maps identifiers to value. that maps variable names to variable values. This is where JavaScript stores variables. One key-value entry in the environment record is called a binding. 存储变量和函数声明的实际位置。它包括3个子类：
+每种词法环境由两部分组成：一个`Environment Record`，还有一个指向外层`Lexical Environment`的可空引用。
+- **环境记录（Environment Record）：**An environment record maps identifiers to value. that maps variable names to variable values. This is where JavaScript stores variables. One key-value entry in the environment record is called a binding. 存储变量、函数声明的实际位置。它包括3个子类：
   - **Declarative Environment Record：**store the effects of variable declarations, and function declarations.
   - **Object Environment Record：**are used by the with statement and for the global environment. They turn an object into an environment. For with, that is the argument of the statement. For the global environment, that is the global object.
   - **Global Environment Record**
@@ -291,13 +295,58 @@ ExecutionContext:
 # 变量提升
 在创建阶段，函数声明存储在环境中，而变量会被设置为 undefined（在 var 的情况下）或保持未初始化（在 let 和 const 的情况下）。所以这就是为什么可以在声明之前访问 var 定义的变量（尽管是 undefined ），但如果在声明之前访问 let 和 const 定义的变量就会提示引用错误的原因。这就是所谓的变量提升。
 
-# 作用域
-我们可以把作用域看作是`变量可访问之处`，正如我们理解执行上下文那样。  
+# 作用域（scope）
+作用域指的是代码中特定变量的有效范围，规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。JavaScript采用静态作用域。代码写在哪里作用域就在哪里确定，函数在定义的时候（不是调用的时候）就已经确定了函数体内部自由变量的作用域。作用域确定了就不会再变化。  
+
+# 作用域链
+这就带来一个问题，要是当前执行上下文里没有要找的变量呢？Javascript 会就此罢手吗？下面的例子里有答案。
+```
+  var name='Tyler'
+  function logName() {
+    console.log(name)
+  }
+  logName()
+```
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_9.gif)
+如果 Javascript 引擎在函数执行上下文找不到匹配的局部变量，它会到最接近的父级上下文中查找。这条查找链会一直延伸到全局执行上下文。如果此时仍然找不到该变量，Javascript 引擎就会抛出一个引用错误。  
+
+# 闭包
+之前我们了解到函数中创建的变量仅局部有效，一旦函数执行上下文从调用栈弹出，这些变量就访问不到了。  
+如果你在一个函数中嵌入了另一个函数，情况就变了。这种函数套函数的情况下，即使父级函数的执行上下文从调用栈弹出了，子级函数仍然能够访问父级函数的作用域。  
+```
+  var count=0
+  function makeAdder(x) {
+    return function inner(y) {
+      return x + y
+    }
+  }
+  var add5 = makeAdder(5)
+  count += add5(2) // 7
+```
+![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_10.gif)
+注意，makeAdder 执行上下文从调用栈弹出后，创建了一个 Closure Scope（闭包作用域）。Closure Scope 中的变量环境和 makeAdder 执行上下文中的变量环境相同。这是因为我们在函数中嵌入了另一个函数。  
+在本例中，inner 函数嵌在 makeAdder 中，所以 inner 在 makeAdder 变量环境的基础上创建了一个闭包。因为闭包作用域的存在，即使 makeAdder 已经从调用栈弹出了，inner 仍然能够访问到 x 变量（通过作用域链）。
+
+# 作用域与执行上下文
+函数的每次调用都有与之紧密相关的作用域和上下文。从根本上来说，作用域是基于函数的，而上下文是基于对象的。 换句话说，作用域涉及到所被调用函数中的变量访问，并且不同的调用场景是不一样的。上下文始终是this关键字的值， 它是拥有（控制）当前所执行代码的对象的引用。  
+
+作用域只是一个“地盘”，一个区域，是在函数声明的时候就确定的一套变量访问规则，而执行上下文是函数执行时才产生的一系列变量的集合体。  
+在一个函数被执行时，创建的执行上下文对象除了保存了些代码执行的信息，还会把当前的作用域保存在执行上下文中。  
+**作用域中没有变量，变量是通过作用域对应的执行上下文环境中的变量对象来实现的。也就是说作用域定义了执行上下文中的变量的访问规则，执行上下文是在这个作用域规则的前提下执行代码的。**  
+
+所以作用域是静态观念的，而执行上下文环境是动态上的，两者并不一样。有闭包存在时，一个作用域存在两个上下文环境也是有的。  
+
+同一个作用域下，对同一个函数的不同的调用会产生不同的执行上下文环境，继而产生不同的变量的值，所以，作用域中变量的值是在执行过程中确定的，而作用域是在函数创建时就确定的。  
+
+如果要查找一个作用域下某个变量的值，就需要找到这个作用域对应的执行上下文环境，再在其中找到变量的值。  
+
+### 变量的查找规则：  
+先从当前的执行上下文中找保存的作用域（对象），在当前作用域里面的 Environment Record（对应的执行上下文）中查找对应的属性, 如果有直接返回, 否则通过作用域链向上查找，顺着`__outer__`在上一级作用域的里面的 Environment Record 中查找对应的属性，直到全局作用域, 如果还找不到就抛出找不到的异常。  
 
 这里有一个小测试。下面代码中，打印出来的 bar 将会是什么？
 ```
   function foo() {
-    var bar='Declared in foo'
+    var bar = 'Declared in foo'
   }
   foo()
   console.log(bar)
@@ -330,32 +379,3 @@ foo 弹出后，代码就运行到了打印 bar 到控制台的部分。此刻�
 
 控制台会依次打印出 undefined、Jordyn、Jake、Tyler。  
 因为每个新的执行上下文都有它自己的变量环境。就算另有其他执行上下文包含变量 name，Javascript 引擎仍会先从当前执行上下文里找起。  
-
-# 作用域链
-这就带来一个问题，要是当前执行上下文里没有要找的变量呢？Javascript 会就此罢手吗？下面的例子里有答案。
-```
-  var name='Tyler'
-  function logName() {
-    console.log(name)
-  }
-  logName()
-```
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_9.gif)
-如果 Javascript 引擎在函数执行上下文找不到匹配的局部变量，它会到最接近的父级上下文中查找。这条查找链会一直延伸到全局执行上下文。如果此时仍然找不到该变量，Javascript 引擎就会抛出一个引用错误。  
-
-# 闭包
-之前我们了解到函数中创建的变量仅局部有效，一旦函数执行上下文从调用栈弹出，这些变量就访问不到了。  
-如果你在一个函数中嵌入了另一个函数，情况就变了。这种函数套函数的情况下，即使父级函数的执行上下文从调用栈弹出了，子级函数仍然能够访问父级函数的作用域。  
-```
-  var count=0
-  function makeAdder(x) {
-    return function inner(y) {
-      return x + y
-    }
-  }
-  var add5 = makeAdder(5)
-  count += add5(2) // 7
-```
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/execution-context_10.gif)
-注意，makeAdder 执行上下文从调用栈弹出后，创建了一个 Closure Scope（闭包作用域）。Closure Scope 中的变量环境和 makeAdder 执行上下文中的变量环境相同。这是因为我们在函数中嵌入了另一个函数。  
-在本例中，inner 函数嵌在 makeAdder 中，所以 inner 在 makeAdder 变量环境的基础上创建了一个闭包。因为闭包作用域的存在，即使 makeAdder 已经从调用栈弹出了，inner 仍然能够访问到 x 变量（通过作用域链）。
