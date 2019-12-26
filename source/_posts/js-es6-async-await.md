@@ -198,4 +198,31 @@ ES2018 的异步遍历器，是按顺序执行的：
   then 100
   then 3
 ```
-虽然 b 被`reject`，但并不影响其他`resolve`的返回值
+虽然 b 被`reject`，但并不影响其他`resolve`的返回值。  
+
+配合`await`：
+```
+  (async () => {
+    try {
+      const a = Promise.resolve(1)
+      const b = Promise.reject(2)
+      const c = Promise.resolve(3)
+
+      let [ra, rb, rc] = await Promise.all([a, b, c].map(p => p.catch(e => 100)))
+      console.log(ra, rb, rc)  // 1 100 3
+    } catch (err) {
+      throw err
+    }
+  })()
+```
+
+通过 ES2020 的`Promise.allSettled()`实现。和`Promise.all`类似，但即使有 promise 失败变为`rejected`，也不会影响其他 promise 的状态。
+```
+  const a = Promise.resolve(1)
+  const b = Promise.reject(2)
+
+  Promise.allSettled([a, b]).then(res => {
+    console.log(res)
+  })
+  // [{ status: 'fulfilled', value: 1 }, { status: 'rejected', reason: 2 }]
+```

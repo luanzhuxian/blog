@@ -93,14 +93,95 @@ https、同构直出、service worker...
   }
 ```
 
-# CommonJS、AMD、CMD、ES6 模块
-CommonJS 同步加载。  
-AMD 与 CMD 都是异步加载。区别：
-- AMD 推崇依赖前置，在定义模块的时候就要声明其依赖的模块
-- CMD 推崇就近依赖，只有在用到某个模块的时候再去 require  
+# Promise
 
-ES6 在编译时就能确定模块的依赖关系，而 CommonJS 只能在运行时确定模块的依赖关系。
-- 运行时加载：CommonJS 模块就是对象；先加载整个模块，然后直接生成对象，然后再从这个整体的对象上读取方法；
-- 编译时加载：ES6 模块不是这样，采用的静态命令的形式。即在输入时可以指定加载摸个输出值的形式。而不是加载整个模块。  
+### then 的返回值
+`then`方法里接受两个函数作为参数，分别是`resolve`和`reject`后执行的回调，返回的是一个新的 Promise 实例。若回调有返回值，则将返回结果作为参数，传入下一个`then`的回调函数。若回调无返回值，仍将返回一个 Promise，但下一个`then`的回调函数的参数为`undefined`。也就是当链式调用时，不管有没有返回值，后面的`then`都会被执行。
+```
+ Promise.resolve()
+  .then(res => console.log(1))
+  .then(res => console.log(2))
+  .then(res => console.log(3))
+  // 打印结果 1, 2, 3
+```
 
-所以 CommonJS 是先把整个模块加载完形成一个对象，在执行后面的操作，这意味着整个过程是一个同步事件，如果应用在服务器上，模块文件都存于本地硬盘加载比较快就不用考虑非同步加载的方式，所以 CommonJS 规范还是比较适用的。但是在客户端浏览器环境，要从服务器端获取资源，这时就可能必须要使用非同步模式，所以就有了 AMD 规范。  
+### catch
+`Promise.prototype.catch`方法是`.then(null, rejection)`或`.then(undefined, rejection)`的别名，用于指定发生错误时的回调函数。  
+
+1. Promise 对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个`catch`语句捕获。
+```
+  getJSON('/post/1.json')
+    .then(post => getJSON(post.commentURL))
+    .then(comments => {
+      // some code
+    }).catch(error => {
+      // 处理前面三个Promise产生的错误
+    })
+```
+    上面代码中，一共有三个 Promise 对象：一个由`getJSON`产生，两个由`then`产生。它们之中任何一个抛出的错误，都会被最后一个`catch`捕获。  
+
+2. `catch`方法返回的还是一个 Promise 对象，因此后面还可以接着调用`then`方法。
+```
+  const test = function() {
+    return new Promise(function(resolve, reject) {
+        throw new Error('test') // 或者 reject(new Error('test'))
+    });
+  };
+
+  test()
+    .catch(error => {
+      console.log(error)
+    })
+    .then(res => {
+      console.log('carry on')
+    })
+```
+    上面代码运行完`catch`的回调函数，会接着运行后面的`then`的回调函数。如果没有报错，则会跳过`catch`方法。
+
+### finally
+`finally`本质上是`then`方法的特例。
+```
+  promise
+  .finally(() => {
+    // 语句
+  })
+
+  // 等同于
+  promise
+  .then(
+    result => {
+      // 语句
+      return result
+    },
+    error => {
+      // 语句
+      throw error
+    }
+  )
+```
+上面代码中，如果不使用`finally`方法，同样的语句需要为成功和失败两种情况各写一次。有了`finally`方法，则只需要写一次。  
+
+它的实现也很简单：
+```
+  Promise.prototype.finally = function (callback) {
+    let P = this.constructor
+    return this.then(
+      value  => P.resolve(callback()).then(() => value),  // 传过来的 promise 是 fulfilled，则调用 resolve 回调
+      reason => P.resolve(callback()).then(() => { throw reason })  // 传过来的 promise 是 rejected，则调用 reject 回调
+    )
+  }
+```
+上面代码中，不管前面的 Promise 是`fulfilled`还是`rejected`，都会执行回调函数`callback`。而且`finally`方法总是会返回原来的值。
+```
+  // resolve 的值是 undefined
+  Promise.resolve(2).then(() => {}, () => {})
+
+  // resolve 的值是 2
+  Promise.resolve(2).finally(() => {})
+
+  // reject 的值是 undefined
+  Promise.reject(3).then(() => {}, () => {})
+
+  // reject 的值是 3
+  Promise.reject(3).finally(() => {})
+```
