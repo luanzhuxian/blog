@@ -134,7 +134,9 @@ reduce方法返回值是回调函数最后一次执行返回的累积结果。
   const nestedArr = [1, 2, [3, 4, [5, 6]]]
   const flatten = arr =>
     arr.reduce(
-      (flat, next) => flat.concat(Array.isArray(next) ? flatten(next) : next),
+      (flat, next) => flat.concat(Array.isArray(next) 
+      ? flatten(next) 
+      : next),
       []
     )
 ```

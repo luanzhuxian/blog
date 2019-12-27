@@ -193,7 +193,7 @@ js 中 new 与传统的面向类的语言机制不同，js 中的构造函数其
 
   fruitCall.call(banana) // 苹果
 ```
-- 箭头函数不适合作为对象方法，箭头函数的this不会指向此对象，而是外部非箭头函数作用域的this，箭头函数也不适合使用创建构造函数。
+- 箭头函数不适合用于对象方法和构造函数：箭头函数不适合作为对象方法，箭头函数的this不会指向此对象，而是外部非箭头函数作用域的this，箭头函数也不适合使用创建构造函数。当需要动态上下文，应该使用常规函数替代。
 ```
   // 常规函数
   const car = {
@@ -229,6 +229,13 @@ js 中 new 与传统的面向类的语言机制不同，js 中的构造函数其
   link.addEventListener('click', () => {
     // this === window
   })
+```
+可以这样绑定：
+```
+  const link = document.querySelector('#link')
+  link.addEventListener('click', function() {
+    // this === link
+  }.bind(this))
 ```
 - 其实以前虽然没有箭头函数，我们也经常做和箭头函数一样效果的事情，比如说：
 ```

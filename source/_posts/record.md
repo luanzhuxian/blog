@@ -185,3 +185,206 @@ https、同构直出、service worker...
   // reject 的值是 3
   Promise.reject(3).finally(() => {})
 ```
+
+# super
+`super`这个关键字，既可以当作函数使用，也可以当作对象使用。在这两种情况下，它的用法完全不同。  
+
+第一种情况，`super`作为函数调用时，代表父类的构造函数。
+```
+  class A {}
+
+  class B extends A {
+    constructor () {
+      super()
+    }
+  }
+```
+`super`虽然代表了父类`A`的构造函数，但是返回的是子类`B`的实例，即`super`内部的`this`指的是B的实例，因此`super()`在这里相当于`A.prototype.constructor.call(this)`。  
+
+第二种情况，`super`作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。  
+
+**在普通方法中：**  
+`super`引用相当于指向对象原型的指针，相当于`Object.getPrototypeOf(this)`。
+```
+  class A {
+    p () {
+      return 2
+    }
+  }
+
+  class B extends A {
+    constructor () {
+      super()
+      console.log(super.p())
+    }
+  }
+
+  let b = new B() // 2
+```
+上面代码中，`super`指向A.prototype，所以`super.p()`就相当于`A.prototype.p()`。  
+
+这里需要注意，由于`super`指向父类的原型对象，所以定义在父类实例上的方法或属性，是无法通过super调用的。
+```
+  class A {
+    constructor () {
+      this.p = 2
+    }
+  }
+
+  class B extends A {
+    constructor () {
+      super()
+      console.log(super.p)
+    }
+    test () {
+      return super.p
+    }
+  }
+
+  let b = new B() // undefined
+  b.test() // undefined
+```
+上面代码中，`p`是父类`A`实例的属性，`super.p`就引用不到它。如果属性定义在父类的原型对象上，`super`就可以取到：
+```
+  class A {
+    constructor () {
+      this.p = 2
+    }
+  }
+  A.prototype.p = 3
+
+  class B extends A {
+    constructor () {
+      super()
+      console.log(super.p)
+    }
+    test () {
+      return super.p
+    }
+  }
+
+  let b = new B() // 3
+  b.test() // 3
+```
+
+在子类普通方法中，通过`super`调用父类的方法时，方法内部的`this`指向当前的子类实例。`super.doSth()`相当于`Object.getPrototypeOf(this).doSth.call(this)`。
+```
+class A {
+  constructor () {
+    this.x = 1
+  }
+  print () {
+    console.log(this.x)
+  }
+}
+
+class B extends A {
+  constructor () {
+    super()
+    this.x = 2
+  }
+  print () {
+    super.print()
+  }
+}
+
+let b = new B()
+b.print() // 2
+```
+`super.print()`虽然调用的是`A.prototype.print()`，但是`A.prototype.print()`内部的`this`指向子类`B`的实例，导致输出的是 2，而不是 1。也就是说，实际上执行的是`super.print.call(this)`。
+```
+  const myObject = {
+    x: 'x',
+    test () {
+      return this.x
+    }
+  }
+
+  const x = {
+    __proto__: myObject,
+    test () {
+      return console.log(super.test() + 'x')
+    }
+  }
+
+  x.test() // 'xx'
+```
+```
+  const obj1 = {
+    name: 'obj1',
+    method1 () {
+      console.log('method 1')
+      console.log(this.name)
+    }
+  }
+
+  const obj2 = {
+    name: 'obj2',
+    method2 () {
+      super.method1()
+    }
+  }
+
+  // 用 setPrototypeOf 将第二个对象的原型设为第一个对象
+  Object.setPrototypeOf(obj2, obj1)
+  obj2.method2() // 'method 1', 'obj2'
+```
+`super.method1()`相当于`obj1.method1.call(obj2)`。  
+
+由于`this`指向子类实例，所以如果通过`super`对某个属性赋值，这时`super`就是`this`，赋值的属性会变成子类实例的属性。
+```
+  class A {
+    constructor () {
+      this.x = 1
+    }
+  }
+
+  class B extends A {
+    constructor () {
+      super()
+      this.x = 2
+      super.x = 3
+      console.log(super.x)  // undefined
+      console.log(this.x) // 3
+    }
+  }
+
+  let b = new B()
+```
+`super.x`赋值为 3，这时等同于对`this.x`赋值为 3。而当读取`super.x`的时候，读的是`A.prototype.x`，所以返回`undefined`。  
+
+**在静态方法中：**  
+`super`将指向父类，而不是父类的原型对象。
+```
+  class Parent {
+    constructor () {
+      this.name = 1
+    }
+    static method () {
+      console.log('static', this.name)
+    }
+
+    method () {
+      console.log('instance', this.name)
+    }
+  }
+
+  class Child extends Parent {
+    constructor () {
+      super()
+      this.name = 2
+    }
+    static method () {
+      super.method()
+    }
+
+    method () {
+      super.method()
+    }
+  }
+
+  var child = new Child()
+
+  Child.method() // static Child
+  child.method() // instance 2
+```
