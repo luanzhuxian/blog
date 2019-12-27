@@ -1,5 +1,5 @@
 ---
-title: ES6 的 Async 函数
+title: JS 的批量异步操作
 comments: true
 categories:
   - javascript
@@ -41,10 +41,10 @@ Promise 的写法如下：
     }
   }
 ```
-上面代码确实大大简化，问题是所有远程操作都是继发。只有前一个 URL 返回结果，才会去读取下一个 URL，这样做效率很差，非常浪费时间。我们需要的是并发发出远程请求。
+上面代码确实大大简化，问题是所有远程操作都是继发。只有前一个 URL 返回结果，才会去读取下一个 URL，这样做效率很差，非常浪费时间。我们需要的是并行发出远程请求。
 ```
   async function logInOrder(urls) {
-    // 并发读取远程URL
+    // 并行读取远程URL
     const textPromises = urls.map(async url => {
       const response = await fetch(url);
       return response.text();
@@ -56,7 +56,7 @@ Promise 的写法如下：
     }
   }
 ```
-上面代码中，虽然`map`方法的参数是`async函数`，但它是并发执行的，因为只有`async函数`内部是继发执行，外部不受影响。后面的`for...of`循环内部使用了`await`，因此实现了按顺序输出。
+上面代码中，虽然`map`方法的参数是`async函数`，但它是并行执行的，因为只有`async函数`内部是继发执行，外部不受影响。后面的`for...of`循环内部使用了`await`，因此实现了按顺序输出。
 
 **上面一段引用自阮一峰的[ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/async#%E5%AE%9E%E4%BE%8B%EF%BC%9A%E6%8C%89%E9%A1%BA%E5%BA%8F%E5%AE%8C%E6%88%90%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C)**
 
@@ -89,7 +89,7 @@ Promise 的写法如下：
 
   printFiles()
 ```
-第一段每个`forEach`的回调都是一个`async`函数，所以每个回调有自己的阻塞范围，回调内的`await`是相互独立的，不会互相阻塞，所以可以看为是并发的。  
+第一段每个`forEach`的回调都是一个`async`函数，所以每个回调有自己的阻塞范围，回调内的`await`是相互独立的，不会互相阻塞，所以可以看为是并行的。  
 第二段只有一个`async`函数，就是外层的`printFiles`，`for...of`内的所有`await`不是互相独立的，要按次序执行，所以可以看成是继发的。  
 所以如果我们希望按顺序读取文件，那么第一段显然是错的，第二段是对的。  
 
@@ -104,7 +104,7 @@ Promise 的写法如下：
     }));
   }
 ```
-仍然是并发的，`forEach`是没有返回值的，而用`map`配合`Promise.all`，可以通过`await`获得返回的 promise 数组。  
+仍然是并行的，`forEach`是没有返回值的，而用`map`配合`Promise.all`，可以通过`await`获得返回的 promise 数组。  
 
 下面通过`reduce`实现，是按顺序执行的：
 ```
@@ -151,7 +151,7 @@ ES2018 的异步遍历器，是按顺序执行的：
   }
 ```
 
-# 并发执行异步操作
+# 并行执行异步操作
 
 如果一组异步操作是无关联相互独立的，比如首屏调用多个不相互依赖的接口，可以使用`Promise.all`：
 ```
