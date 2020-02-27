@@ -3,8 +3,6 @@ var htmlclean = require('gulp-htmlclean');
 var htmlmin = require('gulp-htmlmin');
 var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
-
-// 获取 gulp-imagemin 模块
 var imagemin = require('gulp-imagemin')
 
 // 压缩 public 目录 html
@@ -35,25 +33,20 @@ gulp.task('minify-css', function() {
         .pipe(gulp.dest('./public'));
 });
 
-// 压缩 public/js 目录 js
+// 压缩 public 目录 js
 gulp.task('minify-js', function() {
     return gulp.src('./public/**/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('./public'));
 });
 
-// 压缩图片任务
-// 在命令行输入 gulp images 启动此任务
+// 压缩图片
 gulp.task('images', function () {
-    // 1. 找到图片
     return gulp.src('./photos/*.*')
-    // 2. 压缩图片
         .pipe(imagemin({
             progressive: true
         }))
-        // 3. 另存图片
         .pipe(gulp.dest('dist/images'))
 });
 
-// 执行 gulp 命令时执行的任务
 gulp.task('build', gulp.series('minify-html', 'minify-css', 'minify-js', 'images'));

@@ -27,8 +27,6 @@ date: 2019-04-23 14:44:56
     var htmlmin = require('gulp-htmlmin');
     var cleanCSS = require('gulp-clean-css');
     var uglify = require('gulp-uglify');
-
-    // 获取 gulp-imagemin 模块
     var imagemin = require('gulp-imagemin')
 
     // 压缩 public 目录 html
@@ -59,27 +57,22 @@ date: 2019-04-23 14:44:56
             .pipe(gulp.dest('./public'));
     });
 
-    // 压缩 public/js 目录 js
+    // 压缩 public 目录 js
     gulp.task('minify-js', function() {
         return gulp.src('./public/**/*.js')
             .pipe(uglify())
             .pipe(gulp.dest('./public'));
     });
 
-    // 压缩图片任务
-    // 在命令行输入 gulp images 启动此任务
+    // 压缩图片
     gulp.task('images', function () {
-        // 1. 找到图片
         return gulp.src('./photos/*.*')
-        // 2. 压缩图片
             .pipe(imagemin({
                 progressive: true
             }))
-            // 3. 另存图片
             .pipe(gulp.dest('dist/images'))
     });
 
-    // 执行 gulp 命令时执行的任务
     gulp.task('build', gulp.series('minify-html', 'minify-css', 'minify-js', 'images'));
 ```
 终端执行`gulp build`就会执行`gulp.task('build', ['minify-html', 'minify-css', 'minify-js', 'images']);`任务，即分别压缩`public`下的`html、css、js和图片`。  
