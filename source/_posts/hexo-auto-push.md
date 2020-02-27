@@ -87,7 +87,7 @@ new|在文章文件建立后发布
 要实现这个自动备份功能，需要依赖 NodeJs 的一个 shelljs 模块，该模块重新包装了`child_process`，调用系统命令更加的方便。  
 在命令中键入以下命令，完成 shelljs 模块的安装：
 ```
-  npm install --save shelljs
+  npm install --save-dev shelljs
 ```
 
 ## 编写自动备份脚本
@@ -109,7 +109,7 @@ new|在文章文件建立后发布
       echo('Sorry, this script requires git')
       exit(1)
     } else {
-      echo('====================== Auto Backup Begin ===========================')
+      echo('====================== Auto Backup Begin ======================')
       cd('/Users/666/Desktop/code/project/Blog')    //此处修改为Hexo根目录路径
 
       if (exec('git add --all').code !== 0) {
@@ -127,7 +127,7 @@ new|在文章文件建立后发布
         exit(1)
       }
 
-      echo('================== Auto Backup Complete ============================')
+      echo('====================== Auto Backup Complete ======================')
     }
   }
 ```

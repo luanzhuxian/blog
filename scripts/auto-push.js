@@ -13,7 +13,7 @@ function run() {
 		echo('Sorry, this script requires git')
 		exit(1)
 	} else {
-		echo('====================== Auto Backup Begin ===========================')
+		echo('====================== Auto Backup Begin ======================')
 		cd('/Users/666/Desktop/coding/project/Blog')    //此处修改为Hexo根目录路径
 		// exec('D:')
 		// cd('D:\\project\\Blog')
@@ -33,6 +33,6 @@ function run() {
 			exit(1)
 		}
 
-		echo('================== Auto Backup Complete ============================')
+		echo('====================== Auto Backup Complete ======================')
 	}
 }
