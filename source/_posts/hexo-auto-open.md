@@ -28,30 +28,30 @@ date: 2018-12-09 17:46:34
 
 如果你是 Windows 平台的用户，则将下列内容写入你的脚本：
 ```
-  var spawn = require('child_process').exec;
+  var spawn = require('child_process').exec
 
   // Hexo 2.x 用户复制这段
   hexo.on('new', function(path){
-    spawn('start  "markdown编辑器绝对路径.exe" ' + path);
-  });
+    spawn('start  "markdown编辑器绝对路径.exe" ' + path)
+  })
 
   // Hexo 3 用户复制这段
   hexo.on('new', function(data){
-    spawn('start  "markdown编辑器绝对路径.exe" ' + data.path);
-  });
+    spawn('start  "markdown编辑器绝对路径.exe" ' + data.path)
+  })
 ```
 如果你是 Mac 平台用户，则将下列内容写入你的脚本：
 ```
-  var exec = require('child_process').exec;
+  var exec = require('child_process').exec
 
   // Hexo 2.x 用户复制这段
   hexo.on('new', function(path){
-      exec('open -a "markdown编辑器绝对路径.app" ' + path);
-  });
+      exec('open -a "markdown编辑器绝对路径.app" ' + path)
+  })
   // Hexo 3 用户复制这段
   hexo.on('new', function(data){
-      exec('open -a "markdown编辑器绝对路径.app" ' + data.path);
-  });
+      exec('open -a "markdown编辑器绝对路径.app" ' + data.path)
+  })
 ```
 保存并退出脚本之后，在命令行中键入：
 ```

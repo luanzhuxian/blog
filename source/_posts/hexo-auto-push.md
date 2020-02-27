@@ -94,36 +94,40 @@ new|在文章文件建立后发布
 模块安装完成，在 Hexo 根目录的`scripts`文件夹下新建一个 js 文件，文件名随意取。（如果没有`scripts`目录，请新建一个。）  
 然后在脚本中，写入以下内容：
 ```
-  require('shelljs/global');
+  require('shelljs/global')
 
   try {
     hexo.on('deployAfter', function() {//当deploy完成后执行备份
-      run();
-    });
+      run()
+    })
   } catch (e) {
-    console.log("Error:" + e.toString());
+    console.log('Error:' + e.toString())
   }
 
   function run() {
     if (!which('git')) {
-      echo('Sorry, this script requires git');
-      exit(1);
+      echo('Sorry, this script requires git')
+      exit(1)
     } else {
-      echo("======================Auto Backup Begin===========================");
-      cd('/Users/666/Desktop/code/project/Blog');    //此处修改为Hexo根目录路径
+      echo('====================== Auto Backup Begin ===========================')
+      cd('/Users/666/Desktop/code/project/Blog')    //此处修改为Hexo根目录路径
+
       if (exec('git add --all').code !== 0) {
-        echo('Error: Git add failed');
-        exit(1);
+        echo('Error: Git add failed')
+        exit(1)
       }
+
       if (exec('git commit -am "Form auto backup script\'s commit"').code !== 0) {
-        echo('Error: Git commit failed');
-        exit(1);
+        echo('Error: Git commit failed')
+        exit(1)
       }
+
       if (exec('git push origin master').code !== 0) {
-        echo('Error: Git push failed');
-        exit(1);
+        echo('Error: Git push failed')
+        exit(1)
       }
-      echo("==================Auto Backup Complete============================")
+
+      echo('================== Auto Backup Complete ============================')
     }
   }
 ```
