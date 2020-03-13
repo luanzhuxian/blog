@@ -198,6 +198,7 @@ ES2018 的异步遍历器，是按顺序执行的：
   then 100
   then 3
 ```
+
 虽然 b 被`reject`，但并不影响其他`resolve`的返回值。  
 
 配合`await`：
@@ -226,3 +227,62 @@ ES2018 的异步遍历器，是按顺序执行的：
   })
   // [{ status: 'fulfilled', value: 1 }, { status: 'rejected', reason: 2 }]
 ```
+
+# 控制 promise 并发
+
+当`Promise.all`中任务数量过多时，希望控制每个时刻并发执行的`promise`任务数量是固定的。当所有`promise`完成时，触发总的`resolve`。  
+因为`Promise.all`中的任务，其实是`promise`实例化的时候执行的，所以要限制并发，就要限制`promise`的实例化。就是把生成`promise`数组的的控制权交给并发控制逻辑。  
+这里参考一个第三方的库 [async-pool](https://www.npmjs.com/package/tiny-async-pool) 的实现。去掉不必要的代码，大概内容如下：
+```
+/**
+* @param poolLimit 并发控制数 (>= 1)
+* @param array
+* @param iteratorFn 异步任务，返回 promise 或是 async 方法
+*/
+function asyncPool (poolLimit, array, iteratorFn) {
+    let i = 0
+    const ret = []  // Promise.all(ret) 的数组
+    const executing = []
+    const enqueue = function () {
+        // array 遍历完，进入 Promise.all 流程
+        if (i === array.length) {
+            return Promise.resolve()
+        }
+
+        // 每调一次 enqueue，初始化一个 promise，并放入
+        const item = array[i++]
+        const p = Promise.resolve().then(() => iteratorFn(item, array))
+        ret.push(p)
+
+        // 插入 executing 队列，即正在执行的 promise 队列，并且 promise 执行完毕后，会从 executing 队列中移除
+        const e = p.then(() => executing.splice(executing.indexOf(e), 1))
+        executing.push(e)
+
+        // 每当 executing 数组中 promise 数量达到 poolLimit 时，就利用 Promise.race 控制并发数，完成的 promise 会从 executing 队列中移除，并触发 Promise.race 也就是 r 的回调，继续递归调用 enqueue，继续 加入新的 promise 任务至 executing 队列
+        let r = Promise.resolve()
+        if (executing.length >= poolLimit) {
+            r = Promise.race(executing)
+        }
+
+        // 递归，链式调用，直到遍历完 array
+        return r.then(() => enqueue())
+    }
+
+    return enqueue().then(() => Promise.all(ret))
+}
+```
+如何使用：
+```
+const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i))
+
+return asyncPool(3, [1000, 5000, 2000, 3000], timeout).then(results => {
+    ...
+})
+```
+大概过程如下：
+- 将 1000、5000 和 2000 的`promise`依次加入`ret`和`executing`队列
+- 之后发现达到 poolLimit = 3，调用`Promise.race(executing)`
+- 1000 的`promise`会率先`resolve`，并从`executing`队列移除，之后继续递归
+- 将 3000 的`promise`加入`executing`队列，此时 5000 和 2000 的`promise`还是`pending`状态，`executing`队列中为 5000、2000、3000 三个任务，达到`poolLimit`，再次调用`Promise.race`，
+- 一秒后 2000 的`promise`被`resolve`，从队列中移除，接着发现遍历结束，中断递归，最后调用`Promise.all(ret)`
+- 此时`ret`队列中 1000 和 2000 的`promise`都是`resolve`，等待 3000 和 5000 的都完成后，最后触发`Promise.all`实例的回调，并将结果返回
