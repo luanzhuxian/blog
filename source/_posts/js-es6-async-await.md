@@ -249,7 +249,7 @@ function asyncPool (poolLimit, array, iteratorFn) {
             return Promise.resolve()
         }
 
-        // 每调一次 enqueue，初始化一个 promise，并放入
+        // 每调用一次 enqueue，就初始化一个 promise，并放入 ret 队列
         const item = array[i++]
         const p = Promise.resolve().then(() => iteratorFn(item, array))
         ret.push(p)
