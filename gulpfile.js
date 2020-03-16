@@ -1,8 +1,8 @@
-var gulp = require('gulp');
-var htmlclean = require('gulp-htmlclean');
-var htmlmin = require('gulp-htmlmin');
-var cleanCSS = require('gulp-clean-css');
-var uglify = require('gulp-uglify');
+var gulp = require('gulp')
+var htmlclean = require('gulp-htmlclean')
+var htmlmin = require('gulp-htmlmin')
+var cleanCSS = require('gulp-clean-css')
+var uglify = require('gulp-uglify')
 var imagemin = require('gulp-imagemin')
 
 // 压缩 public 目录 html
@@ -20,25 +20,25 @@ gulp.task('minify-html', function() {
             minifyCSS: true  //压缩页面CSS
         }))
         .on('error', function(err) {
-            console.log('html Error!', err.message);
-            this.end();
+            console.log('html Error!', err.message)
+            this.end()
         })
         .pipe(gulp.dest('./public'))
-});
+})
 
 // 压缩 public 目录 css
 gulp.task('minify-css', function() {
     return gulp.src('./public/**/*.css')
         .pipe(cleanCSS())
-        .pipe(gulp.dest('./public'));
-});
+        .pipe(gulp.dest('./public'))
+})
 
 // 压缩 public 目录 js
 gulp.task('minify-js', function() {
     return gulp.src('./public/**/*.js')
         .pipe(uglify())
-        .pipe(gulp.dest('./public'));
-});
+        .pipe(gulp.dest('./public'))
+})
 
 // 压缩图片
 gulp.task('images', function () {
@@ -47,6 +47,6 @@ gulp.task('images', function () {
             progressive: true
         }))
         .pipe(gulp.dest('dist/images'))
-});
+})
 
-gulp.task('build', gulp.series('minify-html', 'minify-css', 'minify-js', 'images'));
+gulp.task('build', gulp.series('minify-html', 'minify-css', 'minify-js', 'images'))

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.9.0"
+    "version": "3.8.0"
   },
   "dependencies": {
     "hexo": "^3.7.0",
@@ -31,5 +31,8 @@
     "gulp-imagemin": "^7.1.0",
     "gulp-uglify": "^3.0.2",
     "shelljs": "^0.8.3"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   }
 }

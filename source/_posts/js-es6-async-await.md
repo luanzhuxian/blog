@@ -273,9 +273,10 @@ function asyncPool (poolLimit, array, iteratorFn) {
 ```
 如何使用：
 ```
+const array = [1000, 5000, 2000, 3000]
 const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i))
 
-return asyncPool(3, [1000, 5000, 2000, 3000], timeout).then(results => {
+return asyncPool(3, array, timeout).then(results => {
     ...
 })
 ```
