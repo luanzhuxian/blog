@@ -32,7 +32,7 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
     return new F()
   }
 ```
-### 2. [Object.create()：创建对象的新方式](https://luanzhuxian.github.io/post/f92303d3.html)  
+### 2. [Object.create()：创建对象的新方式](http://www.luanzhuxian.com/post/f92303d3.html)  
 
 <br>
 <center>正文</center>

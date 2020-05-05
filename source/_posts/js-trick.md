@@ -72,7 +72,7 @@ ES6 为了增加语义的清晰，语法的简洁性。添加了一个新方法`
 ```
 
 # 创建空对象
-[Object.create()：创建对象的新方式](https://luanzhuxian.github.io/post/f92303d3.html)  
+[Object.create()：创建对象的新方式](http://www.luanzhuxian.com/post/f92303d3.html)  
 
 # Merge Objects
 1. `Object.assgin()`

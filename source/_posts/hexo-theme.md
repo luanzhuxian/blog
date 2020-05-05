@@ -339,16 +339,16 @@ post_wordcount:
 
 
 ### 添加评论
-[Hexo + Next添加 Valine 评论功能](https://luanzhuxian.github.io/post/c49d1b87.html)  
+[Hexo + Next添加 Valine 评论功能](http://www.luanzhuxian.com/post/c49d1b87.html)  
 
 ### 统计阅读次数
-[Hexo + Next添加文章阅读量统计](https://luanzhuxian.github.io/post/ec069b41.html)  
+[Hexo + Next添加文章阅读量统计](http://www.luanzhuxian.com/post/ec069b41.html)  
 
 ### SEO
-[Hexo + Next主题博客提交百度谷歌收录](https://luanzhuxian.github.io/post/82d92ad4.html)  
+[Hexo + Next主题博客提交百度谷歌收录](http://www.luanzhuxian.com/post/82d92ad4.html)  
 
 ### 压缩
-[使用 Gulp 压缩 Hexo](https://luanzhuxian.github.io/post/e5ac3b51.html)  
+[使用 Gulp 压缩 Hexo](http://www.luanzhuxian.com/post/e5ac3b51.html)  
 
 ### 增加七牛图床
 将图片上传至七牛，然后获得外链，在我们使用markdown写博客的时候直接插入外链。还可以直接获取带水印、压缩、剪裁过后的图片。  
