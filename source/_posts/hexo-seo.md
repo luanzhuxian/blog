@@ -42,7 +42,7 @@ tags: Hexo
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
   <meta name="theme-color" content="{{ theme.android_chrome_color }}">
-  <meta name="baidu-site-verification" content="lsIWHEaglh" />  # 此为新添加的
+  <meta name="baidu-site-verification" content="hDU7MGKZcM" />  # 此为新添加的
 ```
 - 方法二：打开 Hexo 主题配置文件，按如下修改/添加：
 ```
