@@ -14,9 +14,9 @@ function run() {
 		exit(1)
 	} else {
 		echo('====================== Auto Backup Begin ======================')
-		// cd('/Users/666/Desktop/coding/project/blog')    //此处修改为Hexo根目录路径
-		exec('D:')
-		cd('D:\\project\\blog')
+		cd('/Users/666/Desktop/coding/project/blog')    //此处修改为Hexo根目录路径
+		// exec('D:')
+		// cd('D:\\project\\blog')
 
 		if (exec('git add --all').code !== 0) {
 			echo('Error: Git add failed')
