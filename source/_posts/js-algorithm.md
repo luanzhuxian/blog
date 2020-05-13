@@ -76,6 +76,70 @@ date: 2019-05-06 17:37:27
     return stringCharacters.join("") === stringCharacters.reverse().join("") // 转变数据结构
   }
 ```
+简略版
+```
+function isPalindrome (str) {
+    let rev = str.split('').reverse().join('')
+    return str === rev
+}
+```
+最长回文：一般方法
+```
+function longestPalindrome  (string) {
+    let len = string.length
+    let result = ''
+    for (let i = 0; i < len; i++) {
+        for (let j = i; j < len; j++) {
+            let str = string.substring(i, j)
+            if (isPalindrome(str) && str.length > result.length) {
+                result = str
+            }
+        }
+    }
+    return result
+}
+```
+最长回文：动态规划  
+上述一般方法包含很多重复计算，需要改进。我们发现对于'asdsa'，如果已知'sds'是回文，那么'asdsa'也是回文。  
+举例来说，我们用`P(i, j)`表示子串`Si~Sj`是否回文，如果是回文则`P(i, j)`为 true，否则为 false。那么上文就等同为`P(i, j) = (P(i + 1, j - 1) && Si === Sj)`。  
+那么我们可以得到一个动态规划解法，首先初始化一字母和二字母的回文，再递增找到三字母的回文，以此类推...  
+`P(i, j) = true`，`P(i, i + 1) = (Si === Si+1)`
+```
+function longestPalindrome  (string) {
+    let len = string.length
+    let i, j, L       // L是i和j之间的间隔数（因为间隔数从小到大渐增，所以大的间隔数总能包含小的间隔数）
+    let result = ''
+    let matrix = Array(len).fill(0).map(x => Array(len).fill(0))  // 生成 len * len 矩阵
+
+    if (len <= 1){
+        return string
+    }
+
+    // 初始化只有一个字符是回文的情况
+    for (i = 0; i < len; i++) {
+        matrix[i][i] = 1
+        result = string[i]
+    }
+
+    // L从2开始，找出二字回文的情况，依次递增
+    // 例如 'abcdcba'.length = L，若首位的 a 各为 i、j，则 L = j - i + 1，所以 j = i + L - 1
+    for ( L = 2; L <= len; L++) {
+        // 从0开始，
+        for ( i = 0; i <= len - L; i++) {
+            // 根据当前的 i 和 L 得到 j
+            j = i + L - 1
+            if (L === 2 && string[i] === string[j]) {
+                matrix[i][j] = 1
+                result = string.slice(i, i + L)
+            } else if (string[i] === string[j] && matrix[i + 1][j - 1] === 1) {
+                matrix[i][j] = 1
+                result = string.slice(i, i + L)
+            }
+        }
+    }
+    return result
+}
+```
 
 ## 3. 整数反转
 给定一个整数，反转数字的顺序。
@@ -292,4 +356,52 @@ date: 2019-05-06 17:37:27
     }
     return primes
   }
+```
+
+## 11. 爬楼梯
+假设你正在爬楼梯。需要 n 阶你才能到达楼顶。每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？  
+爬楼梯其实属于动态规划一类。举例来说：倒着思考，当已经到达三层的时候，是怎样爬上来的？  
+`f(3) = f(2) + f(1)`，即从第二阶走一步上来或者从第一阶走两步上来。  
+通过递推归纳：`f(n) = f(n-2) + f(n-1)`，从第 n-2 阶台阶走一步上来或者从第 n-1 阶台阶走两步上来。
+```
+function Fibonacci(n) {
+    var a = [0, 1, 2]
+    for (var i = 3; i <= n; i++) {
+        a[i] = a[i-1] + a[i-2]
+    }
+    return a[n]
+}
+```
+
+## 12. 快速排序
+方法一：
+1. 在数据集之中，选择一个元素作为基准（pivot）。
+2. 所有小于基准的元素，都移到基准的左边；所有大于基准的元素，都移到基准的右边。
+3. 对基准左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。
+```
+function quickSort (arr) {
+
+　　if (arr.length <= 1) { 
+      return arr 
+    }
+
+    const pivotIndex = Math.floor(arr.length / 2)
+
+    const pivot = arr.splice(pivotIndex, 1)[0]
+
+    const left = []
+
+    const right = []
+
+　　for (var i = 0; i < arr.length; i++) {
+
+　　　　if (arr[i] < pivot) {
+　　　　　　left.push(arr[i])
+　　　　} else {
+　　　　　　right.push(arr[i])
+　　　　}
+　　}
+
+　　return quickSort(left).concat([pivot], quickSort(right))
+}
 ```
