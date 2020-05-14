@@ -100,7 +100,7 @@ function longestPalindrome  (string) {
 }
 ```
 最长回文：动态规划  
-上述一般方法包含很多重复计算，需要改进。我们发现对于'asdsa'，如果已知'sds'是回文，那么'asdsa'也是回文。  
+上述一般方法包含很多重复计算，需要改进。我们发现对于`'asdsa'`，如果已知`'sds'`是回文，那么`'asdsa'`也是回文。  
 举例来说，我们用`P(i, j)`表示子串`Si~Sj`是否回文，如果是回文则`P(i, j)`为 true，否则为 false。那么上文就等同为`P(i, j) = (P(i + 1, j - 1) && Si === Sj)`。  
 那么我们可以得到一个动态规划解法，首先初始化一字母和二字母的回文，再递增找到三字母的回文，以此类推...  
 `P(i, j) = true`，`P(i, i + 1) = (Si === Si+1)`
@@ -122,7 +122,7 @@ function longestPalindrome  (string) {
     }
 
     // L从2开始，找出二字回文的情况，依次递增
-    // 例如 'abcdcba'.length = L，若首位的 a 各为 i、j，则 L = j - i + 1，所以 j = i + L - 1
+    // 例如 'abcdcba'.length = L，若首尾的 a 各为 i、j位，则 L = j - i + 1，所以 j = i + L - 1
     for ( L = 2; L <= len; L++) {
         // 从0开始，
         for ( i = 0; i <= len - L; i++) {
