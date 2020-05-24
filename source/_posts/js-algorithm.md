@@ -401,3 +401,60 @@ function quickSort (arr) {
 　　return quickSort(left).concat([pivot], quickSort(right))
 }
 ```
+
+方法二：
+1. 首先，从数组中选择中间一项作为主元。
+2. 创建两个指针，左边一个指向数组第一项，右边一个指向数组最后一项。移动左指针直到找到一个比主元大的元素，接着，移动右指针直到找到一个比主元小的元素，然后交换它们，重复这个过程，直到左指针超过右指针。这个过程将使得比主元小的值都排在主元之前，比主元大的值都排在主元之后。这一部叫做划分操作。
+3. 接着，算法对划分后的小数组重复之前的两个步骤，直至数组已完全排序。  
+
+```
+function swap (array, index1, index2) {
+  [array[index1], array[index2]] = [array[index2], array[index1]]
+}
+
+// 划分操作
+function partition (array, left, right) {
+  const pivot = array[Math.floor((right + left) / 2)]
+  let i = left
+  let j = right
+
+  // 只要 left 和 right 没有交错，就执行划分 
+  while (i < j) {
+    while (array[i] < pivot) {  // 找到一个比主元大的元素
+      i++
+    }
+    while (array[j] > pivot) {  // 找到一个比主元小的元素
+      j++
+    }
+    if (i <= j) {
+      swap(array, i, j)
+      i++
+      j++
+    }
+  }
+  return i
+}
+
+function quick (array, left, right) {
+  let index
+  if (array.length > 1) {
+    index = partition(array, left, right)
+
+    // 存在较小子数组，对较小子数组快排
+    if (left < index - 1) {
+      quick(array, left, index - 1)
+    }
+
+    // 存在较大子数组，对较大子数组快排
+    if (index < right) {
+      quick(array, index, right)
+    }
+  }
+}
+
+function quickSort () {
+  // 第一次快排整个数组
+  quick(array, 0, array.length - 1)
+}
+
+```
