@@ -424,12 +424,12 @@ function partition (array, left, right) {
       i++
     }
     while (array[j] > pivot) {  // 找到一个比主元小的元素
-      j++
+      j--
     }
     if (i <= j) {
       swap(array, i, j)
       i++
-      j++
+      j--
     }
   }
   return i
@@ -452,7 +452,7 @@ function quick (array, left, right) {
   }
 }
 
-function quickSort () {
+function quickSort (array) {
   // 第一次快排整个数组
   quick(array, 0, array.length - 1)
 }
