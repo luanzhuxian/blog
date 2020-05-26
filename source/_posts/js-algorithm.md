@@ -83,9 +83,9 @@ function isPalindrome (str) {
     return str === rev
 }
 ```
-最长回文：一般方法
+**最长回文：**一般方法
 ```
-function longestPalindrome  (string) {
+function longestPalindrome (string) {
     let len = string.length
     let result = ''
     for (let i = 0; i < len; i++) {
@@ -99,7 +99,7 @@ function longestPalindrome  (string) {
     return result
 }
 ```
-最长回文：动态规划  
+**最长回文：**动态规划  
 上述一般方法包含很多重复计算，需要改进。我们发现对于`'asdsa'`，如果已知`'sds'`是回文，那么`'asdsa'`也是回文。  
 举例来说，我们用`P(i, j)`表示子串`Si~Sj`是否回文，如果是回文则`P(i, j)`为 true，否则为 false。那么上文就等同为`P(i, j) = (P(i + 1, j - 1) && Si === Sj)`。  
 那么我们可以得到一个动态规划解法，首先初始化一字母和二字母的回文，再递增找到三字母的回文，以此类推...  
@@ -191,7 +191,61 @@ function longestPalindrome  (string) {
   }
 ```
 
-## 5. 找出 string 中元音字母出现的个数
+## 5. 字符串中连续出现次数最多的子串
+方法一：
+```
+function maxStr (str) {
+    let index = 0   // 指针
+    let counter = 0
+    let max = 0
+    let character
+
+    while (index < str.length) {
+        const current = str.charAt(index)
+        const next = str.charAt(index + 1)
+        if (!counter) {
+            counter += 1
+        }
+        if (current === next) {
+            counter += 1
+        } else {
+            if (counter > max) {
+                max = counter
+                character = current
+            }
+            counter = 0
+        }
+        index++
+    }
+
+    return character.repeat(max)
+} 
+```
+方法二：
+```
+function maxStr (str) {
+    let index = 0   // 指针
+    let result = ''
+    let sub = ''
+
+    while (index < str.length) {
+        const current = str.charAt(index)
+        const next = str.charAt(index + 1)
+        sub += current
+        if (current !== next) {
+            if (sub.length > result.length) {
+                result = sub
+            }
+            sub = ''
+        }
+        index++
+    }
+
+    return result
+} 
+```
+
+## 6. 找出 string 中元音字母出现的个数
 给定一个单词或者短语，统计出元音字母出现的次数。
 ```
   describe("Vowels", () => {
@@ -220,7 +274,7 @@ function longestPalindrome  (string) {
    }
 ```
 
-## 6. 数组分隔
+## 7. 数组分隔
 给定数组和大小，将数组项拆分为具有给定大小的数组列表。
 ```
   describe("Array Chunking", () => {
@@ -245,7 +299,7 @@ function longestPalindrome  (string) {
   }
 ```
 
-## 7. words 反转
+## 8. words 反转
 给定一个短语，按照顺序反转每一个单词。
 ```
   describe("Reverse Words", () => {
@@ -266,7 +320,7 @@ function longestPalindrome  (string) {
                                       ).join(' ')
 ```
 
-## 8. 首字母大写
+## 9. 首字母大写
 给定一个短语，每个首字母变为大写。
 ```
   describe("Capitalization", () => {
@@ -283,7 +337,7 @@ function longestPalindrome  (string) {
   }
 ```
 
-## 9. 凯撒密码
+## 10. 凯撒密码
 给定一个短语，通过在字母表中上下移动一个给定的整数来替换每个字符。如果有必要，这种转换应该回到字母表的开头或结尾。
 ```
   describe("Caesar Cipher", () => {
@@ -322,7 +376,7 @@ function longestPalindrome  (string) {
   }
 ```
 
-## 10. 找出从 0 开始到给定整数的所有质数
+## 11. 找出从 0 开始到给定整数的所有质数
 给定一个短语，通过在字母表中上下移动一个给定的整数来替换每个字符。如果有必要，这种转换应该回到字母表的开头或结尾。
 ```
   describe("Sieve of Eratosthenes", () => {
@@ -336,14 +390,14 @@ function longestPalindrome  (string) {
 ```
   const isPrime = n => {
     if (n > 1 && n <= 3) {
-        return true
-      } else {
-        for(let i = 2; i <= Math.sqrt(n); i++){
-          if (n % i == 0) {
-            return false
-          }
+      return true
+    } else {
+      for(let i = 2; i <= Math.sqrt(n); i++){
+        if (n % i == 0) {
+          return false
         }
-        return true
+      }
+      return true
     }
   }
 
@@ -358,7 +412,7 @@ function longestPalindrome  (string) {
   }
 ```
 
-## 11. 爬楼梯
+## 12. 爬楼梯
 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？  
 爬楼梯其实属于动态规划一类。举例来说：倒着思考，当已经到达三层的时候，是怎样爬上来的？  
 `f(3) = f(2) + f(1)`，即从第二阶走一步上来或者从第一阶走两步上来。  
@@ -373,7 +427,7 @@ function Fibonacci(n) {
 }
 ```
 
-## 12. 快速排序
+## 13. 快速排序
 方法一：  
 1. 在数据集之中，选择一个元素作为基准（pivot）。
 2. 所有小于基准的元素，都移到基准的左边；所有大于基准的元素，都移到基准的右边。
@@ -457,7 +511,7 @@ function quickSort (array) {
 }
 ```
 
-## 13. Camel 和 Pascal 相互转换
+## 14. Camel 和 Pascal 相互转换
 糟糕的方法：
 ```
 const isObject = input => Object.prototype.toString.call(input) === '[object Object]'
@@ -576,7 +630,7 @@ const camelCasedData2 = pascalToCamel(pascalCasedData)
 console.log(camelCasedData2)
 ```
 
-## 14. 数组转树
+## 15. 数组转树
 ```
 const locationList = [
     { id: 0, name: "中国" },
