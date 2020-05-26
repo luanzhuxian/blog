@@ -401,3 +401,157 @@ function quickSort (arr) {
 　　return quickSort(left).concat([pivot], quickSort(right))
 }
 ```
+
+
+## 13. Camel 和 Pascal 相互转换
+糟糕的方法：
+```
+const isObject = input => Object.prototype.toString.call(input) === '[object Object]'
+
+const isArray = input => Object.prototype.toString.call(input) === '[object Array]'
+
+const convertKey = ({key, type}) => {
+    let init = key.charAt(0)
+    init = (type === 'up') ? init.toUpperCase() : init.toLowerCase()
+    return init + key.substring(1)
+}
+
+const processArray = (arr, fn) => arr.reduce((acc, item) => {
+    const _item = isObject(item) ? fn(item) : item
+    acc.push(_item)
+    return acc
+}, [])
+
+const convert = (input, type, fn) => {
+    if (!isObject(input)) {
+        return {}
+    }
+
+    const result = {}
+    const keys = Object.keys(input)
+
+    for (const key of keys) {
+        const newKey = convertKey({ key, type })
+        const val = input[key]
+
+        if (isArray(val)) {
+            result[newKey] = processArray(val, fn)
+        } else if (isObject(val)) {
+            result[newKey] = fn(val)
+        } else {
+            result[newKey] = val
+        }
+    }
+
+    return result
+}
+
+const camelToPascal = (input) => convert(input, 'up', camelToPascal)
+const pascalToCamel = (input) => convert(input, 'low', pascalToCamel)
+
+const camelCasedData = {
+    age: 18,
+    gender: "female",
+    experiences: [
+        { from: "2009-09", to: "2013-06", exp: "School" },
+        { from: "2013-09", to: "2020-02", exp: "Job" },
+    ]
+};
+
+const pascalCasedData = camelToPascal(camelCasedData)
+console.log(pascalCasedData)
+const camelCasedData2 = pascalToCamel(pascalCasedData)
+console.log(camelCasedData2)
+```
+
+用类实现，便于保存状态：
+```
+const isObject = input => Object.prototype.toString.call(input) === '[object Object]'
+
+class Convertor {
+    constructor (keyConvertFn) {
+        this.keyConvertFn = keyConvertFn
+    }
+
+    convertKey (key) {
+        const { keyConvertFn } = this
+        const initial = keyConvertFn.call(key.charAt(0))
+        return initial + key.substring(1)
+    }
+
+    convert (source) {
+        if (!isObject(source)) {
+            return {}
+        }
+
+        const result = {}
+    
+        for (const key of Object.keys(source)) {
+            const newKey = this.convertKey(key)
+            const value = source[key]
+    
+            if (Array.isArray(value)) {
+                result[newKey] = value.map(item => isObject(item) ? this.convert(item) : item)
+            } else if (isObject(value)) {
+                result[newKey] = this.convert(value)
+            } else {
+                result[newKey] = value
+            }
+        }
+
+        return result
+    }
+}
+
+const camelToPascalConvertor = new Convertor(String.prototype.toUpperCase)
+const pascalToCamelConvertor = new Convertor(String.prototype.toLowerCase)
+const camelToPascal = (source) => camelToPascalConvertor.convert(source)
+const pascalToCamel = (source) => pascalToCamelConvertor.convert(source)
+
+
+const camelCasedData = {
+    age: 18,
+    gender: "female",
+    experiences: [
+        { from: "2009-09", to: "2013-06", exp: "School" },
+        { from: "2013-09", to: "2020-02", exp: "Job" },
+    ]
+};
+
+const pascalCasedData = camelToPascal(camelCasedData)
+console.log(pascalCasedData)
+const camelCasedData2 = pascalToCamel(pascalCasedData)
+console.log(camelCasedData2)
+```
+
+## 14. 数组转树
+```
+const locationList = [
+    { id: 0, name: "中国" },
+    { id: 1, pid: 0, name: "广东省" },
+    { id: 2, pid: 1, name: "深圳市" },
+    { id: 3, pid: 1, name: "广州市" }
+]
+
+function buildLocationTree (locationList) {
+
+    const _findSubLocations = (location) => {
+        const { id } = location
+        const list = locationList.filter(({pid}) => id === pid)
+
+        return list.length ? 
+        {
+            ...location,
+            subLocations: list.map(item => _findSubLocations(item))
+        } :
+        location
+    }
+
+    const root = locationList.find(item => !item.hasOwnProperty('pid'))
+    const result = _findSubLocations(root)
+
+    return result
+}
+
+console.log(JSON.stringify(buildLocationTree(locationList)))
+```

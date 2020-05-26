@@ -1,5 +1,8 @@
 require('shelljs/global')
 
+// const { platform } = require('process')
+const platform = require('os').platform()
+
 try {
 	hexo.on('deployAfter', function() {	// 当deploy完成后执行备份
 		run()
@@ -8,15 +11,20 @@ try {
 	console.log('Error:' + e.toString())
 }
 
-function run() {
+function run () {
 	if (!which('git')) {
 		echo('Sorry, this script requires git')
 		exit(1)
 	} else {
 		echo('====================== Auto Backup Begin ======================')
-		// cd('/Users/666/Desktop/coding/project/blog')    // 此处修改为Hexo根目录路径
-		exec('D:')
-		cd('D:\\project\\blog')
+		echo(`====================== Current platform is ${platform} ======================`)
+
+		if (/^win/.test(platform)) {			
+			exec('D:')
+			cd('D:\\project\\blog')
+		} else {
+			cd('/Users/666/Desktop/coding/project/blog')    // 此处修改为Hexo根目录路径
+		}
 
 		if (exec('git add --all').code !== 0) {
 			echo('Error: Git add failed')

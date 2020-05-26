@@ -95,6 +95,7 @@ new|在文章文件建立后发布
 然后在脚本中，写入以下内容：
 ```
   require('shelljs/global')
+  const platform = require('os').platform()
 
   try {
     hexo.on('deployAfter', function() {//当deploy完成后执行备份
@@ -104,13 +105,19 @@ new|在文章文件建立后发布
     console.log('Error:' + e.toString())
   }
 
-  function run() {
+  function run () {
     if (!which('git')) {
       echo('Sorry, this script requires git')
       exit(1)
     } else {
       echo('====================== Auto Backup Begin ======================')
-      cd('/Users/666/Desktop/code/project/Blog')    //此处修改为Hexo根目录路径
+      echo(`====================== Current platform is ${platform} ======================`)
+
+      if (/^win/.test(platform)) {			
+        // windows 环境下项目路径
+      } else {
+        cd('/Users/666/Desktop/code/project/blog')    // linux 环境下项目路径
+      }
 
       if (exec('git add --all').code !== 0) {
         echo('Error: Git add failed')
