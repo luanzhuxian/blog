@@ -589,11 +589,11 @@ compose 其实是满足结合律的
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/debounce_1.png)
 非立即执行版是触发事件后函数不会立即执行，而是在 n 秒后执行，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。
 ```
-  function debounce(func, wait, ...args) {
+  function debounce(func, wait) {
     var timer
     return function () {
-      var context = this
-      // var args = arguments
+      const context = this
+      const args = arguments
       clearTimeout(timer)
       timer = setTimeout(() => {
         func.apply(context, args)
@@ -606,10 +606,11 @@ compose 其实是满足结合律的
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/debounce_2.png)
 立即执行版是触发事件后函数会立即执行，然后 n 秒内不触发事件才能继续执行。
 ```
-  const debounce = (func, wait, ...args) => {
+  const debounce = (func, wait) => {
     let timer
     return function (){
       const context = this
+      const args = arguments
       if (timer) cleatTimeout(timer)
       let callNow = !timer
       timer = setTimeout(() => {
@@ -633,12 +634,12 @@ compose 其实是满足结合律的
     var timer
 
     return function () {
-      var context = this
-      var args = arguments
+      const context = this
+      const args = arguments
 
       if (timer) clearTimeout(timer)
       if (immediate) {
-        var callNow = !timer
+        const callNow = !timer
         timer = setTimeout(function(){
           timer = null
         }, wait)
@@ -710,10 +711,11 @@ throttle（节流），当持续触发事件时，保证隔间时间触发一次
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/throttle_1.png)
 在持续触发事件的过程中，函数会立即执行，并且每间隔时间执行一次。
 ```
-  const throttle = (func, wait, ...args) => {
+  const throttle = (func, wait) => {
     let pre = 0
     return function(){
       const context = this
+      const args = arguments
       let now = Date.now()
       if (now - pre >= wait){
          func.apply(context, args)
@@ -727,10 +729,11 @@ throttle（节流），当持续触发事件时，保证隔间时间触发一次
 ![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/throttle_2.png)
 函数不会立即执行，并且每间隔时间执行一次，在停止触发事件后，函数会执行一次。
 ```
-  function throttle(func, wait, ...args) {
+  function throttle(func, wait) {
     var timer
     return function() {
-      var context = this
+      const context = this
+      const args = arguments
       if (!timer) {
         timer = setTimeout(() => {
           timer = null
