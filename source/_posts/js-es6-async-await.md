@@ -56,9 +56,7 @@ Promise 的写法如下：
     }
   }
 ```
-上面代码中，虽然`map`方法的参数是`async函数`，但它是并行执行的，因为只有`async函数`内部是继发执行，外部不受影响。后面的`for...of`循环内部使用了`await`，因此实现了按顺序输出。
-
-**上面一段引用自阮一峰的[ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/async#%E5%AE%9E%E4%BE%8B%EF%BC%9A%E6%8C%89%E9%A1%BA%E5%BA%8F%E5%AE%8C%E6%88%90%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C)**
+上面代码中，虽然`map`方法的参数是`async函数`，但它是并行执行的，因为只有`async函数`内部是继发执行，外部不受影响。后面的`for...of`循环内部使用了`await`，因此实现了按顺序输出。  
 
 再举个例子，下面这两段代码有什么区别？
 ```
@@ -286,4 +284,8 @@ return asyncPool(3, array, timeout).then(results => {
 - 1000 的`promise`会率先`resolve`，并从`executing`队列移除，之后继续递归
 - 将 3000 的`promise`加入`executing`队列，此时 5000 和 2000 的`promise`还是`pending`状态，`executing`队列中为 5000、2000、3000 三个任务，达到`poolLimit`，再次调用`Promise.race`，
 - 一秒后 2000 的`promise`被`resolve`，从队列中移除，接着发现遍历结束，中断递归，最后调用`Promise.all(ret)`
-- 此时`ret`队列中 1000 和 2000 的`promise`都是`resolve`，等待 3000 和 5000 的都完成后，最后触发`Promise.all`实例的回调，并将结果返回
+- 此时`ret`队列中 1000 和 2000 的`promise`都是`resolve`，等待 3000 和 5000 的都完成后，最后触发`Promise.all`实例的回调，并将结果返回  
+
+
+# 参考资料
+**[ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/async#%E5%AE%9E%E4%BE%8B%EF%BC%9A%E6%8C%89%E9%A1%BA%E5%BA%8F%E5%AE%8C%E6%88%90%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C) - 阮一峰**
