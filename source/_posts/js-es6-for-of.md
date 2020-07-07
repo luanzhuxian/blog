@@ -92,6 +92,7 @@ Iterator 接口的目的，就是为所有数据结构，提供了一种统一�
   // 'a'
   // 'b'
 ```
+
 并不是所有类似数组的对象都具有 Iterator 接口，一个简便的解决方法，就是使用`Array.from`方法将其转为数组。
 ```
   const arrayLike = { length: 2, 0: 'a', 1: 'b' }
