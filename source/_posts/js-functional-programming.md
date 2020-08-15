@@ -718,8 +718,8 @@ throttle（节流），当持续触发事件时，保证隔间时间触发一次
       const args = arguments
       let now = Date.now()
       if (now - pre >= wait){
-         func.apply(context, args)
          pre = Date.now()
+         func.apply(context, args)
       }
     }
   }
@@ -812,6 +812,36 @@ underscore 源码
     }
   }
 ```
+
+### 节流搭配防抖
+间隔时间内，可以重新生成定时器；但只要delay的时间到了，必须要给用户一个响应。避免防抖事件无休止触发导致无法响应。
+```
+  const throttle = (func, wait) => {
+    let pre = 0
+    let timer = null
+    return function(){
+      const context = this
+      const args = arguments
+      let now = Date.now()
+      // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值
+      if (now - pre < wait){
+        // 如果小于阈值，则设立一个新的定时器
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            pre = Date.now()
+            func.apply(context, args)
+        }, wait)
+      } else {
+        // 否则，就不等了，无论如何要反馈给用户一次响应
+        pre = Date.now()
+        func.apply(context, args)
+      }
+    }
+  }
+
+  document.addEventListener('scroll', throttle(() => do something, 1000))
+```
+
 
 # 总结
 可以在日常工作中将函数式编程作为一种辅助手段，在条件允许的前提下，借鉴函数式编程中的思路，例如：
