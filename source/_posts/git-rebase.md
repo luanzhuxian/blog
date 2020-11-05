@@ -1,5 +1,5 @@
 ---
-title: Git rebase
+title: Git rebase 变基
 comments: true
 categories: git
 tags: git
