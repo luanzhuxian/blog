@@ -31,7 +31,7 @@ date: 2019-04-22 17:12:58
 现在只能通过`http`访问域名，想要通过`https`访问，需要域名服务商颁发`ssl`证书，我是在阿里云买的域名，而阿里云的`ssl`证书是付费的。  
 我们可以将域名解析服务迁移到提供免费`ssl`的服务商处，我选择了[Cloudflare](https://www.cloudflare.com/)。  
 
-首先要注册，接着根据指引添加你的域名。之后`Cloudflare`会扫描`DNS`解析记录。完成后会分配两个`NS`地址。当然别忘了添加`DNS`解析。   
+首先要注册，接着右上角`Add site`添加你的域名。之后`Cloudflare`会自动扫描`DNS`解析记录。完成后会分配两个`NS`地址。当然别忘了`Add record`添加`DNS`解析。   
 
 ![Github Page 添加自定义域名并开启 HTTPS](http://cdn.luanzhuxian.com/blog/hexo-custom-domain/3.png)
 
