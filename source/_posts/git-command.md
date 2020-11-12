@@ -14,8 +14,8 @@ date: 2018-12-09 17:46:34
   2. 暂存区：代码暂时存储的地方。英文叫 stage 或 index。一般存放在`.git目录`下的 index 文件`.git/index`中，所以我们把暂存区有时也叫作索引 index。
   3. 历史区(本地仓库版本库)：生成版本记录的地方。工作区有一个隐藏目录 .git，这个不算工作区，而是 Git 的版本库。版本库又名仓库，英文名 repository，你可以简单理解成一个目录，这个目录里面的所有文件都可以被 Git 管理起来，每个文件的修改、删除，Git 都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。
 </blockquote>
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/git-flow_1.png)
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/git-flow_2.png)
+![avatar](http://cdn.luanzhuxian.com/blog/git-flow_1.png)
+![avatar](http://cdn.luanzhuxian.com/blog/git-flow_2.png)
 
 # 基本配置命令
 

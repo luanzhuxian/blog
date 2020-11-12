@@ -48,22 +48,22 @@ date: 2019-05-10 09:39:41
 我们来看一看函数式编程会如何思考这个问题。  
 我只需要一个函数能实现从 String 数组 到 Object 数组 的转换：
 
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/functional-programming_1.png)
+![avatar](http://cdn.luanzhuxian.com/blog/functional-programming_1.png)
 ```
   convertNames :: [String] -> [Object]
 ```
 这里面涉及到一个 String -> Object 的转换，那我需要有这么个函数实现这种转换：
 
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/functional-programming_2.png)
+![avatar](http://cdn.luanzhuxian.com/blog/functional-programming_2.png)
 ```
   convert2Obj :: [String] -> [Object]
 ```
 至于这种转换，可以轻松想到需要两个函数完成：capitalizeName：把名称转换成指定形式，genObj：把任意类型转换成对象  
 
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/functional-programming_3.png)
+![avatar](http://cdn.luanzhuxian.com/blog/functional-programming_3.png)
 如果再细想一下，capitalizeName 其实也是几个方法的组合（split, join, capitalize），剩下的几个函数都是非常容易实现的。
 
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/functional-programming_4.png)
+![avatar](http://cdn.luanzhuxian.com/blog/functional-programming_4.png)
 代码实现：
 ```
   const capitalize = x => x[0].toUpperCase() + x.slice(1).toLowerCase()
@@ -96,7 +96,7 @@ date: 2019-05-10 09:39:41
   - 无状态：对于一个函数，输入和输出是一一对应的关系，给定相同的输入，会得到相同的输出，完全不依赖外部状态的变化。  
   - 数据不可变：所有的数据都是不可变的，如果你想修改一个对象，那你应该创建一个新的对象用来修改，而不是修改已有的对象。(不修改全局变量，不修改入参)  
 为了实现这个目标，函数式编程提出函数应该具备的特性：没有副作用和纯函数。
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/functional-programming_5.png)
+![avatar](http://cdn.luanzhuxian.com/blog/functional-programming_5.png)
 
 ## 没有副作用（No Side Effects）
 在函数中我们最常见的副作用就是随意操纵外部变量。  
@@ -512,7 +512,7 @@ compose 其实是满足结合律的
   const upperLastItem = compose(log, toUpperCase, head, reverse)
 ```
 通过参数我们可以很清晰的看出发生了 uppderLastItem 做了什么，它完成了一套流水线，所有经过这条流水线的参数都会经历：reverse -> head -> toUpperCase -> log 这些函数的加工，最后生成结果。  
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/functional-programming_6.png)
+![avatar](http://cdn.luanzhuxian.com/blog/functional-programming_6.png)
 最完美的是，这些函数都是非常简单的纯函数，你可以随意组合，随意拿去用，不用有任何的顾忌。
 
 ## 高阶函数（Higher-Order Functions）
@@ -586,7 +586,7 @@ compose 其实是满足结合律的
 当持续触发事件时，debounce 会合并事件且不会去触发事件，当一段时间内没有再次触发这个事件时，才真正去触发事件。  
 
 非立即执行版
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/debounce_1.png)
+![avatar](http://cdn.luanzhuxian.com/blog/debounce_1.png)
 非立即执行版是触发事件后函数不会立即执行，而是在 n 秒后执行，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。
 ```
   function debounce(func, wait) {
@@ -603,7 +603,7 @@ compose 其实是满足结合律的
 ```
 
 立即执行版
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/debounce_2.png)
+![avatar](http://cdn.luanzhuxian.com/blog/debounce_2.png)
 立即执行版是触发事件后函数会立即执行，然后 n 秒内不触发事件才能继续执行。
 ```
   const debounce = (func, wait) => {
@@ -708,7 +708,7 @@ throttle（节流），当持续触发事件时，保证隔间时间触发一次
 持续触发事件时，throttle 会合并一定时间内的事件，并在该时间结束时真正去触发一次事件。  
 
 时间戳版
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/throttle_1.png)
+![avatar](http://cdn.luanzhuxian.com/blog/throttle_1.png)
 在持续触发事件的过程中，函数会立即执行，并且每间隔时间执行一次。
 ```
   const throttle = (func, wait) => {
@@ -726,7 +726,7 @@ throttle（节流），当持续触发事件时，保证隔间时间触发一次
 ```
 
 定时器版
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/throttle_2.png)
+![avatar](http://cdn.luanzhuxian.com/blog/throttle_2.png)
 函数不会立即执行，并且每间隔时间执行一次，在停止触发事件后，函数会执行一次。
 ```
   function throttle(func, wait) {

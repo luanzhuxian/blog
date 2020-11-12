@@ -17,26 +17,26 @@ date: 2018-12-09 17:46:34
 
 ### 1、创建一个开发版应用（免费）：
 我们新建一个应用来专门进行博客的访问统计的数据操作。首先，打开控制台点击创建应用：
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/leancloud.png)
+![avatar](http://cdn.luanzhuxian.com/blog/leancloud.png)
 在接下来的页面，新建的应用名称我们可以随意输入，即便是输入的不满意我们后续也是可以更改的：  
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/leancloud-application.png)
+![avatar](http://cdn.luanzhuxian.com/blog/leancloud-application.png)
 
 ### 2、设置
 在`LeanCloud > 设置 > 安全中心`中，`服务开关`部分只开启`数据存储`。  
 因为`AppID`以及`AppKey`是暴露在外的，为了确保只用于我们自己的博客，建议开启`Web安全选项`，这样就只能通过我们自己的域名才有权访问后台的数据了，可以进一步提升安全性。`Web安全域名`下面要添加你的 Github Page 域名，来确保数据调用的安全：
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/leancloud-setting.png)
+![avatar](http://cdn.luanzhuxian.com/blog/leancloud-setting.png)
 
 ### 3、创建Class
 在应用的数据配置界面，左侧数据栏下，下划线开头的都是系统预定义好的表，为了便于区分我们新建一张表来保存我们的数据。  
 点击顶部的加号图标`新建Class`。在弹出的选项中选择`创建Class`用来专门保存我们博客的文章访问量等数据:
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/leancloud-class.png)
+![avatar](http://cdn.luanzhuxian.com/blog/leancloud-class.png)
 **注意：**
 - **为了保证我们前面对 NexT 主题的修改兼容，此处的<font color=red>Class名称必须为Counter</font>。**
 - **由于 LeanCloud 升级了默认的 ACL 权限，如果你想避免后续因为权限的问题导致次数统计显示不正常，建议在此处选择无限制。**  
 
 创建完成之后，左侧数据栏应该会多出一栏名为`Counter`的栏目，这个时候我们点击最左侧菜单栏的设置。  
 在设置界面中，选择左侧的`应用Key`选项，即可发现我们创建应用的`App ID`以及`App Key`，有了它，我们就有权限能够通过主题中配置好的 Javascript 代码与这个应用的`Counter表`进行数据存取操作了:
-![avatar](http://pw5hoox1r.bkt.clouddn.com/blog/leancloud-key.png)
+![avatar](http://cdn.luanzhuxian.com/blog/leancloud-key.png)
 
 ### 4、修改next配置
 复制`AppID`以及`AppKey`并在 Next 主题的`_config.yml`文件中我们相应的位置填入即可，正确配置之后文件内容像这个样子:
