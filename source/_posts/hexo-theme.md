@@ -363,6 +363,7 @@ post_wordcount:
 ![avatar](http://cdn.luanzhuxian.com/blog/qiniu-uplpad.png)
 
 上传后可以在`存储空间 > 内容管理`图片列表管理图片，还可以找到图片的外链，之前可以直接使用，现在不行了，必须要绑定已备案的域名。具体可以看我另一篇文章：  
+
 [Github Page 添加自定义域名并开启 HTTPS + 支持七牛云图片](https://www.luanzhuxian.com/post/a13d0f96.html)  
 
 ![avatar](http://cdn.luanzhuxian.com/blog/qiniu-list.png)
