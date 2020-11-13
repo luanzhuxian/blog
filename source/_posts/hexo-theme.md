@@ -1,5 +1,5 @@
 ---
-title: Next 主题
+title: HEXO 主题之 Next 主题
 comments: true
 categories: Hexo
 tags: Hexo
