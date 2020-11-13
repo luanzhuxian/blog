@@ -1,5 +1,5 @@
 ---
-title: Github Page 添加自定义域名并开启 HTTPS
+title: Github Page 添加自定义域名并开启 HTTPS + 支持七牛云图片
 comments: true
 categories: Hexo
 tags: Hexo
@@ -50,3 +50,38 @@ date: 2020-11-13 17:12:58
 ![Github Page 添加自定义域名并开启 HTTPS](http://cdn.luanzhuxian.com/blog/hexo-custom-domain/6.png)
 
 也就是将域名的`DNS`解析服务从阿里云迁移到了提供免费证书的`Cloudflare`，生效后可以用`https`访问了。
+
+# 支持七牛云图片
+我的图片放到了[七牛](https://www.qiniu.com/)上，因为是免费的。  
+
+首先要 > 控制台 > 左侧对象储存 > 空间管理 > 新建空间，就不详细说了。创建好右侧点击文件进入文件管理就可以上传文件了。
+
+![Github Page 添加自定义域名并开启 HTTPS](http://cdn.luanzhuxian.com/blog/hexo-custom-domain/7.png)
+
+以前上传文件后文件的外链地址是七牛给的，比如`http://pw5hoox1r.bkt.clouddn.com/test.png`直接拿这个外链地址就能获取图片。现在不行了，必须要绑定已备案的域名，否则上传的文件没有外链地址。比如你绑定一个二级域名`cdn.abc.com`，绑定后图片的外链地址就变为`http://cdn.abc.com/test.png`。  
+
+空间管理 > 点击右侧的域名，进入域名管理页面 > 添加域名。之后输入你的域名，必须是已备案的。通信协议的话`HTTP`是免费的，`HTTPS`是付费的。源站配置选择你的储存空间，点创建就行了。  
+
+![Github Page 添加自定义域名并开启 HTTPS](http://cdn.luanzhuxian.com/blog/hexo-custom-domain/8.png)
+
+之后要配置`CNAME`。去你的`DNS`服务商处添加一条`CNAME`的解析，将你七牛绑定的的域名解析到七牛的域名，这个域名就在刚创建的加速域名的详情页里可以找到。  
+
+空间管理 > 域名管理 > 下方找到你刚绑定的域名，点进去。基本信息下面的`CNAME`就是了。
+
+![Github Page 添加自定义域名并开启 HTTPS](http://cdn.luanzhuxian.com/blog/hexo-custom-domain/9.png)
+
+因为我上面选的`Cloudflare`，所以去添加一条`CNAME`的解析，目标就是刚刚七牛给的`CNAME`地址。
+
+![Github Page 添加自定义域名并开启 HTTPS](http://cdn.luanzhuxian.com/blog/hexo-custom-domain/10.png)
+
+这里注意如果你添加了`a记录`，比如使用通配符`泛域名a记录`，有可能会和刚才添加的`CNAME`记录冲突，也就是刚才绑定的域名会被解析到`github page`而不是七牛，也就拿不到图片，所以可以把冲突的`a记录`删了。
+
+![Github Page 添加自定义域名并开启 HTTPS](http://cdn.luanzhuxian.com/blog/hexo-custom-domain/11.png)
+
+生效后通过`https`打开博客，发现七牛的图片请求报错，原来是`https`下图片也被改为`https`请求的。要么去七牛的域名管理处改为支持`https`，但是付费的。或者去`Cloudflare`修改`ssl`证书。
+
+进入`Cloudflare`点击上面的`SSL/TLS`，右边有四种模式：`OFF、Flexible、Full、Full(strict)`。默认是`Full`，也就是`客户端 到 Cloudflare`和`Cloudflare 到 服务器`这两段都是`https`加密传输。改为`Flexible`，即是`客户端 到 Cloudflare`是`https`加密传输，而`Cloudflare 到 服务器`是`http`传输，这样`Cloudflare`可以拿到七牛云的图片再返给客户端了。
+
+![Github Page 添加自定义域名并开启 HTTPS](http://cdn.luanzhuxian.com/blog/hexo-custom-domain/12.png)
+
+生效后再打开文章就可以看到图片了。

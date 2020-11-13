@@ -358,7 +358,7 @@ post_wordcount:
 ![avatar](http://cdn.luanzhuxian.com/blog/qiniu-space.png)
 之后在该`存储空间 > 内容管理 > 上传文件`上传图片：
 ![avatar](http://cdn.luanzhuxian.com/blog/qiniu-uplpad.png)
-上传后可以在`存储空间 > 内容管理`图片列表管理图片，还可以找到图片的外链，直接在文章中使用即可。
+上传后可以在`存储空间 > 内容管理`图片列表管理图片，还可以找到图片的外链，之前可以直接使用，现在不行了，必须要绑定已备案的域名。具体可以看我另一篇文章[Github Page 添加自定义域名并开启 HTTPS + 支持七牛云图片](https://www.luanzhuxian.com/post/a13d0f96.html)  
 ![avatar](http://cdn.luanzhuxian.com/blog/qiniu-list.png)
 另外在图片样式下可以对图片进行处理，比如缩放、裁剪、增加水印、设置输出格式等。使用时只要在图片外链后加上设置的样式分隔符和样式名称，即可得到处理后的图片。  
 ![avatar](http://cdn.luanzhuxian.com/blog/qiniu-style.png)
