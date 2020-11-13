@@ -1,5 +1,5 @@
 ---
-title: 使用 Gulp 压缩 Hexo
+title: Hexo 发布前压缩
 comments: true
 categories: [Hexo, gulp]
 tags: [Hexo, gulp]
