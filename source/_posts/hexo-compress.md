@@ -4,7 +4,7 @@ comments: true
 categories: [Hexo, gulp]
 tags: [Hexo, gulp]
 abbrlink: e5ac3b51
-date: 2018-12-10 14:44:56
+date: 2018-12-10 12:00:00
 ---
 
 只压缩`hexo g`生成的`public`文件夹下的要发布到 Github Page 的源码。  
