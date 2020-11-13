@@ -1,5 +1,5 @@
 ---
-title: 自动备份 Hexo 博客文件
+title: Hexo 自动备份博客文件
 comments: true
 categories: Hexo
 tags: Hexo
