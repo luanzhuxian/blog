@@ -134,7 +134,7 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
     # Changes to be committed:
     #       modified:   index.js
 ```
-修改后输入`ESC`和`:wq`保存编辑操作退出。
+修改后输入`esc`退出编辑模式，输入`:wq`保存编辑并退出。
 ```
     $ git revert 707ffbee6b5b2f7eb7ff42e0a12992aaab43140c
     [dev a137703] Revert "third commit on dev"
