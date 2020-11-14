@@ -1,5 +1,5 @@
 ---
-title: JavaScript 遍历
+title: JavaScript 一些数组处理的应用
 comments: true
 categories: javascript
 tags: javascript
