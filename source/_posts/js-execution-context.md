@@ -44,7 +44,7 @@ date: 2019-05-09 14:11:31
 Javascript 引擎首次开始解析代码时创建。只有一个。  
 最初，这个全局上下文由一个全局对象和一个 this 变量组成。浏览器中的全局对象就是 window 对象，Node 环境中是 global 对象，this 指向这个全局对象。  
 即使没有任何代码，全局执行上下文中仍然有 window 和 this。这就是最基本的全局执行上下文：
-![avatar](http://cdn.luanzhuxian.com/blog/execution-context_1.png)
+![avatar](/images/dali.png)
 让我们看看添加了代码会怎么样：
 ![avatar](http://cdn.luanzhuxian.com/blog/execution-context_2.png)
 ![avatar](http://cdn.luanzhuxian.com/blog/execution-context_3.png)
@@ -92,8 +92,8 @@ Javascript 引擎首次开始解析代码时创建。只有一个。
 <br/>先看看执行上下文包含的内容。An execution context has the following fields:  
 Environments: LexicalEnvironment and VariableEnvironment are what keep track of variables during runtime. Two references to environments. Both are usually the same.  
 
-- LexicalEnvironment (lookup and change existing): resolve identifiers.
-- VariableEnvironment (add new): hold bindings made by variable declarations and function declarations.
+- LexicalEnvironment (lookup and change existing): resolve identifiers.（保存通过`let`、`const`、`with()`、`try-catch`创建的变量）
+- VariableEnvironment (add new): hold bindings made by variable declarations and function declarations.（保存通过`var`声明或`function(){}`声明的变量）
 - ThisBinding: the current value of this.
 ```
   ExecutionContext = {
