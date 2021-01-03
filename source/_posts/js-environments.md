@@ -174,7 +174,7 @@ Environments: LexicalEnvironment and VariableEnvironment are what keep track of 
 
 # 附录
 
-## 1. 确定 this 的值（This Binding）
+## 创建上下文时确定 this 的值（This Binding）
 - 全局执行上下文中，this 的值指向全局对象。
 - 函数执行上下文中，this 的值取决于函数的调用方式。具体有：默认绑定、隐式绑定、显式绑定、new 绑定、箭头函数。
 
