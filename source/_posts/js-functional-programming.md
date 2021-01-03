@@ -4,7 +4,7 @@ comments: true
 categories: javascript
 tags: javascript
 abbrlink: 1690d21b
-date: 2019-05-10 09:39:41
+date: 2019-05-16 09:39:41
 ---
 
 主要的编程范式有三种：命令式编程（Imperative programming）、面向对象编程（Object Oriented Programming）和函数式编程（Functional Programming）。  
