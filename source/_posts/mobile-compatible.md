@@ -48,16 +48,19 @@ date: 2021-01-05 20:18:44
 ```
     <meta name="viewport" content="initial-scale=1,maximum-scale=1, minimum-scale=1">
 ```
+
 2、算出设计图相对100px的比例。因为假设设计稿根元素`font-size`是100，拿设计稿横向分辨率除以100得到body元素的宽度：
 ```
     750 / 100 = 7.5rem // 设计稿横向分辨率为750
     640 / 100 = 6.4rem // 设计稿横向分辨率为640
 ```
+
 3、在`dom ready`后，动态设置根元素的`font-size`：
 ```
     document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px' // 设计稿横向分辨率为750
 ```
 同理如果设计稿是640就除以6.4。  
+
 4、在写`css`时转换为`rem`，设计稿上元素尺寸是多少，除以个100就行了，这也是为什么取100作为参照，就是为了写样式时转换`rem`方便。  
 也就是：
 ```
@@ -84,11 +87,13 @@ date: 2021-01-05 20:18:44
     var scale = 1 / devicePixelRatio
     document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
 ```
-虽然设备宽度是一定的，但是希望展示设计稿的宽度。比如750px的设计稿需要适配375px、dpr为2的iPhone6，就需要通过`scale = 1 / 2`改变视口宽度为`375px * dpr = 750px`。相当于原来375px的元素现在能代表750px的元素。相当于我们把750px的页面放到了750px的设备(通过改变`scale`值模拟出来的视口)中打开，然后透过375px的设备(当前打开页面的设备)去观看(注意：这里是观看，不是渲染。) 页面。
+虽然设备宽度是一定的，但是希望展示设计稿的宽度。比如750px的设计稿需要适配375px、dpr为2的iPhone6，就需要通过`scale = 1 / 2`改变视口宽度为`375px * dpr = 750px`。相当于原来375px的元素现在能代表750px的元素。相当于我们把750px的页面放到了750px的设备(通过改变`scale`值模拟出来的视口)中打开，然后透过375px的设备(当前打开页面的设备)去观看(注意：这里是观看，不是渲染。) 页面。  
+
 2、动态设置根元素的`font-size`：
 ```
     document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px'
 ```
+
 3、在写`css`时转换为`rem`：
 ```
     各元素的css尺寸 = 设计稿标注尺寸 / 根元素font-size = 设计稿标注尺寸 / 设计稿横向分辨率 / 10
@@ -100,10 +105,10 @@ date: 2021-01-05 20:18:44
 ```
 
 ## 对比网易淘宝的方案
-网易是以100px作为参照，任何设计图上元素的尺寸转为`rem`都是相对于100px做转换的。不同设备的根元素的`font-size`都需要根据设计图的尺寸做比例转换。转换后我们写的以`rem`为单位的样式就能还原出设计图的样子。  
-淘宝的做法就是任何设备宽都是10rem，根元素的`font-size`都是`设备宽 / 10`，任何元素的尺寸转为`rem`后其实是保留了相对于设备宽的比例，这个比例拿到其他设备上就能还原出设计图的样子。  
-网易不用管`dpr`，只需知道设计稿宽度。  
-网易的做法，`rem`值很好计算，淘宝的做法肯定得用计算器才能用好了 。不过要是你使用了`less`和`sass`这样的`css`处理器，就好办多了。 
+- 网易是以`100px`作为参照，任何设计图上元素的尺寸转为`rem`都是相对于`100px`做转换的。不同设备的根元素的`font-size`都需要根据设计图的尺寸做比例转换。转换后我们写的以`rem`为单位的样式就能还原出设计图的样子。  
+- 淘宝的做法就是任何设备宽都是`10rem`，根元素的`font-size`都是`设备宽 / 10`，任何元素的尺寸转为`rem`后其实是保留了相对于设备宽的比例，这个比例拿到其他设备上就能还原出设计图的样子。  
+- 网易不用管`dpr`，只需知道设计稿宽度。  
+- 网易的做法，`rem`值很好计算，淘宝的做法肯定得用计算器才能用好了 。不过要是你使用了`less`和`sass`这样的`css`处理器，就好办多了。 
 ```
     less
 
@@ -121,8 +126,8 @@ date: 2021-01-05 20:18:44
     .container {
         width: 4.26rem;
     }
-```
-```
+
+
     sass
 
     @function px2rem ($px) {
@@ -133,6 +138,7 @@ date: 2021-01-05 20:18:44
         width: px2rem(320);
     }
 ```
+
 
 # vw、vh 方案
 由于`viewport`单位得到众多浏览器的兼容，上面方案现在已经被官方弃用。现在最流行的是`vw`、`vh`方案。 
@@ -222,7 +228,7 @@ date: 2021-01-05 20:18:44
             border-image: url(1pxline.png) 0 0 2 0 stretch;
         }
     }
-``` 
+```
 
 ## background-image
 和`border-image`类似，用边框背景图，模拟在背景上。

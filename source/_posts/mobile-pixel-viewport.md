@@ -83,25 +83,24 @@ maximum-scale  | 0.0 - 10.0 | 定义缩放的最大值；必须大于或等于mi
 user-scalable  | 布尔值（yes或者no） | 如果设置为 no，用户将不能放大或缩小网页。默认值为 yes。
   
 ## 把当前的 viewport 宽度设置为 ideal viewport 的宽度
-为了在移动端让页面获得更好的显示效果，我们必须让布局视口、视觉视口都尽可能等于理想视口。  
-要得到`ideal viewport`就必须把默认的`layout viewport`的宽度设为移动设备的屏幕宽度。因为`meta viewport`中的`width`能控制`layout viewport`的宽度，`device-width`就等于理想视口的宽度，所以设置`width=device-width`就相当于让布局视口等于理想视口。
+为了在移动端让页面获得更好的显示效果，我们必须让布局视口、视觉视口都尽可能等于理想视口。因为`meta viewport`中的`width`能控制`layout viewport`的宽度，`device-width`就等于理想视口的宽度，所以设置`width=device-width`就相当于让布局视口等于理想视口。
 ```
     <meta name="viewport" content="width=device-width">
-    
+
     device-width = 设备的物理分辨率 / (devicePixelRatio * scale)
 ```
 
 通过设置`initial-scale`可以达到同样的效果：
 ```
     <meta name="viewport" content="initial-scale=1">
-```  
+```
 由于`initial-scale = 理想视口宽度 / 视觉视口宽度`，所以我们设置`initial-scale=1;`就相当于让视觉视口等于理想视口。
 ```
     当前缩放值 = ideal viewport宽度 / visual viewport宽度
 ```
 缩放值越大，元素越大，当前`viewport`的宽度就会越小，视口能看到的东西越少，反之亦然。
 
-最后，总结一下，要把当前的`viewport`宽度设为`ideal viewport`的宽度，既可以设置`width=device-width`，也可以设置`initial-scale=1`。但这两者各有一个小缺陷，就是iPhone、iPad以及IE会横竖屏不分，通通以竖屏的`ideal viewport`宽度为准。所以，最完美的写法应该是，两者都写上去，这样就`initial-scale=1`解决了iPhone、iPad的毛病，`width=device-width`则解决了IE的毛病。当两个设置冲突时，布局视口取两者最大值。   
+最后，总结一下，要把当前的`viewport`宽度设为`ideal viewport`的宽度，既可以设置`width=device-width`，也可以设置`initial-scale=1`。但这两者各有一个小缺陷，就是`iPhone`、`iPad`以及`IE`会横竖屏不分，通通以竖屏的`ideal viewport`宽度为准。所以，最完美的写法应该是，两者都写上去，这样就`initial-scale=1`解决了`iPhone`、`iPad`的毛病，`width=device-width`则解决了`IE`的毛病。当两个设置冲突时，布局视口取两者最大值。   
 这时，1个`CSS`像素就等于1个设备独立像素，而且我们也是基于理想视口来进行布局的，所以呈现出来的页面布局在各种设备上都能大致相似。  
 
 # 获取浏览器窗口大小
