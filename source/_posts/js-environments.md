@@ -13,7 +13,20 @@ date: 2019-05-12 09:32:26
 
 # 执行上下文（Execution Context）
 
-执行上下文是当前`JavaScript`代码被引擎解析和执行时所在环境的抽象概念。帮助`JavaScript`引擎管理整个解析和运行代码的复杂过程。在代码执行过程中，可能会出现多个执行上下文，但运行的执行上下文最多只有一个。为了管理执行上下文，我们引入了执行上下文栈，处于栈顶的那个元素就是运行的执行上下文。当解释器遇到函数、块语句、`try...catch`时，都会创建一个新的执行上下文后压入执行上下文栈，成为运行时执行上下文。   
+执行上下文是当前`JavaScript`代码被引擎解析和执行时所在环境的抽象概念。帮助`JavaScript`引擎管理整个解析和运行代码的复杂过程。为我们的可执行代码块提供了执行前的必要准备工作，例如变量对象的定义、作用域链的扩展、提供调用者的对象引用等信息。  
+在代码执行过程中，可能会出现多个执行上下文，但运行的执行上下文最多只有一个。为了管理执行上下文，我们引入了执行上下文栈，处于栈顶的那个元素就是运行的执行上下文。当解释器遇到函数、块语句、`try...catch`时，都会创建一个新的执行上下文压入栈，成为当前上下文。   
+
+## 执行上下文的生命周期
+**创建阶段**  
+- 用当前函数的参数列表`arguments`初始化一个`变量对象`并将当前执行上下文与之关联，函数代码块中声明的变量和函数将作为属性添加到这个`变量对象`上。在这一阶段，会进行变量和函数的初始化声明，变量统一定义为`undefined`需要等到赋值时才会有确值，而函数则会直接定义。
+- 确定`this`
+- 构建作用域链
+
+**执行阶段**  
+代码开始逐条执行，在这个阶段，引擎开始对定义的变量赋值，开始顺着作用域链访问变量，如果内部有函数调用就创建一个新的执行上下文压入执行栈并把控制权交出。  
+
+**销毁阶段**  
+函数执行完成后，当前执行上下文（局部环境）会被弹出执行上下文栈并且销毁，控制权被重新交给执行栈上一层的执行上下文。  
 
 ## 执行上下文的种类
 分为全局执行上下文和函数执行上下文：    
@@ -44,7 +57,9 @@ Environments: LexicalEnvironment and VariableEnvironment are what keep track of 
 我们看看 ECMAScript 5 中对`Environments`和`Execution Contexts`的解释：
 <blockquote bgcolor=#FF4500 style="margin-bottom: 30px">**Lexical environments** hold variables and parameters. The currently active environment is managed via a stack of execution contexts (which grows and shrinks in sync with the call stack). Nested scopes are handled by chaining environments: each environment points to its outer environment (whose scope surrounds its scope). In order to enable lexical scoping, functions remember the scope (=environment) they were defined in. When a function is invoked, a new environment is created for it's arguments and local variables. That environment’s outer environment is the function’s scope. </blockquote> 
 
-由此可知`环境`其实就是`作用域`。在规范中`作用域`更官方的叫法是`词法环境`，`词法环境`是`作用域`的内部实现机制。`环境`外部还有`环境`，形成链条，也就是`作用域链`。当函数被调用时，会创建新的执行上下文、确定`this`指向和`环境`，引擎会在`环境`中查找参数和变量等标识符。也就是说随着执行栈的变化，随着执行函数的变化，当前的`环境`即`作用域`也是变化的，只是`环境`是函数定义时确定的，`this`是函数执行时确定的。看一个例子：  
+由此可知`环境`其实就是`作用域`。在规范中`作用域`更官方的叫法是`词法环境`，`词法环境`是`作用域`的内部实现机制。`环境`外部还有`环境`，形成链条，也就是`作用域链`。  
+当函数被调用时，会创建新的执行上下文，其中包含：确定`this`指向和`环境`，相当于将`作用域`和`上下文`进行关联，将标识符保存在`环境记录`中。执行时引擎会根据作用域规则，查找参数和变量等标识符，找到的话就保存在`环境记录`中。  
+随着执行栈的变化，随着执行函数的变化，当前的`环境`即`作用域`也是变化的，只是`环境`是函数定义时确定的，`this`是函数执行时确定的。看一个例子：  
 
 ```
     function foo () {
@@ -60,6 +75,8 @@ Environments: LexicalEnvironment and VariableEnvironment are what keep track of 
 
 
 # 词法环境（Lexical Environment）
+
+词法环境是一种规范类型，基于 ECMAScript 代码的词法嵌套结构来定义标识符和具体变量和函数的关联。一个词法环境由环境记录器和一个可能的引用外部词法环境的空值组成。简单来说词法环境是一种持有`标识符—变量映射`的结构。这里的`标识符`指的是变量/函数的名字，而`变量`是对实际对象或原始数据的引用。  
 
 ## 词法环境的种类
 词法环境有三种类型：
