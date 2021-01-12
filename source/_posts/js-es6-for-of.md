@@ -8,9 +8,9 @@ date: 2019-04-29 17:20:20
 ---
 
 # Iterator 接口
-Iterator 接口的目的，就是为所有数据结构，提供了一种统一的访问机制，即`for...of`循环。当使用`for...of`循环遍历某种数据结构时，该循环会自动去寻找并调用`Symbol.iterator`方法。也就是说，一种数据结构只要部署了`Symbol.iterator`属性，就被视为具有 iterator 接口，我们就称这种数据结构是“可遍历的”（iterable）。  
+Iterator 接口的目的，就是为所有数据结构，提供了一种统一的访问机制，即`for...of`循环。当使用`for...of`循环遍历某种数据结构时，该循环会自动去寻找并调用`Symbol.iterator`方法。也就是说，一种数据结构只要部署了`Symbol.iterator`属性，就被视为具有`iterator`接口，我们就称这种数据结构是“可遍历的”（`iterable`）。  
 
-`Symbol.iterator`属性本身是一个函数，就是当前数据结构默认的遍历器生成函数。执行这个函数，就会返回默认的遍历器。至于属性名`Symbol.iterator`，它是一个表达式，返回`Symbol`对象的 iterator 属性，这是一个预定义好的、类型为 Symbol 的特殊值，所以要放在方括号内。  
+`Symbol.iterator`属性本身是一个函数，就是当前数据结构默认的遍历器生成函数。执行这个函数，就会返回默认的遍历器。至于属性名`Symbol.iterator`，它是一个表达式，返回`Symbol`对象的`iterator`属性，这是一个预定义好的、类型为`Symbol`的特殊值，所以要放在方括号内。  
 
 下面是原生具备`Iterator`接口的数据结构：
 - Array
@@ -21,7 +21,7 @@ Iterator 接口的目的，就是为所有数据结构，提供了一种统一�
 - 类数组的对象（比如 arguments 对象、DOM NodeList 对象）
 - Generator 对象
 
-# 原型链上的对象具有该方法也可
+# 只要原型链上的对象具有该方法，就可以执行：
 - 解构赋值
 - 扩展运算符
 - yield*
@@ -32,7 +32,7 @@ Iterator 接口的目的，就是为所有数据结构，提供了一种统一�
 - Promise.race()
 
 # 遍历数组
-数组原生具备 iterator 接口。
+数组原生具备`iterator`接口。
 ```
   const arr = ['a', 'b', 'c', 'd']
 
@@ -93,7 +93,7 @@ Iterator 接口的目的，就是为所有数据结构，提供了一种统一�
   // 'b'
 ```
 
-并不是所有类似数组的对象都具有 Iterator 接口，一个简便的解决方法，就是使用`Array.from`方法将其转为数组。
+并不是所有类似数组的对象都具有`iterator`接口，一个简便的解决方法，就是使用`Array.from`方法将其转为数组。
 ```
   const arrayLike = { length: 2, 0: 'a', 1: 'b' }
 
@@ -116,11 +116,11 @@ Iterator 接口的目的，就是为所有数据结构，提供了一种统一�
 ```
 
 # 遍历对象
-对于普通的对象，`for...of`结构不能直接使用，会报错，必须部署了 Iterator 接口后才能使用。那么怎么做到使对象可遍历？
+对于普通的对象，`for...of`结构不能直接使用，会报错，必须部署了`iterator`接口后才能使用。那么怎么做到使对象可遍历？
 
 
 ## 方法一：部署 Iterator 接口（在 Symbol.iterator 的属性上部署遍历器生成方法）
-一个对象如果要具备可被`for...of`循环调用的 Iterator 接口，就必须在`Symbol.iterator`的属性上部署遍历器生成方法。  
+一个对象如果要具备可被`for...of`循环调用的`iterator`接口，就必须在`Symbol.iterator`的属性上部署遍历器生成方法。  
 
 1、添加 next 方法：
 ```
@@ -152,7 +152,7 @@ Iterator 接口的目的，就是为所有数据结构，提供了一种统一�
   i.next()  // { value: 3, done: false }
   i.next()  // { value: 3, done: true }
 
-  // 或
+
   for (const v of obj) {
     console.log(v)
   }
@@ -234,7 +234,7 @@ Iterator 接口的目的，就是为所有数据结构，提供了一种统一�
   // 1
   // 2
 ```
-由于`Generator`函数就是遍历器生成函数，因此可以把`Generator`赋值给对象的`Symbol.iterator`属性，从而使得该对象具有`Iterator`接口。
+由于`Generator`函数就是遍历器生成函数，因此可以把`Generator`赋值给对象的`Symbol.iterator`属性，从而使得该对象具有`iterator`接口。
 ```
   var myIterable = {}
   myIterable[Symbol.iterator] = function* () {

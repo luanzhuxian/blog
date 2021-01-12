@@ -7,7 +7,8 @@ abbrlink: 64e2dbce
 date: 2019-05-12 09:32:26
 ---
 
-关于作用域请看另一篇文章：[JavaScript 的作用域](https://www.luanzhuxian.com/post/cd6f8c2a.html)  
+关于作用域请看另一篇文章：[JavaScript 的作用域](https://www.luanzhuxian.com/post/cd6f8c2a.html)   
+关于`this`请看另一篇文章：[JavaScript 中的 this](https://www.luanzhuxian.com/post/5fc1eac8.html)  
 
 上篇文章我们讲了作用域，知道`JavaScript`代码的整个执行过程，分为两个阶段，代码编译阶段与代码执行阶段。编译阶段由编译器完成，将代码翻译成可执行代码，这个阶段作用域规则会确定。执行阶段由引擎完成，主要任务是执行可执行代码，执行上下文在这个阶段创建。现在我们聊聊执行上下文。  
 

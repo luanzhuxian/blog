@@ -10,7 +10,7 @@ date: 2019-05-07 16:44:16
 <center>需要知道的知识点</center>
 
 ### 1. new 一个函数 和 Object.create 都发生了什么
-new 一个构造函数时相当于：
+`new`一个构造函数时相当于：
 1. 新生成了一个对象
 2. 链接到原型
 3. 绑定 this
@@ -24,7 +24,7 @@ new 一个构造函数时相当于：
   Father.call(obj)
   return obj
 ```
-Object.create() 创建一个新对象，其中第一个参数是对象的原型。本质上来说是对一个对象进行了浅拷贝：
+`Object.create()`创建一个新对象，达到对一个对象进行了浅拷贝的效果，实际是通过与原型链继承原对象的属性和方法。所以如果第一个参数传入的是函数的原型对象，可以达到继承原函数在原型链上的属性和方法：
 ```
   Object.create = function (obj) {
     var F = function () {}
@@ -57,7 +57,7 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
   console.log(son.getName()) // son
 ```
 缺点：
-- Son 的所有实例都指向`new Father()`返回的对象，即`son._proto_ === Son.prototype -> Son.prototype._proto_ === Father.prototype`，原型链中引用类型的属性会被所有实例共享的，即所有实例对象使用的是同一份数据，会相互影响。
+- `Son`的所有实例都指向`new Father()`返回的对象，即`son._proto_ === Son.prototype -> Son.prototype._proto_ === Father.prototype`，原型链中引用类型的属性会被所有实例共享的，即所有实例对象使用的是同一份数据，会相互影响。
 - 无法向父级构造函数传参。  
 
 ```
@@ -252,7 +252,7 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
   console.log(Son.prototype.constructor) // Son
   console.log(Father.prototype.constructor) // Father
 ```
-根据文章开头得知，Object.create 时相当于 new 了一个空函数而不是 new Father()，所以不会重复调用父类的构造函数。而这个空函数又起到了连接创建的新对象（实例）和 Father.prototype 的作用，并把这个新对象返回，作为子类的`prototype`，所以最后子类的实例是可以沿原型链找到父类的，可以共享父类原型上的属性方法。也不会出现子类和父类共享一个原型对象的问题。
+根据文章开头得知，`Object.create`时相当于`new`了一个空函数`F`而不是`new Father()`，所以不会重复调用父类的构造函数。而这个空函数`F`又起到了连接创建的新对象（实例）和`Father.prototype`的作用。通过`Object.create(Father.prototype)`返回这个新对象，作为子类`Son`的`prototype`，所以最后子类的实例是可以沿原型链找到父类的，可以共享父类原型上的属性方法。也不会出现子类和父类共享一个原型对象的问题。
 
 # 六、ES6 extends 的实现
 es6

@@ -7,7 +7,7 @@ categories: javascript
 tags: javascript
 ---
 
-<blockquote bgcolor=#FF4500>在 Vue 和 Vuex 的源码中，作者都使用了`Object.create(null)`来初始化一个新对象。为什么不用更简洁的`{}`呢？</blockquote>
+<blockquote bgcolor=#FF4500>在`Vue`和`Vuex`的源码中，作者都使用了`Object.create(null)`来初始化一个新对象。为什么不用更简洁的`{}`呢？</blockquote>
 
 # Object.create()
 ```
@@ -31,7 +31,7 @@ new 一个构造函数时相当于：
   Father.call(obj)
   return obj
 ```
-Object.create() 创建一个新对象，其中第一个参数是对象的原型。本质上来说是对一个对象进行了浅拷贝：
+`Object.create()`创建一个新对象，达到对传入第一个参数对象浅拷贝的效果：
 ```
   Object.create = function (obj) {
     var F = function () {}
@@ -54,13 +54,13 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
     obj.__proto__ === Object.prototype  // false
     console.log(obj.__proto__)  // undefined
 ```
-打印出来 obj 是没有`_proto_`属性的。参考上一段，因为在创建过程中 `F.prototype = null` 原型链被切断了。  
+打印出来`obj`是没有`_proto_`属性的。参考上一段，因为在创建过程中 `F.prototype = null` 原型链被切断了。  
 如果把上面例子改一改：
 ```
     let obj = Object.create({})
     obj.__proto__.__proto__ === Object.prototype // true
 ```
-打印出来 obj 是有`_proto_`属性的。  
+打印出来`obj`是有`_proto_`属性的。  
 那么再改一下：
 ```
     let obj = Object.create(Object.prototype)
@@ -71,7 +71,7 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
 - `{}`或`new Object()`是将新创建的对象的`_proto_`指向构造函数的原型对象`Object.prototype`；而`Object.create()`是将新创建的对象的`_proto_`指向传入的对象；所以`Object.create()`如果传入的对象本身没有任何属性，比如`null`连`_proto_`也没有，则新创建的对象则是一个没有任何属性的对象。
 - `{}`或`new Object()`过程中构造函数会被调用；而`Object.create()`即使传入的对象为构造函数，也不会调用该构造函数。  
 
-所以如果`let obj = Object.create(Father)`，则`obj`只是指向父类构造函数`Father`而不能继承`Father`的任何属性和方法。想要继承`Father.prototype`上的属性方法需要通过`let obj = Object.create(Father.prototype)`实现。
+所以如果`let obj = Object.create(Father)`，则`obj`只是指向父类构造函数`Father`而不能继承`Father.prototype`的任何属性和方法。想要继承`Father.prototype`上的属性方法需要通过`let obj = Object.create(Father.prototype)`实现。
 ```
     function Father () {
         this.a = 1
@@ -85,7 +85,7 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
     console.log(child3.a, child3.b) // undefined, 3
 ```
 
-再回到文章开头的问题：  
+再回到文章开头的问题，为何使用`Object.create(null)`来初始化一个新对象，而不用`{}`：  
 **Sure you can create an object that seems empty with {}, but that object still has a `__proto__` and the usual hasOwnProperty and other object methods. So if you aren't subclassing another object, then `Object.create()` would be a new option to create a pure “dictionary” object by passing a null value to the function.**
 
 # Object.create 实现类式继承
@@ -108,7 +108,7 @@ Object.create() 创建一个新对象，其中第一个参数是对象的原型�
 ```
 为什么`desc`打印出来是`undefined`？因为传入`Object.create()`的是`Car.prototype`，`car._proto_ === Car.prototype`，只引用`prototype`而不引用`constructor`。  
 
-**So, `Object.create()` is an excellent choice for creating an object without going through its constructor.**   
+**所以, `Object.create()` 在创建新对象的同时，可以避免调用父类的构造函数。**   
 
 所以，不像组合继承`Son.prototype = new Father()`那样父类的`constructor`还要被执行一便，使用`Son.prototype = Object.create(Father.prototype)`实现继承不会重复调用父类的构造函数。而子类的实例是可以沿原型链找到父类的，可以共享父类原型上的属性方法。  
 

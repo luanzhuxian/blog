@@ -98,7 +98,7 @@ user-scalable  | 布尔值（yes或者no） | 如果设置为 no，用户将不�
 ```
     当前缩放值 = ideal viewport宽度 / visual viewport宽度
 ```
-缩放值越大，元素越大，当前`viewport`的宽度就会越小，视口能看到的东西越少，反之亦然。
+缩放值越大，元素越大，绘制一个`css像素`就需要更多的`物理像素`，当前`viewport`的宽度就会越小，视口能看到的东西越少，反之亦然。
 
 最后，总结一下，要把当前的`viewport`宽度设为`ideal viewport`的宽度，既可以设置`width=device-width`，也可以设置`initial-scale=1`。但这两者各有一个小缺陷，就是`iPhone`、`iPad`以及`IE`会横竖屏不分，通通以竖屏的`ideal viewport`宽度为准。所以，最完美的写法应该是，两者都写上去，这样就`initial-scale=1`解决了`iPhone`、`iPad`的毛病，`width=device-width`则解决了`IE`的毛病。当两个设置冲突时，布局视口取两者最大值。   
 这时，1个`CSS`像素就等于1个设备独立像素，而且我们也是基于理想视口来进行布局的，所以呈现出来的页面布局在各种设备上都能大致相似。  

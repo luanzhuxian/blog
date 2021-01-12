@@ -7,9 +7,10 @@ abbrlink: 767a45e1
 date: 2019-05-12 21:11:31
 ---
 
-之前的两篇相关文章：
+之前的相关文章：
 [JavaScript 的作用域](https://www.luanzhuxian.com/post/cd6f8c2a.html)  
 [JavaScript 中的执行上下文、词法环境、变量环境](https://www.luanzhuxian.com/post/64e2dbce.html)  
+[JavaScript 中的 this](https://www.luanzhuxian.com/post/5fc1eac8.html)  
 
 
 # 执行栈

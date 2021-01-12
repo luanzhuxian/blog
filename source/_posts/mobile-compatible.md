@@ -29,7 +29,7 @@ date: 2021-01-05 20:18:44
 
 # rem 布局原理
 
-根据屏幕宽度设置`html`标签的`font-size`。再在布局时使用`rem`单位来布局，就可以达到自适应的目的。  
+根据屏幕宽度动态设置`html`标签的`font-size`。再将`px`替换为`rem`单位来布局，就可以达到适配的目的。  
 
 ## 网易的方案
 如果设计稿的宽度是640px，根元素的`font-size`是100px相当于1rem，那么一个占满屏幕的元素的宽度就是6.4rem，6.4rem就是css样式该元素的宽度值。那如果现在要适配iPhone5，iPhone5的设备像素屏幕宽度为320px，如果想让6.4rem的元素以同样比例占满屏幕，则根元素的`font-size`是多少？
@@ -131,11 +131,11 @@ date: 2021-01-05 20:18:44
     sass
 
     @function px2rem ($px) {
-        $baseFontSize: 75;
+        $baseFontSize: 75px;
         @return ($px / $baseFontSize) + rem;
     }
     .container {
-        width: px2rem(320);
+        width: px2rem(320px);
     }
 ```
 
@@ -151,7 +151,7 @@ date: 2021-01-05 20:18:44
 - vmin：`vw`和`vh`中的较小值。
 - vmax：选取`vw`和`vh`中的较大值。
 
-如果视觉视口为`375px`，那么`1vw = 3.75px`，这时`UI`给定一个元素的宽为`75px`（设备独立像素），我们只需要将它设置为`75 / 3.75 = 20vw`。  
+如果视觉视口为`375px`，那么`1vw = 3.75px`，这时`UI`给定一个元素的宽为`75px`（设备独立像素），我们只需要将它设置为`75 / 3.75 = 20vw`。该元素在设计图上的是`20个vw`占屏幕`20%`，则在任何其他设备上`20vw`也同样占屏幕`20%`，达到适配的效果。  
 这里的比例关系我们也不用自己换算，我们可以使用`PostCSS`的`postcss-px-to-viewport`插件帮我们完成这个过程。只需要在配置时指定设计图宽度就可以了，写代码时，我们只需要根据`UI`给的设计图写`px`单位即可。  
 当然，没有一种方案是十全十美的，`vw`同样有一定的缺陷：
 - `px`转换成`vw`不一定能完全整除，因此有一定的像素差。
@@ -315,10 +315,10 @@ date: 2021-01-05 20:18:44
 ```
 
 ## 设置viewport
-通过设置缩放，让`CSS`像素等于真正的物理像素。例如：当设备像素比为3时，我们将页面缩放1/3倍，这时`1px`等于一个真正的屏幕像素。
+通过设置缩放，让`CSS`像素等于真正的物理像素。例如：当`dpr`为3时，缩放前`1px`是由`3x3`个物理像素绘制的，我们将页面缩放`1/3`倍后，这时`1px`等于一个真正的物理像素。
 ```
-    const scale = 1 / window.devicePixelRatio
-    const viewport = document.querySelector('meta[name="viewport"]')
+    var scale = 1 / window.devicePixelRatio
+    var viewport = document.querySelector('meta[name="viewport"]')
     if (!viewport) {
         viewport = document.createElement('meta')
         viewport.setAttribute('name', 'viewport')
@@ -328,13 +328,10 @@ date: 2021-01-05 20:18:44
 ```
 或动态插入：
 ```
-    var devicePixelRatio = window.devicePixelRatio
-    var initialScale = 1 / devicePixelRatio
-    var maximumScale = 1 / devicePixelRatio
-    var minimumScale = 1 / devicePixelRatio
+    var scale = 1 / window.devicePixelRatio
     var meta = document.createElement('meta')
     meta.name = 'viewport'
-    meta.content = 'width=device-width,initial-scale=' + initialScale + ',maximum-scale=' + maximumScale + ',minimum-scale=' + minimumScale + ',user-scalable=no'
+    meta.content = 'width=device-width,initial-scale=' + scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale + ',user-scalable=no'
     document.head.appendChild(meta)
 ```
 这意味着你页面上所有的布局都要按照物理像素来写。而不同设备物理像素不一样，这显然是不现实的，我们可以借助`flexible`或`vw`、`vh`来帮助我们进行适配。  
