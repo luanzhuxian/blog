@@ -10,9 +10,9 @@ tags: git
 
 git 工作区（Working Directory）、暂存区（Stage）和历史记录区（History）的关系
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/1.jpg)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/1.jpg)  
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/2.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/2.png)  
 
 <br>
 
@@ -92,7 +92,7 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
     nothing to commit, working tree clean
 ```
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/3.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/3.png)  
 
 <br>
 
@@ -106,7 +106,7 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
 
 先提交修改然后再用`git log`查看提交记录。
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/4.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/4.png)  
 
 ```
     $ git log
@@ -141,7 +141,7 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
     1 file changed, 1 insertion(+), 3 deletions(-)
 ```
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/5.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/5.png)  
 
 之后再推送到远端更新远程仓库代码，修改的文件就撤销了。  
 
@@ -149,38 +149,38 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
 
 回滚提交：
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/6.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/6.png)  
 
 回滚生成新的提交：
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/7.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/7.png)  
 
 提交到远程仓库：
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/8.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/8.png)  
 
 <br>
 
 # Git Reset 三种模式：
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/9.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/9.png)  
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/10.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/10.png)  
 
 **reset --soft commit_id：**
 保留本地`working directory工作区`，并把重置`HEAD`所带来的新的差异放进本地`stage暂存区`。
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/11.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/11.png)  
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/12.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/12.png)  
 
 **reset --mixed commit_id：**
 保留本地`working directory工作区`，并清空本地`stage`暂存区。
 也就是说，工作目录的修改、暂存区的内容以及由`reset`所导致的新的文件差异，都会被放进工作目录。简而言之，就是把所有差异都混合`（mixed）`放在工作目录中。
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/13.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/13.png)  
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/14.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/14.png)  
 
 **reset --hard  commit_id：**
 强制将本地`stage`暂存区和本地`working directory`工作区都同步到你指定的提交。
@@ -189,15 +189,15 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
 
 重置前：
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/15.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/15.png)  
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/16.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/16.png)  
 
 重置后：
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/17.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/17.png)  
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/18.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/18.png)  
 
 之后强行推送更新远程仓库：
 ```
@@ -207,9 +207,9 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
     + def670f...707ffbe dev -> dev (forced update)
 ```
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/19.png)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/19.png)  
 
 `reset`这个指令虽然可以用来撤销`commit`，但它的实质行为并不是撤销，而是移动`HEAD`，重置`HEAD`以及它所指向的`branch`的位置的。
 而`reset --hard`之所以起到了撤销`commit`的效果，是因为它把`HEAD`和它所指向的`branch`一起移动到了当前`commit`的父`commit`上，从而起到了撤销的效果。  
 
-![Git 撤销与回滚](http://cdn.luanzhuxian.com/blog/git-reset-revert/20.webp)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/20.webp)  
