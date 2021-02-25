@@ -1,5 +1,5 @@
 ---
-title: Vue 杂记
+title: Vue 杂七杂八记录
 comments: true
 categories: vue
 tags: vue

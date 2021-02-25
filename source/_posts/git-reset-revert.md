@@ -7,43 +7,74 @@ categories: git
 tags: git
 ---
 
+`git reset`、`git checkout`和`git revert`，都可以撤销代码仓库中的某些更改，前两条命令既可以用于`commit`级别，也可以用于`file`级别，也就是说可以指定撤销的文件，而`revert`不能指定文件。  
 
-git 工作区（Working Directory）、暂存区（Stage）和历史记录区（History）的关系
+在了解这三个命令前，我们先需要了解`git`的工作区`Working Directory`、暂存区`Stage`（快照:add的缓存库）和历史记录区`History`（commit历史）的关系。  
 
-![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/1.jpg)  
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/git-section.png)  
 
+对应`source tree`来看：
 ![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/2.png)  
 
 <br>
 
-# 撤销工作区：
+# Checkout
+`checkout`最常用的用法莫过于切换分支，
+```
+    git checkout <branch>
+```
+其原理就是将`HEAD`指针指向另一个分支，并对当前工作区的内容进行覆盖。所以`git`会强制你提交或者缓存工作目录中的所有更改，不然在`checkout`的时候这些更改会丢失。  
 
+除了切换分之，它也可以达到用暂存区或某一次历史提交还原工作区的效果：
 未添加到暂存区的撤销，还没有`git add`：
 ````
     use 'git checkout -- <file>...' to discard changes in working directory
 ````
+```
+    git checkout HEAD // 用最新的一次提交覆盖工作区和暂存区
+    git checkout HEAD～2 // 用上上次提交覆盖工作区和暂存区
+    git checkout commit_id // 用某次提交覆盖工作区和暂存区
+    git checkout -- <file>    // 撤销工作区中对文件的修改，实际上是用暂存区中的文件内容覆盖工作区中的文件内容
+    git checkout -- <folder>    // 一次性撤销多个文件
+```
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/git-checkout.png)  
 
-一次性撤销多个文件：
+# Reset
+`git reset`命令通过移动`HEAD`到某个提交`commit`，可以用来撤暂存区和工作区的提交。
 ````
-    git checkout -- <folder>
+    use "git reset HEAD <file>..." to unstage
+````  
+
+在`commit`级别上，一次性将所有暂存区的修改撤销：
 ````
+    git reset HEAD  // HEAD 移动到上一次提交
+    git reset HEAD～2  // HEAD 移动两步
+    git reset commit_id // HEAD 移动到某个提交
+    git reset [commit_id] -- <file>   // 用某个文件某次历史提交的内容覆盖暂存区中的该文件的修改
+````
+
+`reset`这个指令虽然可以用来撤销`commit`，但它的实质行为并不是撤销，而是移动`HEAD`，重置`HEAD`以及它所指向的`branch`的位置的。  
+例如`reset HEAD～2`回退两步，则`HEAD`会指向第三个`commit`，而最近的两个`commit`会处于`HEAD`之后，这意味着在下一次提交时，最近的两个提交会被删掉。
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/git-reset.png) 
+
+# Revert
+`git revert`命令是撤销某次操作，此次操作之前和之后的`commit`和`history`都会保留，并且把这次撤销作为一次最新的提交。  
+`revert`撤销一个提交的同时会创建一个新的提交。相比`reset`，它不会改变现有的提交历史，可以用`revert`撤销已经提交的更改，用`reset`撤销没有提交的更改。  
+```
+    git revert HEAD 删除最后一次提交
+    git revert [commit_id]
+```
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/git-revert.png)  
+
+
+下面我们来实操一下看看。  
 
 <br>
 
-# 撤销暂存区：
+# reset 撤销暂存区、checkout 撤销工作区：
 
-`git add`添加到暂存区的，还没有`git commit`： 
-````
-    use "git reset HEAD <file>..." to unstage
-````
-
-一次性将所有暂存区文件撤销：
-````
-    git reset HEAD
-````
-
-举例：  
-新增`index.js`，并`git add`添加到暂存区：
+  
+新增`index.js`，并`git add`添加到暂存区，还没有`git commit`：
 ```
     $ git status
     On branch dev
@@ -96,15 +127,9 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
 
 <br>
 
-# 撤销历史区：
+# revert 撤销历史区：
 
-如果`commit`提交后想撤销，这就需要`revert`命令。`git revert`命令是撤销某次操作，此次操作之前和之后的`commit`和`history`都会保留，并且把这次撤销作为一次最新的提交。
-```
-    git revert commit_id
-    git revert HEAD 删除最后一次提交
-```
-
-先提交修改然后再用`git log`查看提交记录。
+`commit`提交后想撤销，先提交修改然后再用`git log`查看提交记录。  
 
 ![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/4.png)  
 
@@ -145,7 +170,7 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
 
 之后再推送到远端更新远程仓库代码，修改的文件就撤销了。  
 
-用 source tree 操作：
+用`source tree`操作：
 
 回滚提交：
 
@@ -162,6 +187,8 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
 <br>
 
 # Git Reset 三种模式：
+
+![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/git-reset-mode.png)  
 
 ![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/9.png)  
 
@@ -209,7 +236,3 @@ git 工作区（Working Directory）、暂存区（Stage）和历史记录区（
 
 ![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/19.png)  
 
-`reset`这个指令虽然可以用来撤销`commit`，但它的实质行为并不是撤销，而是移动`HEAD`，重置`HEAD`以及它所指向的`branch`的位置的。
-而`reset --hard`之所以起到了撤销`commit`的效果，是因为它把`HEAD`和它所指向的`branch`一起移动到了当前`commit`的父`commit`上，从而起到了撤销的效果。  
-
-![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/20.webp)  

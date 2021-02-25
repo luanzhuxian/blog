@@ -104,10 +104,10 @@ user-scalable  | 布尔值（yes或者no） | 如果设置为 no，用户将不�
 这时，1个`CSS`像素就等于1个设备独立像素，而且我们也是基于理想视口来进行布局的，所以呈现出来的页面布局在各种设备上都能大致相似。  
 
 # 获取浏览器窗口大小
+- window.screen.height：获取获屏幕取理想视口高度，在`pc`端和`innerHeight`相等，在移动端可能还包含浏览器头部和底部`bar`的高度。这个数值是固定的，设备的分辨率/设备像素比。
+- window.screen.availHeight：浏览器窗口可用的高度。
 - window.innerHeight：获取浏览器视觉视口高度（包括垂直滚动条）。
 - window.outerHeight：获取浏览器窗口外部的高度。表示整个浏览器窗口的高度，包括侧边栏、窗口镶边和调正窗口大小的边框。
-- window.screen.Height：获取获屏幕取理想视口高度，这个数值是固定的，设备的分辨率/设备像素比
-- window.screen.availHeight：浏览器窗口可用的高度。
 - document.documentElement.clientHeight：获取浏览器布局视口高度，包括内边距，但不包括垂直滚动条、边框和外边距。
-- document.documentElement.offsetHeight：包括内边距、滚动条、边框和外边距。
-- document.documentElement.scrollHeight：在不使用滚动条的情况下适合视口中的所有内容所需的最小宽度。测量方式与clientHeight相同：它包含元素的内边距，但不包括边框，外边距或垂直滚动条。
+- document.documentElement.offsetHeight：包括内边距、滚动条、边框。
+- document.documentElement.scrollHeight：在不使用滚动条的情况下适合视口中的所有内容所需的最小宽度。测量方式与`clientHeight`相同：它包含元素的内边距，但不包括边框，外边距或垂直滚动条。

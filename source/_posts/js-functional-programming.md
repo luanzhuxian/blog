@@ -544,6 +544,28 @@ compose 其实是满足结合律的
 ## 递归
 ### 数组扁平化
 ```
+  const nestedArr = [1, 2, [3, 4, [5, 6]]]
+  const flatten = arr =>
+    arr.reduce(
+      (flat, next) => flat.concat(Array.isArray(next) 
+      ? flatten(next) 
+      : next),
+      []
+    )
+```
+或
+```
+    function flattenArray(arr) {
+        const flattened = [].concat(...arr)
+        return flattened.some(item => Array.isArray(item))
+        ? flattenArray(flattened) 
+        : flattened
+    }
+    const arr = [11, [22, 33], [44, [55, 66, [77, [88]], 99]]]
+    const flatArr = flattenArray(arr) // => [11, 22, 33, 44, 55, 66, 77, 88, 99]
+```
+或
+```
   function flattenDepth (array, depth = 1) {
     let result = []
     array.forEach(item => {

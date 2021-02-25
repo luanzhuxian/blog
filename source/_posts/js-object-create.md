@@ -14,7 +14,14 @@ tags: javascript
     Object.create(proto[, propertiesObject])
 ```
 - proto：新创建对象的原型对象。
-- propertiesObject：可选。要添加到新创建对象的**可枚举属性（即其自身定义的属性，而不是其原型链上的枚举属性）**的属性描述符以及相应的属性名称。这些属性对应`Object.defineProperties()`的第二个参数。
+- propertiesObject：可选。要添加到新创建对象的**可枚举属性（即其自身定义的属性，而不是其原型链上的枚举属性）**的属性描述符以及相应的属性名称。这些属性对应`Object.defineProperties()`的第二个参数。  
+
+也就是返回一个新对象，并将传入的参数作为该对象的原型对象。
+```
+    const o = Object.create(proto)
+    console.log(o.__proto__ === proto)   // true
+```
+
 
 # new 一个函数 和 Object.create 都发生了什么
 new 一个构造函数时相当于：
@@ -31,7 +38,7 @@ new 一个构造函数时相当于：
   Father.call(obj)
   return obj
 ```
-`Object.create()`创建一个新对象，达到对传入第一个参数对象浅拷贝的效果：
+`Object.create()`创建一个新对象，达到对传入第一个参数对象浅拷贝的效果（是浅拷贝的效果，但其实不是浅拷贝，而是将传入的参数作为新对象的原型对象，所以新对象可以通过原型链访问参数对象上的属性和方法）：
 ```
   Object.create = function (obj) {
     var F = function () {}
@@ -54,7 +61,7 @@ new 一个构造函数时相当于：
     obj.__proto__ === Object.prototype  // false
     console.log(obj.__proto__)  // undefined
 ```
-打印出来`obj`是没有`_proto_`属性的。参考上一段，因为在创建过程中 `F.prototype = null` 原型链被切断了。  
+打印出来`obj`没有任何属性，连`_proto_`属性也没有，也就是说没有原型。参考上一段，因为在创建过程中 `F.prototype = null` 原型链被切断了。  
 如果把上面例子改一改：
 ```
     let obj = Object.create({})
