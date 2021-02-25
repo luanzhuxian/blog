@@ -27,7 +27,7 @@ date: 2021-02-25 20:49:15
 
     Object.defineProperty(mimi, 'sex', {
         value: 'female',
-        enumerable: false
+        enumerable: false   // 不可枚举
     })
 ```
 下面我们分别用几种方法获取`mimi`的属性。  
