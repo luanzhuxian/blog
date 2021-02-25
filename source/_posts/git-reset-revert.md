@@ -27,9 +27,9 @@ tags: git
 
 除了切换分之，它也可以达到用暂存区或某一次历史提交还原工作区的效果：
 未添加到暂存区的撤销，还没有`git add`：
-````
+```
     use 'git checkout -- <file>...' to discard changes in working directory
-````
+```
 ```
     git checkout HEAD // 用最新的一次提交覆盖工作区和暂存区
     git checkout HEAD～2 // 用上上次提交覆盖工作区和暂存区
@@ -40,18 +40,18 @@ tags: git
 ![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/git-checkout.png)  
 
 # Reset
-`git reset`命令通过移动`HEAD`到某个提交`commit`，可以用来撤暂存区和工作区的提交。
-````
+`git reset`命令通过移动`HEAD`到某个提交`commit`，可以用来撤暂存区和工作区的提交。  
+```
     use "git reset HEAD <file>..." to unstage
-````  
+```
 
-在`commit`级别上，一次性将所有暂存区的修改撤销：
-````
+在`commit`级别上，一次性将所有暂存区的修改撤销：  
+```
     git reset HEAD  // HEAD 移动到上一次提交
     git reset HEAD～2  // HEAD 移动两步
     git reset commit_id // HEAD 移动到某个提交
     git reset [commit_id] -- <file>   // 用某个文件某次历史提交的内容覆盖暂存区中的该文件的修改
-````
+```
 
 `reset`这个指令虽然可以用来撤销`commit`，但它的实质行为并不是撤销，而是移动`HEAD`，重置`HEAD`以及它所指向的`branch`的位置的。  
 例如`reset HEAD～2`回退两步，则`HEAD`会指向第三个`commit`，而最近的两个`commit`会处于`HEAD`之后，这意味着在下一次提交时，最近的两个提交会被删掉。
@@ -66,10 +66,7 @@ tags: git
 ```
 ![Git 撤销与回滚](http://blog.luanzhuxian.com/blog/git-reset-revert/git-revert.png)  
 
-
 下面我们来实操一下看看。  
-
-<br>
 
 # reset 撤销暂存区、checkout 撤销工作区：
 
