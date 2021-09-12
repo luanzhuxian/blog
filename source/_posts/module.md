@@ -35,7 +35,6 @@ CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值�
     };
 ```
 上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。
-
 ```
     // main.js
     var mod = require('./lib');
@@ -44,9 +43,7 @@ CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值�
     mod.incCounter();
     console.log(mod.counter); // 3
 ```
-
 上面代码说明，lib.js模块加载以后，它的内部变化就影响不到输出的mod.counter了。这是因为mod.counter是一个原始类型的值，输出的是值的拷贝，会被缓存。除非写成一个函数，才能得到内部变动后的值。
-
 ```
     // lib.js
     var counter = 3;
