@@ -133,7 +133,7 @@ footer:
 - theme 的 enable 设为 false 把主题的内容也取消了  
 
 修改后的footer如下图：
-![avatar](http://blog.luanzhuxian.com/blog/blog-footer.png)
+![avatar](https://blog.luanzhuxian.com/blog/blog-footer.png)
 
 ### 统计文章字数和阅读时间
 ```

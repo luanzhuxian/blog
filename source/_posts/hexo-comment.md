@@ -17,15 +17,15 @@ date: 2018-12-09 17:46:34
 在注册完成 LeanCloud 帐号并验证邮箱之后，我们就可以登录帐号。
 
 ## 1、创建一个开发版应用（免费）：
-![avatar](http://blog.luanzhuxian.com/blog/leancloud-application.png)
+![avatar](https://blog.luanzhuxian.com/blog/leancloud-application.png)
 ## 2、设置
 在`LeanCloud > 设置 > 安全中心`中，把除`数据存储`外其他选项都关闭。并将你的博客域名添加到`Web 安全域名`中：
-![avatar](http://blog.luanzhuxian.com/blog/leancloud-setting.png)
+![avatar](https://blog.luanzhuxian.com/blog/leancloud-setting.png)
 ## 3、创建Class
 **Comment 实例在配置好 next 后会自动生成**  
 
 在`LeanCloud > 存储 > 创建Class`，选择`无限制的Class`并创建：
-![avatar](http://blog.luanzhuxian.com/blog/leancloud-class.png)
+![avatar](https://blog.luanzhuxian.com/blog/leancloud-class.png)
 ## 4、修改next配置
 在`LeanCloud > 设置 > 应用 Key`中，找到`App ID`和`App Key`。之后修改 Next 的配置文件`_config.yml`如下：
 ```
@@ -55,9 +55,9 @@ date: 2018-12-09 17:46:34
 
 
 之后重新执行`hexo g -d`就可以看到文章下的评论框了：
-![avatar](http://blog.luanzhuxian.com/blog/comment-view.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment-view.png)
 评论成功后，在相应的表里能看新插入的数据，可以删除编辑：
-![avatar](http://blog.luanzhuxian.com/blog/comment-data.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment-data.png)
 
 ## 5、其他
 可在文章模板`scaffolds/post.md` 或文章头部中设置`comments`
@@ -82,11 +82,11 @@ date: 2018-12-09 17:46:34
 
 如果明明有评论，但标题下方的评论数却为0，如图：
 
-![avatar](http://blog.luanzhuxian.com/blog/comment_1.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment_1.png)
 
 那么打开浏览器调试工具看看这个标签的类名是不是包含`valine-comment-count`：
 
-![avatar](http://blog.luanzhuxian.com/blog/comment_2.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment_2.png)
 
 如上如所示，类名是`fb-comments-count`，说明模板渲染错了。打开`themes\next\layout\_macro\post.swig`找到下面的部分：
 ```
@@ -127,15 +127,15 @@ date: 2018-12-09 17:46:34
 ```
 刷新后`valine`那部分渲染出来了，可以看到评论数。
 
-![avatar](http://blog.luanzhuxian.com/blog/comment_3.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment_3.png)
 
 # 头像配置
 参考 **[Valine 评论系统中的头像配置](https://valine.js.org/avatar.html)**  
 
 上面`valine > avatar`字段用来设置评论头像，可选值如下:
-![avatar](http://blog.luanzhuxian.com/blog/comment-avatar_1.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment-avatar_1.png)
 之后注册登录[Gravatar](https://cn.gravatar.com)，并设置头像
-![avatar](http://blog.luanzhuxian.com/blog/comment-avatar_2.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment-avatar_2.png)
 之后在`Next`配置文件中增加`avatar_cdn`字段，如下:
 ```
   valine:
@@ -166,7 +166,7 @@ date: 2018-12-09 17:46:34
   });
 ```
 刷新头像变成自定义的了：
-![avatar](http://blog.luanzhuxian.com/blog/comment-avatar_3.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment-avatar_3.png)
 
 
 # 邮件提醒
@@ -175,7 +175,7 @@ date: 2018-12-09 17:46:34
 **注意：目前邮件提醒正处于测试阶段，仅在子级对存在邮件地址的父级发表评论时发送邮件**   
 
 `Valine`官方提供的邮件提醒功能是基于`Leancloud`的密码重置邮件提醒。所以要`开启email通知`除了修改配置文件`valine > notify`为`true`外，还需对`LeanCloud > 设置 > 邮件模板 > 用于重置密码的邮件主题`进行修改。如下图：
-![avatar](http://blog.luanzhuxian.com/blog/comment-notify_1.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment-notify_1.png)
 可参考以下内容修改并保存，修改后的内容会被插入提醒邮件中：
 ```
   // 邮件主题
@@ -190,7 +190,7 @@ date: 2018-12-09 17:46:34
 ```
 
 之后对一级评论回复并同时填写邮箱的话，就能收到邮件提醒了。  
-![avatar](http://blog.luanzhuxian.com/blog/comment-notify_2.png)
+![avatar](https://blog.luanzhuxian.com/blog/comment-notify_2.png)
 
 ## 第三方支持
 还可以使用更完善的第三方邮件提醒：**[Valine-Admin](https://github.com/zhaojun1998/Valine-Admin)**  

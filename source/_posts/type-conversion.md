@@ -53,15 +53,15 @@ isNaN() 会首先尝试将这个参数转换为数值，会隐式调用 Number()
 ```
 
 ## 抽象比较算法
-![avatar](http://blog.luanzhuxian.com/blog/type-conversion_1.png)
+![avatar](https://blog.luanzhuxian.com/blog/type-conversion_1.png)
 在执行`抽象比较算法`的过程中，会发现会将 x、y 操作数进行隐式类型转化的，这也是 == 运算符副作用的体现。
 
 ## ToPrimitive
-![avatar](http://blog.luanzhuxian.com/blog/type-conversion_2.png)
+![avatar](https://blog.luanzhuxian.com/blog/type-conversion_2.png)
 toPrimitive 方法的目的就是将输入的参数转化成`非对象类型`。
 
 ## DefaultValue 处理过程：
-![avatar](http://blog.luanzhuxian.com/blog/type-conversion_3.png)
+![avatar](https://blog.luanzhuxian.com/blog/type-conversion_3.png)
 先解读一下这个算法：  
 - 如果期望类型 hint 为字符串，那么，先调用被操作对象的 toString 方法，会在原型链中查找，如果找到且是一个可以调用的的方法的话，则将被操作对象作为 this 调用这个方法。否则如果得到值为原始值，则直接返回。如果没有得到原始值，则再调用 valueOf 方法，过程和 toString 一样，最终如果都不是原始值，则抛出异常。
 - 如果期望类型为数字类型，则先调用 valueOf 后调用 toString。
