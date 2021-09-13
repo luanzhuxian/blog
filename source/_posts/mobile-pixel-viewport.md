@@ -27,11 +27,11 @@ date: 2021-01-03 21:04:48
     devicePixelRatio = 物理像素 / 设备独立像素
 ```
 可以通过`window.devicePixelRatio`获得。所以通过`devicePixelRatio`，我们可以知道该设备上一个css像素占用多少个物理像素。例如iPhone6的`dpr`的值为2，也就是说1个css像素相当于2个物理像素，代表在该设备上，1个css像素是由2x2个设备像素绘制成的。iPhoneX的`dpr`的值为3，也就是说1个css像素相当于3个物理像素。如下图所示：
-![DPR](/images/blog/mobile-compatiable/dpr.png)
+![DPR](https://blog.luanzhuxian.com/blog/mobile-compatiable/dpr.png)
 
 ## PPI（pixel per inch）
 每英寸所包含的像素点数，更确切的说法应该是像素密度，也就是衡量单位物理面积内拥有像素值的情况。数值越高，说明屏幕能以更高密度显示图像，屏幕越清晰。 计算公式： 
-![PPI](/images/blog/mobile-compatiable/ppi.png)
+![PPI](https://blog.luanzhuxian.com/blog/mobile-compatiable/ppi.png)
 ```
     比如iPhone 6，分辨率1920 * 1080，主对角线尺寸5.5
     斜边尺寸 = V(1920^2+1080^2) // V代表开根号 
@@ -58,7 +58,7 @@ date: 2021-01-03 21:04:48
 ### 理想视口（ideal viewport）
 移动设备的理想`viewport`，即网站页面在移动端展示的理想大小。可以通过调用`screen.width / height`来获取理想视口大小。没有一个固定的尺寸，不同的设备有不同`ideal viewport`。  
 如下图，在浏览器调试移动端时页面上给定的像素大小就是理想视口大小，它的单位正是设备独立像素。  
-![ideal viewport](/images/blog/mobile-compatiable/ideal-viewport.png)
+![ideal viewport](https://blog.luanzhuxian.com/blog/mobile-compatiable/ideal-viewport.png)
 上面在介绍`CSS`像素时曾经提到`页面的缩放系数 = CSS像素 / 设备独立像素`，实际说`页面的缩放系数 = 理想视口宽度 / 视觉视口宽度`更为准确。  
 所以，当页面缩放比例为100%时，`ideal viewport`的宽度等于移动设备的屏幕宽度，`CSS像素 = 设备独立像素`，`理想视口 = 视觉视口`。  
 `ideal viewport`的意义在于，无论在何种分辨率的屏幕下，那些针对`ideal viewport`而设计的网站，不需要用户手动缩放，也不需要出现横向滚动条，都可以完美的呈现给用户。

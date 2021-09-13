@@ -36,7 +36,7 @@ date: 2018-12-09 17:46:34
 
 创建完成之后，左侧数据栏应该会多出一栏名为`Counter`的栏目，这个时候我们点击最左侧菜单栏的设置。  
 在设置界面中，选择左侧的`应用Key`选项，即可发现我们创建应用的`App ID`以及`App Key`，有了它，我们就有权限能够通过主题中配置好的 Javascript 代码与这个应用的`Counter表`进行数据存取操作了:
-![avatar](https://blog.luanzhuxian.com/blog/leancloud-key.png)
+![avatar](https://blog.luanzhuxian.com/blog/leancloud-app-key.png)
 
 ### 4、修改next配置
 复制`AppID`以及`AppKey`并在 Next 主题的`_config.yml`文件中我们相应的位置填入即可，正确配置之后文件内容像这个样子:

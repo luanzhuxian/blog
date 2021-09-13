@@ -85,10 +85,10 @@ Environments: LexicalEnvironment and VariableEnvironment are what keep track of 
 - **函数环境（Function Environment）**：用户在函数中定义的变量被存储在环境记录中，包含了`arguments`对象。其外部环境可以是全局环境，也可以是包含内部函数的外部函数环境。  
 - **模块环境（Module Environment）**：每个模块有自己的词法环境，存储了包括`imports`在内的所有的`top-level declarations`。其外部环境引用为全局环境。  
 
-![avatar](/images/blog/environments/1.jpg)
+![avatar](https://blog.luanzhuxian.com/blog/environments_1.jpg)
 
 ## 词法环境的结构
-![avatar](/images/blog/environments/data_structures.jpg)
+![avatar](https://blog.luanzhuxian.com/blog/environments_data_structures.jpg)
 
 词法环境由两部分组成：一个`Environment Record`，还有一个指向外层`Lexical Environment`的可空引用。
 - **环境记录（Environment Record）：**An environment record maps identifiers to value. that maps variable names to variable values. This is where JavaScript stores variables. One key-value entry in the environment record is called a binding. 环境记录就是存储当前环境下的标识符-变量`key-value`的映射，存储变量、函数声明的实际位置。它分为三类：
@@ -98,7 +98,7 @@ Environments: LexicalEnvironment and VariableEnvironment are what keep track of 
 - **对外部环境的引用：**A reference to the outer environment (null in the global environment) - the environment representing the outer scope of the scope represented by the current environment. 可以访问其外部词法环境。
 
 其中`Declarative Environment Record`又可分为两类：`Function Environment Records`函数环境记录和`Module Environment Records`模块环境记录。
-![avatar](/images/blog/environments/2.jpg)
+![avatar](https://blog.luanzhuxian.com/blog/environments_2.jpg)
 
 ## 词法环境的抽象
 我们将词法环境（即作用域）抽象成伪代码，如下：
