@@ -87,3 +87,71 @@ date: 2020-11-13 17:12:58
 ![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/12.png)
 
 生效后再打开文章就可以看到图片了。
+
+<br/>
+<font color=#dd0000 size=5> 。。。。。。。 以下内容更新于2021.09.14 。。。。。。。 </font>    
+<br/>
+
+发现七牛可以给空间绑定的域名申请免费`SSL`证书了，那么我们的放在七牛上的图片就可以支持`https`访问了。    
+
+对象存储 > 空间管理 > 域名管理 > 找到相应域名点详情 > 找到HTTPS配置 > 修改配置，`HTTPS`的按钮默认是关着的，打开它，下面出现三个单选框，选免费证书，就可以申请了。  
+
+![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/13.png)
+
+我是在`SSL`证书管理页面直接申请证书，所以上述申请的后续流程不清楚，现在说一下单独申请证书的流程，应该两者差不多：  
+
+1、控制台 > SSL证书 > 购买证书，证书品牌和证书种类都选择带限免的，直接零元购买。  
+
+![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/14.png)
+
+2、购买后在证书管理页就能看到了，但还要补充信息，补全信息页面域名填你存放图片空间绑定的那个域名，公司信息自己看着填，能通过表单校验就行了，比如写个无也是能通过的。  
+
+3、之后提交，下一步还要对域名做验证，看是不是你自己的域名，选择`DNS`验证，将`TXT 记录名`和`TXT 记录值`记下来，接下来去你域名的`DNS`服务商，这里是去`Cloudflare`，在你域名下添加一条`TXT`记录，记录的`name`和`content`分别填刚才的`TXT 记录名`和`TXT 记录值`再等个十几分钟审核就通过了，证书就申请成功了。  
+
+![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/17.png)
+![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/18.png)
+
+
+4、之后回到域名详情页 > 找到`HTTPS配置` > 修改配置，打开`HTTPS`的按钮，下面出现三个单选框，选已有证书，在下拉菜单中只能看到用该域名申请的证书，因为此免费证书是为了开发人员方便，只能和你添加的同名域名搭配使用。 
+
+![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/15.png)
+
+之后点确认生效后去复制该空间的文件外链，会变为`https`，在浏览器中尝试看能不能打开图片，能的话说明配置成功了。如果不能访问，要看是什么问题，比如`Cloudflare`无法解析该域名，可能是和添加的`CNAME`记录和某个`A`记录冲突了，会先匹配`A`记录，则把该`A`记录停止或删除即可。  
+
+5、因为图片可以支持`https`了，所以`Cloudflare`的`SSL`的模式可以由`Flexible`改为`Full(strict)`了，即全程都是`https`传输。  
+
+6、最后是把博文中的图片由`http`替换为`https`。重新部署后打开你的博客图片应该能正常展示了。  
+
+另外对于博客部署在自己服务器上的，还要对服务器的`nginx`做配置以开启`https`，即`Cloudflare`到你服务器这段支持`https`：  
+
+1、将刚申请的证书`pem`和私钥`key`保存为相应后缀的文件，并上传到服务器上：
+![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/16.png)
+
+2、修改`nginx`配置文件：
+```
+# 设定虚拟主机配置
+server {
+
+	listen   443 ssl http2;	# 侦听443端口，这个是ssl访问端口
+    server_name  luanzhuxian.com;
+	
+	ssl    on;
+	ssl_certificate    /etc/ssl/luanzhuxian.com.pem;
+	ssl_certificate_key    /etc/ssl/luanzhuxian.com.key;
+
+    ssl_session_cache	shared:SSL:1m;
+    ssl_session_timeout	5m;
+    ssl_protocols	TLSv1 TLSv1.1 TLSv1.2;	# 按照这个协议配置
+    ssl_ciphers	ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;	# 按照这个套件配置
+    ssl_prefer_server_ciphers	on;
+
+	location / {
+	   root   /home/www/;   # 博客项目存放的地址
+	   index  index.html index.htm;	
+    }
+
+    # ......
+}
+```
+之后重启`nginx`，尝试重新访问博客即可。  
+
