@@ -132,12 +132,12 @@ date: 2020-11-13 17:12:58
 # 设定虚拟主机配置
 server {
 
-	listen   443 ssl http2;	# 侦听443端口，这个是ssl访问端口
+    listen   443 ssl http2;	# 侦听443端口，这个是ssl访问端口
     server_name  luanzhuxian.com;
-	
-	ssl    on;
-	ssl_certificate    /etc/ssl/luanzhuxian.com.pem;
-	ssl_certificate_key    /etc/ssl/luanzhuxian.com.key;
+
+    ssl    on;
+    ssl_certificate    /etc/ssl/luanzhuxian.com.pem;
+    ssl_certificate_key    /etc/ssl/luanzhuxian.com.key;
 
     ssl_session_cache	shared:SSL:1m;
     ssl_session_timeout	5m;
@@ -145,9 +145,9 @@ server {
     ssl_ciphers	ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;	# 按照这个套件配置
     ssl_prefer_server_ciphers	on;
 
-	location / {
-	   root   /home/www/;   # 博客项目存放的地址
-	   index  index.html index.htm;	
+    location / {
+        root   /home/www/;   # 博客项目存放的地址
+        index  index.html index.htm;	
     }
 
     # ......
