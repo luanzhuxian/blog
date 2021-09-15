@@ -94,6 +94,11 @@ date: 2020-11-13 17:12:58
 
 发现七牛可以给空间绑定的域名申请免费`SSL`证书了，那么我们的放在七牛上的图片就可以支持`https`访问了。    
 
+注意`https`的证书现在支持免费，但`https`的流量费不是免费的，也就是博客在七牛`CDN`上的图片换成`https`后走的流量是付费的，下面是七牛的收费标准，自己衡量要不要使用： 
+
+![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/19.png)
+
+
 对象存储 > 空间管理 > 域名管理 > 找到相应域名点详情 > 找到HTTPS配置 > 修改配置，`HTTPS`的按钮默认是关着的，打开它，下面出现三个单选框，选免费证书，就可以申请了。  
 
 ![Github Page 添加自定义域名 + 开启 HTTPS + 支持七牛云图片](https://blog.luanzhuxian.com/blog/hexo-custom-domain/13.png)
