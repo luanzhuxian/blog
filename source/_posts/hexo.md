@@ -158,7 +158,7 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
 
   hexo deploy
 
-  或者 hexo g -d
+  或者将后两条指令合并执行 hexo g -d
 ```
 
 一些常用命令：
