@@ -23,7 +23,9 @@ function run () {
 			exec('D:')
 			cd('D:\\project\\blog')
 		} else {
-			cd('/Users/666/Desktop/coding/project/blog')    // 此处修改为Hexo根目录路径
+            // const path = '/Users/666/Desktop/coding/project/blog'
+            const path = '/Volumes/Macintosh HD/Users/666/Desktop/coding/project/blog'
+			cd(path)    // 此处修改为Hexo根目录路径
 		}
 
 		if (exec('git add --all').code !== 0) {
