@@ -41,7 +41,16 @@ date: 2021-02-25 20:49:15
     }
     console.log('for...in', arr)    // ["name", "constructor", "job"]
 ```
-`for...in` 会遍历 实例 + 原型 可枚举属性。可用`Object.hasOwnProperty`将原型上的属性`constructor`过滤掉。
+`for...in` 会遍历 实例 + 原型 可枚举属性，注意默认的原型属性不会被遍历，只有用户新增的才会。 比如：
+```
+    let o = {a: 'a', b: 'b'}
+    o.__proto__.c = 'c'
+    Object.prototype.d = 'd'
+    for (let key in o) {
+        console.log(key) // a, b, c, d 只遍历新增属性，而原型对象上的默认属性没有被遍历
+    }
+``` 
+可用`Object.hasOwnProperty`将原型上的属性`constructor`过滤掉。
 ```
     for (var key in mimi) {
         if (mimi.hasOwnProperty(key)) {

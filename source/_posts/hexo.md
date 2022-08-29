@@ -148,7 +148,7 @@ Mac 安装 Xcode 自带有 Git，WSindows 可去[官网下载](https://git-scm.c
   hexo d #部署到远程仓库
 ```
 
-此时，通过访问 http://yourname.github.io 可以看到默认的 Hexo 首页
+此时，通过访问`http://yourname.github.io`可以看到默认的 Hexo 首页
 
 每次部署的命令：
 ```

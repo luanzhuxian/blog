@@ -31,6 +31,7 @@ tags: git
     use 'git checkout -- <file>...' to discard changes in working directory
 ```
 ```
+    git checkout . // 清空工作区所有修改
     git checkout HEAD // 用最新的一次提交覆盖工作区和暂存区
     git checkout HEAD～2 // 用上上次提交覆盖工作区和暂存区
     git checkout commit_id // 用某次提交覆盖工作区和暂存区
